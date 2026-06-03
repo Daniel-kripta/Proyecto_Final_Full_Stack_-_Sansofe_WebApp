@@ -1,0 +1,18 @@
+# Dependencias
+node_modules/
+.venv/
+
+# Variables de entorno (nunca al repo)
+.env
+
+# Python
+*.pyc
+__pycache__/
+
+# PDFs descargados y corpus completo (no van al repo)
+pipeline/corpus/raw/
+pipeline/corpus/json/
+
+# Build
+dist/
+build/

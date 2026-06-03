@@ -1,0 +1,5 @@
+{
+  "name": "sansofe-webapp",
+  "private": true,
+  "workspaces": ["apps/*"]
+}
