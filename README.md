@@ -173,7 +173,7 @@ El proyecto se desarrolla en 15 días (3–15 junio 2026) dividido en fases. Las
 ```mermaid
 graph TD
     P00("00 · Pipeline ✅"):::done --> P01("01 · Monorepo ✅"):::done
-    P01 --> P02("02 · Docker DB"):::setup
+    P01 --> P02("02 · Docker DB ✅"):::done
     P02 --> P03("03 · Schema"):::setup
 
     P03 --> A1("A1 · Fastify+Prisma"):::backend
