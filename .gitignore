@@ -13,6 +13,9 @@ __pycache__/
 pipeline/corpus/raw/
 pipeline/corpus/json/
 
+# Logs y estado de ejecución del pipeline (locales)
+pipeline/logs/
+
 # Build
 dist/
 build/
