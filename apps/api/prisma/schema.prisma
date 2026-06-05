@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Articulo {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  publication String
+  date        DateTime @db.Date
+  headline    String
+  body        String
+  genre       String
+  topics      String[]
+  summary     String?
+  source_id   String?
+
+  @@map("articulos")
+}
