@@ -9,8 +9,8 @@ load_dotenv()
 
 CLIENTE = genai.Client(
     vertexai=True,
-    project=os.environ["GOOGLE_CLOUD_PROJECT"],
-    location=os.getenv("GOOGLE_CLOUD_LOCATION", "europe-west4"),
+    project=os.environ["GCP_PROJECT"],
+    location=os.getenv("GCP_LOCATION", "europe-west4"),
 )
 
 BATCH = 5
