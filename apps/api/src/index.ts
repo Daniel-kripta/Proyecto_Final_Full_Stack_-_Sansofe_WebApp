@@ -2,11 +2,9 @@ import 'dotenv/config'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import cookie from '@fastify/cookie'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client'
+import {prisma} from './lib/prisma.js'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
-export const prisma = new PrismaClient({ adapter })
+import { articulosRoutes } from './routes/articulos.js'
 
 const app = Fastify({ logger: true })
 
@@ -21,9 +19,11 @@ app.get('/health', async () => {
   return { ok: true }
 })
 
-app.listen({ port: 3001, host: '0.0.0.0' }, (err) => {
+app.listen({ port: 3002, host: '0.0.0.0' }, (err) => {
   if (err) {
     app.log.error(err)
     process.exit(1)
   }
 })
+
+app.register(articulosRoutes)
