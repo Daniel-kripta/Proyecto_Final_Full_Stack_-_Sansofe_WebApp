@@ -27,6 +27,7 @@ async def chat(body: ChatRequest):
     resultado = agente.invoke(
         {
             "query": query,
+            "k": body.k,
             "messages": [],
             "tipo_consulta": "",
             "articulos_recuperados": [],

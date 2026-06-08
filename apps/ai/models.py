@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class ChatRequest(BaseModel):
     query: str
     session_id: str
+    k: int = 10
 
 
 class ArticuloRef(BaseModel):

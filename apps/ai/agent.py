@@ -13,6 +13,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
 class EstadoRAG(TypedDict):
     query: str
+    k: int
     messages: Annotated[list[BaseMessage], operator.add]
     tipo_consulta: str
     articulos_recuperados: list
@@ -34,7 +35,7 @@ Consulta: {estado['query']}
 
 
 def nodo_recuperar(estado: EstadoRAG) -> dict:
-    articulos = similarity_search(estado["query"], k=10)
+    articulos = similarity_search(estado["query"], k=estado["k"])
     return {"articulos_recuperados": articulos}
 
 

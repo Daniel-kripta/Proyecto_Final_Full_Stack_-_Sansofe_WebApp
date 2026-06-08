@@ -199,12 +199,12 @@ graph TD
     C6 --> C7("C7 · Colecciones"):::frontend
     C7 --> C8("C8 · Páginas legales"):::frontend
 
-    B2 --> D1("D1 · FastAPI"):::ai
-    D1 --> D2("D2 · Vectorstore"):::ai
-    D2 --> D3("D3 · Router"):::ai
-    D3 --> D4("D4 · Recuperar"):::ai
-    D4 --> D5("D5 · Síntesis"):::ai
-    D5 --> D6("D6 · Chat endpoint"):::ai
+    B2 --> D1("D1 · FastAPI ✅"):::done
+    D1 --> D2("D2 · Vectorstore ✅"):::done
+    D2 --> D3("D3 · Router ✅"):::done
+    D3 --> D4("D4 · Recuperar ✅"):::done
+    D4 --> D5("D5 · Síntesis ✅"):::done
+    D5 --> D6("D6 · Chat endpoint ✅"):::done
 
     A8 --> F1("F1 · Dockerfiles"):::deploy
     C8 --> F1
