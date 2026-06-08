@@ -181,7 +181,7 @@ graph TD
     P03 --> C1("C1 · React+Router"):::frontend
 
     A1 --> A2("A2 · GET artículo ✅"):::done
-    A2 --> A3("A3 · GET portada"):::backend
+    A2 --> A3("A3 · GET portada ✅"):::done
     A3 --> A4("A4 · Búsqueda FTS"):::backend
     A4 --> A5("A5 · Auth JWT"):::backend
     A5 --> A6("A6 · Colecciones"):::backend
