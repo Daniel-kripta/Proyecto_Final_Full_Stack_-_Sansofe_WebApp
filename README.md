@@ -42,7 +42,7 @@ Responde consultas en lenguaje natural sobre el corpus histórico:
 | Microservicio IA | Python + FastAPI + LangGraph | Agente RAG con enrutamiento condicional |
 | Base de datos | PostgreSQL 18.4 + pgvector | FTS nativo en español + búsqueda vectorial en una sola instancia |
 | Embeddings | Vertex AI (`text-multilingual-embedding-002`) | 768 dimensiones, optimizado para español |
-| LLM | Gemini 2.5 Flash (Vertex AI) | Síntesis RAG y extracción del corpus |
+| LLM | Gemini 2.5 Flash (Google AI Studio) | Síntesis RAG (API key aportada por el usuario) y extracción del corpus |
 | Automatización | N8N | Generación diaria de la portada histórica |
 | Despliegue | Docker Compose + Nginx + kripta.dev | Servidor propio, sin dependencias de pago adicionales |
 
@@ -129,7 +129,7 @@ sansofe-webapp/
 - Docker y Docker Compose
 - Node.js 20+ y pnpm
 - Python 3.11+
-- Cuenta de Google Cloud con Vertex AI habilitado
+- Cuenta de Google Cloud con Vertex AI habilitado (solo para regenerar el corpus; no necesario para ejecutar la app)
 
 ### Instalación
 
@@ -176,11 +176,11 @@ graph TD
     P01 --> P02("02 · Docker DB ✅"):::done
     P02 --> P03("03 · Schema ✅"):::done
 
-    P03 --> A1("A1 · Fastify+Prisma"):::backend
-    P03 --> B1("B1 · Import JSON"):::data
+    P03 --> A1("A1 · Fastify+Prisma ✅"):::done
+    P03 --> B1("B1 · Import JSON ✅"):::done
     P03 --> C1("C1 · React+Router"):::frontend
 
-    A1 --> A2("A2 · GET artículo"):::backend
+    A1 --> A2("A2 · GET artículo ✅"):::done
     A2 --> A3("A3 · GET portada"):::backend
     A3 --> A4("A4 · Búsqueda FTS"):::backend
     A4 --> A5("A5 · Auth JWT"):::backend
@@ -188,7 +188,7 @@ graph TD
     A6 --> A7("A7 · Export CSV"):::backend
     A7 --> A8("A8 · Proxy chat"):::backend
 
-    B1 --> B2("B2 · Embeddings"):::data
+    B1 --> B2("B2 · Embeddings ✅"):::done
 
     C1 --> C2("C2 · Layout"):::frontend
     C2 --> C3("C3 · Portada"):::frontend

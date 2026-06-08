@@ -5,6 +5,7 @@ import cookie from '@fastify/cookie'
 import {prisma} from './lib/prisma.js'
 
 import { articulosRoutes } from './routes/articulos.js'
+import { portadaRoutes } from './routes/portada.js'
 
 const app = Fastify({ logger: true })
 
@@ -13,6 +14,8 @@ app.register(cors, {
   credentials: true,
 })
 app.register(cookie)
+app.register(portadaRoutes)
+app.register(articulosRoutes)
 
 app.get('/health', async () => {
   await prisma.$queryRaw`SELECT 1`
@@ -25,5 +28,3 @@ app.listen({ port: 3002, host: '127.0.0.1' }, (err) => {
     process.exit(1)
   }
 })
-
-app.register(articulosRoutes)
