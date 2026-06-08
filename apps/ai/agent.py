@@ -2,13 +2,13 @@ import operator
 from typing import Annotated, TypedDict
 
 from langchain_core.messages import BaseMessage, HumanMessage
-from langchain_google_vertexai import ChatVertexAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 
 from vectorstore import similarity_search
 
-llm = ChatVertexAI(model="gemini-2.5-flash", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
 
 class EstadoRAG(TypedDict):
