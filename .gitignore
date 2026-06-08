@@ -4,6 +4,8 @@ node_modules/
 
 # Variables de entorno (nunca al repo)
 .env
+.env.local
+.env.*.local
 
 # Python
 *.pyc

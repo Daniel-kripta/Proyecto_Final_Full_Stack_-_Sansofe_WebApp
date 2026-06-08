@@ -178,17 +178,18 @@ graph TD
 
     P03 --> A1("A1 · Fastify+Prisma ✅"):::done
     P03 --> B1("B1 · Import JSON ✅"):::done
-    P03 --> C1("C1 · React+Router"):::frontend
+    P03 --> C1("C1 · React+Router ✅"):::done
 
     A1 --> A2("A2 · GET artículo ✅"):::done
     A2 --> A3("A3 · GET portada ✅"):::done
-    A3 --> A4("A4 · Búsqueda FTS"):::backend
+    A3 --> A4("A4 · Búsqueda FTS ✅"):::done
     A4 --> A5("A5 · Auth JWT"):::backend
     A5 --> A6("A6 · Colecciones"):::backend
     A6 --> A7("A7 · Export CSV"):::backend
     A7 --> A8("A8 · Proxy chat"):::backend
 
     B1 --> B2("B2 · Embeddings ✅"):::done
+    B2 --> B3("B3 · Normalización datos"):::data
 
     C1 --> C2("C2 · Layout"):::frontend
     C2 --> C3("C3 · Portada"):::frontend
@@ -196,6 +197,7 @@ graph TD
     C4 --> C5("C5 · Artículo"):::frontend
     C5 --> C6("C6 · Auth"):::frontend
     C6 --> C7("C7 · Colecciones"):::frontend
+    C7 --> C8("C8 · Páginas legales"):::frontend
 
     B2 --> D1("D1 · FastAPI"):::ai
     D1 --> D2("D2 · Vectorstore"):::ai
@@ -205,7 +207,7 @@ graph TD
     D5 --> D6("D6 · Chat endpoint"):::ai
 
     A8 --> F1("F1 · Dockerfiles"):::deploy
-    C7 --> F1
+    C8 --> F1
     D6 --> F1
 
     F1 --> F2("F2 · Docker Compose"):::deploy
@@ -237,6 +239,16 @@ graph TD
 - [Colección Postman](docs/postman.json)
 - [Informe de uso de IA](docs/uso-ia.md)
 - [Workflows N8N](n8n-workflows/)
+
+---
+
+## Licencias
+
+**Contenido histórico** (artículos de prensa, 1926): dominio público — [Public Domain Mark 1.0](https://creativecommons.org/publicdomain/mark/1.0/).
+
+**Plataforma** (código, diseño y base de datos): [CC BY-NC-SA 4.0 EU](https://creativecommons.org/licenses/by-nc-sa/4.0/) — libre para uso no comercial con atribución; los derivados heredan esta licencia.
+
+**Fuentes documentales**: [Jable](https://jable.ulpgc.es/) (mdC - ULPGC) y [Marasía](https://marasia.ull.es/) (ULL).
 
 ---
 

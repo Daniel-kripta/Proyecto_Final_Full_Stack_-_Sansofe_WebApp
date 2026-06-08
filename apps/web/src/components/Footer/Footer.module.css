@@ -1,0 +1,42 @@
+.logoFooterMono{
+    height: 100px;
+}
+
+.licencia{
+    height: 35px;
+    width: auto;
+}
+
+/* provisional */
+.licenciasGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.licenciaItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.licenciaLogo {
+    height: 35px;
+    width: auto;
+}
+
+.licenciaMIT {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.mitBadge {
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 1px solid currentColor;
+    padding: 0.1rem 0.4rem;
+}

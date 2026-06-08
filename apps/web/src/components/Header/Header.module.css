@@ -1,0 +1,11 @@
+header{
+    text-align: center;
+    justify-content: center;
+}
+
+.logoHeader{
+    width: 100%;
+    max-width: 450px;
+    color: rgb(20, 35, 20);
+    padding: 20px;
+}
