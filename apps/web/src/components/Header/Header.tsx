@@ -1,15 +1,28 @@
+import { useState } from "react"
 import { Link } from "react-router-dom";
-import { LogoHeader } from "../Logos/Logos";
-import Navbar from "../Navbar/Navbar";
+import { LogoHeader } from "../Assets/Logos/Logos";
+import Navbar from "../Navigators/Navbar/Navbar";
+import NavUser from "../Navigators/NavUser/NavUser";
 import styles from "./Header.module.css"
+import { UserMenuIcon } from "../Assets/Iconos/Iconos";
+import iconoStyles from "../Assets/Iconos/Iconos.module.css";
 
 export default function Header(){
+    const [menuOpen, setMenuOpen] = useState(false)
+
     return (
         <header>
             <Link to="/">
                 <LogoHeader className={styles.logoHeader}/>
             </Link>
             <Navbar />
+            {!menuOpen && (
+                <button className={styles.userMenuBtn} onClick={() => setMenuOpen(true)}>
+                    <UserMenuIcon className={iconoStyles.iconoNavUser} />
+                </button>
+            )}
+            {menuOpen && <NavUser onClose={() => setMenuOpen(false)} />}
         </header>
     )
 }
+

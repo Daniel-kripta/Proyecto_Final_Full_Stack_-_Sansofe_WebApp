@@ -1,4 +1,4 @@
-# Sansofé. Hemeroteca de Canarias
+# Sansofé. Repositorio de Prensa de Canarias
 
 Web App para la consulta e investigación de prensa histórica canaria, con búsqueda de texto completo y asistente de investigación basado en RAG (*Retrieval-Augmented Generation*). El proyecto es un MVP de demostración de servicio.
 
@@ -37,7 +37,7 @@ Responde consultas en lenguaje natural sobre el corpus histórico:
 
 | Capa | Tecnología | Justificación |
 |---|---|---|
-| Frontend | React 18 + Vite + CSS Modules | SPA con tema vintage/moderno |
+| Frontend | React 18 + Vite + CSS Modules | SPA con tema vintage/moderno. Responsive: móvil (<600px), tablet (600–1023px), PC (≥1024px) |
 | Backend CRUD | Node.js + Fastify + Prisma | Artículos, búsqueda, auth, colecciones |
 | Microservicio IA | Python + FastAPI + LangGraph | Agente RAG con enrutamiento condicional |
 | Base de datos | PostgreSQL 18.4 + pgvector | FTS nativo en español + búsqueda vectorial en una sola instancia |

@@ -2,41 +2,41 @@
     height: 100px;
 }
 
-.licencia{
-    height: 35px;
-    width: auto;
-}
+.logoKripta{
+    margin-top: 30px;
+    width: 100px;
+    padding: 10px;
+} 
 
-/* provisional */
-.licenciasGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.licenciaItem {
+.oficialFooter{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
 }
 
-.licenciaLogo {
-    height: 35px;
-    width: auto;
+@media (min-width: 600px) {
+    .oficialFooter {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .oficialFooter > *:first-child {
+        flex-basis: 100%;
+        text-align: center;
+    }
 }
 
-.licenciaMIT {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
+@media (min-width: 1024px) {
+    .oficialFooter {
+        flex-wrap: nowrap;
+        align-items: center;
+    }
 
-.mitBadge {
-    font-weight: 700;
-    font-size: 0.85rem;
-    border: 1px solid currentColor;
-    padding: 0.1rem 0.4rem;
+    .oficialFooter > *,
+    .oficialFooter > *:first-child {
+        flex: 1 1 0;
+    }
 }

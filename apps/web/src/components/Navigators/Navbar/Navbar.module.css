@@ -2,12 +2,16 @@
   width: 100%;
 }
 
-.nav {
+.navBar {
   display: flex;
   gap: 2rem;
   justify-content: center;
+  align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: var(--borde-claro);
+  height: 30px;
+  color: white;
+  background-color: var(--color-primario);
 }
 
 .enlace {
@@ -34,7 +38,7 @@
 
 .subbarraWrapper {
   position: relative;
-  border-bottom: 1px solid #eee;
+  border-bottom: var(--borde-claro);
 }
 
 .subbarraWrapper::after {
@@ -44,7 +48,7 @@
   top: 0;
   bottom: 0;
   width: 80px;
-  background: linear-gradient(to right, transparent, white 65%);
+  background: linear-gradient(to right, transparent, var(--color-blanco) 65%);
   pointer-events: none;
 }
 
@@ -54,7 +58,7 @@
   padding: 0.5rem 80px 0.5rem 0;
   overflow-x: auto;
   scrollbar-width: none;
-  background: white;
+  background: var(--color-blanco);
 }
 
 .subbarra::-webkit-scrollbar {
@@ -75,8 +79,8 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--color-blanco);
+  border: var(--borde-claro);
   cursor: pointer;
   width: 24px;
   height: 24px;

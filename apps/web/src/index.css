@@ -1,3 +1,21 @@
+:root {
+  --color-verde: rgb(175, 202, 176);
+  --color-secundario: rgb(195, 203, 196);
+  --color-gris: rgb(169, 172, 169);
+  --color-primario: rgb(20, 35, 20);
+  --color-blanco: white;
+  --color-separador-claro: #eee;
+  --borde-claro: 1px solid var(--color-separador-claro);
+}
+
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('/fonts/NunitoSans.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -14,13 +32,16 @@ a {
   width: 100%;
   max-width: 1250px;
   margin: 0 auto;
-  background-color: rgb(175, 202, 176);
+  background-color: var(--color-verde);
   min-height: 100dvh;
   flex-direction: column;
 }
+
 body{
   width: 100%;
-  background-color: gray;
+  background-color: var(--color-gris);
+  font-family: 'Nunito Sans', sans-serif;
+  color: var(--color-primario);
 }
 
 main {
@@ -30,19 +51,15 @@ main {
 header{
   position: relative;
   width: 100%;
-  background-color: rgb(195, 203, 196);
-
-}
-
-footer{
+  background-color: var(--color-secundario);
   text-align: center;
 }
 
-nav{
-  padding: 8px auto;
-  height: 30px;
-  color: white;
-  background-color: rgb(20, 35, 20);
-
+footer{
+  border-top: var(--borde-claro);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  width: 100%;
+  background-color: var(--color-secundario);
 }
-

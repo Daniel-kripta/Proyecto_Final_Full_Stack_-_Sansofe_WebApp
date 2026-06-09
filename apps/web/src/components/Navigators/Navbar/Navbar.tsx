@@ -53,7 +53,7 @@ export default function Navbar() {
 
   return (
     <div className={styles.wrapper}>
-      <nav className={styles.nav}>
+      <nav className={styles.navBar}>
         <Link to="/buscar" className={styles.enlace}>Archivo</Link>
         <button
           className={`${styles.enlace} ${styles.toggle} ${seccionesOpen ? styles.activo : ''}`}

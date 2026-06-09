@@ -1,0 +1,16 @@
+.navFooter{
+    border-top: var(--borde-claro);
+    border-bottom: var(--borde-claro);
+    font-weight: bold;
+    display: grid;
+    text-align: left;
+    padding: 10px;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 25px;
+    row-gap: 5px;
+
+}
+
+.navFooter a:nth-child(even) {
+    text-align: right;
+}

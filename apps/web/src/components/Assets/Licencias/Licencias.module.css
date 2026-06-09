@@ -1,0 +1,11 @@
+.licencias{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 0.6rem;
+}
+
+
+.licenciaLogo {
+    height: 35px;
+    width: auto;
+}

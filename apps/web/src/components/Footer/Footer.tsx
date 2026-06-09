@@ -1,25 +1,24 @@
-import { LogoCC, LogoPD } from "../Assets/LogosLicencias"
-import { LogoMono } from "../Logos/Logos"
-import NavFooter from "../NavFooter/NavFooter"
+import Licencias from "../Assets/Licencias/Licencias"
+import { LogoMono } from "../Assets/Logos/Logos"
+import { LogoKripta } from "../Assets/Logos/LogosKriptaDev"
+import NavFooter from "../Navigators/NavFooter/NavFooter"
 import styles from "./Footer.module.css"
 
 export default function Footer(){
     return (
         <footer>
-            <LogoMono className={styles.logoFooterMono}/>
-            <NavFooter />
-            <div className={styles.licencias}>
-                <div className={styles.licenciasGrid}>
-                    <div className={styles.licenciaItem}>
-                        <LogoPD className={styles.licenciaLogo} />
-                        <span><strong>Contenido histórico</strong> — Dominio público</span>
-                    </div>
-                    <div className={styles.licenciaItem}>
-                        <LogoCC className={styles.licenciaLogo} />
-                        <span><strong>Plataforma</strong> — Libre para uso no comercial, los derivados heredan esta licencia</span>
-                    </div>
-                </div>
+            <div className={styles.oficialFooter} >
+                <LogoMono className={styles.logoFooterMono}/>
+                <NavFooter />            
+                <Licencias />
             </div>
+                <a href="https://kripta.dev" target="_blank" rel="noopener noreferrer">
+                    <LogoKripta className={styles.logoKripta} />
+                </a>
+                <div>© 2026 <strong>Kripta.dev</strong>
+                <br /><span style={{fontSize: '1.2em'}}>Sansofé</span>
+            </div>
+
         </footer>
     )
 }
