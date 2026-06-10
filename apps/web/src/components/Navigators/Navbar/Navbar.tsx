@@ -3,18 +3,20 @@ import { Link } from 'react-router-dom'
 import styles from './Navbar.module.css'
 
 const SECCIONES = [
-  { label: 'Anuncios',       valor: 'anuncios' },
-  { label: 'Sucesos',        valor: 'sucesos' },
-  { label: 'Sociedad',       valor: 'sociedad' },
-  { label: 'Política',       valor: 'política' },
-  { label: 'Internacional',  valor: 'internacional' },
-  { label: 'Economía',       valor: 'economía' },
-  { label: 'Cultura',        valor: 'cultura' },
-  { label: 'Deportes',       valor: 'deportes' },
-  { label: 'Religión',       valor: 'religión' },
-  { label: 'Agricultura',    valor: 'agricultura' },
-  { label: 'Militar',        valor: 'militar' },
-  { label: 'Otros',          valor: 'otros' },
+  { label: 'Anuncios',       valor: 'anuncios',       tipo: 'topic' },
+  { label: 'Sucesos',        valor: 'sucesos',        tipo: 'topic' },
+  { label: 'Sociedad',       valor: 'sociedad',       tipo: 'topic' },
+  { label: 'Política',       valor: 'política',       tipo: 'topic' },
+  { label: 'Internacional',  valor: 'internacional',  tipo: 'topic' },
+  { label: 'Economía',       valor: 'economía',       tipo: 'topic' },
+  { label: 'Cultura',        valor: 'cultura',        tipo: 'topic' },
+  { label: 'Deportes',       valor: 'deportes',       tipo: 'topic' },
+  { label: 'Religión',       valor: 'religión',       tipo: 'topic' },
+  { label: 'Agricultura',    valor: 'agricultura',    tipo: 'topic' },
+  { label: 'Militar',        valor: 'militar',        tipo: 'topic' },
+  { label: 'Otros',          valor: 'otros',          tipo: 'topic' },
+  { label: 'Literatura',     valor: 'literatura',     tipo: 'genre' },
+  { label: 'Opinión',        valor: 'opinión',        tipo: 'genre' },
 ]
 
 export default function Navbar() {
@@ -55,8 +57,6 @@ export default function Navbar() {
         >
           Secciones ▾
         </button>
-        <Link to="/resultados?tipo=genre&valor=literatura" className={styles.enlace}>Literatura</Link>
-        <Link to="/resultados?tipo=genre&valor=opinión" className={styles.enlace}>Opinión</Link>
         <Link to="/investigar" className={styles.enlace}>[RAG]</Link>
       </nav>
 
@@ -69,7 +69,7 @@ export default function Navbar() {
             {SECCIONES.map(s => (
               <Link
                 key={s.valor}
-                to={`/resultados?tipo=topic&valor=${s.valor}`}
+                to={`/resultados?tipo=${s.tipo}&valor=${s.valor}`}
                 className={styles.subenlace}
               >
                 {s.label}
