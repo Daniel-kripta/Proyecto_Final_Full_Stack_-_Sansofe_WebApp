@@ -21,7 +21,7 @@ async function fetchPortadaJson(): Promise<Record<string, any[]>> {
     const d = new Date(base)
     d.setDate(d.getDate() - i)
     const fecha = d.toISOString().split('T')[0]
-    const res = await fetch(`/portada/${fecha}.json`)
+    const res = await fetch(`/static/portada/${fecha}.json`)
     if (res.ok) return res.json()
   }
   return {}
