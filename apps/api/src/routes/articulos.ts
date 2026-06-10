@@ -11,9 +11,11 @@ export async function articulosRoutes(app: FastifyInstance) {
     return articulo
   })
 
-  app.get('/articulos', async (req) => {
+  app.get('/articulos', async (req, reply) => {
   const { q, publication, genre, desde, hasta, pagina = '1' } = req.query as Record<string, string>
-  const offset = (parseInt(pagina) - 1) * 20
+  const page = parseInt(pagina)
+  if (isNaN(page) || page < 1) return reply.status(400).send({ error: 'Parámetro pagina inválido' })
+  const offset = (page - 1) * 20
 
   const articulos = q?.trim()
     ? await prisma.$queryRaw`

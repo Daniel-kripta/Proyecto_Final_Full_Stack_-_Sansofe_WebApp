@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ChatRequest(BaseModel):
     query: str
     session_id: str
-    k: int = 10
+    k: int = Field(default=10, ge=1, le=50)
 
 
 class ArticuloRef(BaseModel):

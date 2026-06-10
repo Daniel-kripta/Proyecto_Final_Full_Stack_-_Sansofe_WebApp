@@ -17,16 +17,26 @@ export async function coleccionesRoutes(app: any) {
     return prisma.coleccion.create({ data: { usuarioId: userId, nombre } })
   })
 
-  app.post('/colecciones/:id/articulos', { preHandler: requireAuth }, async (req: any) => {
+  app.post('/colecciones/:id/articulos', { preHandler: requireAuth }, async (req: any, reply: any) => {
     const { id } = req.params
+    const { userId } = req.user
     const { articuloId } = req.body
+    const coleccion = await prisma.coleccion.findUnique({ where: { id } })
+    if (!coleccion || coleccion.usuarioId !== userId) {
+      return reply.status(403).send({ error: 'No autorizado' })
+    }
     return prisma.coleccionArticulo.create({
       data: { coleccionId: id, articuloId }
     })
   })
 
-  app.delete('/colecciones/:id/articulos/:aid', { preHandler: requireAuth }, async (req: any) => {
+  app.delete('/colecciones/:id/articulos/:aid', { preHandler: requireAuth }, async (req: any, reply: any) => {
     const { id, aid } = req.params
+    const { userId } = req.user
+    const coleccion = await prisma.coleccion.findUnique({ where: { id } })
+    if (!coleccion || coleccion.usuarioId !== userId) {
+      return reply.status(403).send({ error: 'No autorizado' })
+    }
     await prisma.coleccionArticulo.delete({
       where: { coleccionId_articuloId: { coleccionId: id, articuloId: aid } }
     })

@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import rateLimit from '@fastify/rate-limit'
 import {prisma} from './lib/prisma.js'
 
 import { articulosRoutes } from './routes/articulos.js'
@@ -9,7 +10,7 @@ import { authRoutes } from './routes/auth.js'
 import { coleccionesRoutes } from './routes/colecciones.js'
 import { chatRoutes } from './routes/chat.js'
 
-const app = Fastify({ logger: true })
+const app = Fastify({ logger: true, trustProxy: true })
 
 await app.register(import('@fastify/cookie'))
 await app.register(import('@fastify/jwt'), {
@@ -18,8 +19,13 @@ await app.register(import('@fastify/jwt'), {
 })
 
 app.register(cors, {
-  origin: 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
   credentials: true,
+})
+app.register(rateLimit, {
+  max: 20,
+  timeWindow: '1 minute',
+  keyGenerator: (req) => req.ip,
 })
 app.register(portadaRoutes)
 app.register(articulosRoutes)
