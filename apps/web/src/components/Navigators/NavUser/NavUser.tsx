@@ -10,7 +10,7 @@ export default function NavUser({ onClose }: { onClose: () => void }) {
                 <CloseIcon className={iconoStyles.iconoNavUser} />
             </button>
             <nav className={styles.nav}>
-                <Link to="/registrarse" onClick={onClose}>Registrarse</Link>
+                <Link to="/registro" onClick={onClose}>Registrarse</Link>
                 <Link to="/login" onClick={onClose}>Iniciar sesión</Link>
             </nav>
         </div>
