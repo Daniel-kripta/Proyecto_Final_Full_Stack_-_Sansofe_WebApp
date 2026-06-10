@@ -38,7 +38,7 @@ app.get('/health', async () => {
   return { ok: true }
 })
 
-app.listen({ port: 3002, host: '127.0.0.1' }, (err) => {
+app.listen({ port: 3002, host: '0.0.0.0' }, (err) => {
   if (err) {
     app.log.error(err)
     process.exit(1)

@@ -17,5 +17,39 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: sansofe-api
+    ports:
+      - "127.0.0.1:3002:3002"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      JWT_SECRET: ${JWT_SECRET}
+      AI_SERVICE_URL: http://ai:8001
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ai:
+    build:
+      context: apps/ai
+      dockerfile: Dockerfile
+    container_name: sansofe-ai
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      GCP_PROJECT: ${GCP_PROJECT}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+    volumes:
+      - ${GCLOUD_CREDENTIALS}:/root/.config/gcloud/application_default_credentials.json:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   postgres-data:
