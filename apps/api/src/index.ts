@@ -1,21 +1,27 @@
 import 'dotenv/config'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import cookie from '@fastify/cookie'
 import {prisma} from './lib/prisma.js'
 
 import { articulosRoutes } from './routes/articulos.js'
 import { portadaRoutes } from './routes/portada.js'
+import { authRoutes } from './routes/auth.js'
 
 const app = Fastify({ logger: true })
+
+await app.register(import('@fastify/cookie'))
+await app.register(import('@fastify/jwt'), {
+  secret: process.env.JWT_SECRET!,
+  cookie: { cookieName: 'token', signed: false }
+})
 
 app.register(cors, {
   origin: 'http://localhost:3000',
   credentials: true,
 })
-app.register(cookie)
 app.register(portadaRoutes)
 app.register(articulosRoutes)
+app.register(authRoutes)
 
 app.get('/health', async () => {
   await prisma.$queryRaw`SELECT 1`

@@ -7,15 +7,60 @@ datasource db {
 }
 
 model Articulo {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  publication String
-  date        DateTime @db.Date
-  headline    String
-  body        String
-  genre       String
-  topics      String[]
-  summary     String?
-  source_id   String?
+  id                  String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  publication         String
+  date                DateTime                 @db.Date
+  edition             String?
+  source_id           String?
+  headline            String
+  subheadline         String?
+  body                String
+  byline              String?
+  section             String?
+  genre               String
+  topics              String[]
+  people              String[]
+  places              String[]
+  summary             String?
+  has_image           Boolean?                 @default(false)
+  uncertain_fields    String[]
+  embedding           Unsupported("vector")?
+  event_id            String?                  @db.Uuid
+  fts_vector          Unsupported("tsvector")? @default(dbgenerated("(setweight(to_tsvector('spanish'::regconfig, COALESCE(headline, ''::text)), 'A'::\"char\") || setweight(to_tsvector('spanish'::regconfig, COALESCE(body, ''::text)), 'C'::\"char\"))"))
+  entities            String[]
+  coleccion_articulos coleccion_articulos[]
 
+  @@index([date], map: "idx_articulos_fecha")
+  @@index([fts_vector], map: "idx_articulos_fts", type: Gin)
   @@map("articulos")
+}
+
+model Usuario {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String        @unique
+  passwordHash String        @map("password_hash")
+  createdAt    DateTime?     @default(now()) @map("created_at") @db.Timestamptz(6)
+  colecciones  colecciones[]
+
+  @@map("usuarios")
+}
+
+model coleccion_articulos {
+  coleccion_id String      @db.Uuid
+  articulo_id  String      @db.Uuid
+  nota         String?
+  added_at     DateTime?   @default(now()) @db.Timestamptz(6)
+  articulos    Articulo    @relation(fields: [articulo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  colecciones  colecciones @relation(fields: [coleccion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([coleccion_id, articulo_id])
+}
+
+model colecciones {
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuario_id          String?               @db.Uuid
+  nombre              String
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
+  coleccion_articulos coleccion_articulos[]
+  usuarios            Usuario?              @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
