@@ -32,4 +32,34 @@ export async function coleccionesRoutes(app: any) {
     })
     return { ok: true }
   })
+
+  app.get('/colecciones/:id/export', { preHandler: requireAuth }, async (req: any, reply: any) => {
+    const { id } = req.params
+    const { userId } = req.user
+
+    const articulos = await prisma.$queryRaw`
+      SELECT a.headline, a.date, a.publication, a.genre, a.body
+      FROM articulos a
+      JOIN coleccion_articulos ca ON a.id = ca.articulo_id
+      JOIN colecciones c ON ca.coleccion_id = c.id
+      WHERE c.id = ${id}::uuid AND c.usuario_id = ${userId}::uuid
+      ORDER BY a.date
+    ` as any[]
+
+    const header = 'titular,fecha,publicacion,genero,cuerpo\n'
+    const rows = articulos.map(a =>
+      [
+        `"${a.headline.replace(/"/g, '""')}"`,
+        a.date.toISOString().split('T')[0],
+        a.publication,
+        a.genre,
+        `"${a.body.replace(/"/g, '""')}"`,
+      ].join(',')
+    ).join('\n')
+
+    reply
+      .header('Content-Type', 'text/csv; charset=utf-8')
+      .header('Content-Disposition', `attachment; filename="coleccion-${id}.csv"`)
+      .send(header + rows)
+  })
 }

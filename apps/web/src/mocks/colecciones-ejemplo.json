@@ -1,0 +1,20 @@
+[
+  {
+    "id": "61c7cfe4-8695-4e24-b43f-4d7187f72218",
+    "nombre": "Guerra de Marruecos",
+    "createdAt": "1926-06-09T10:00:00.000Z",
+    "_count": { "articulos": 14 }
+  },
+  {
+    "id": "72d8dfe5-9706-5e35-9c54-c36298e83329",
+    "nombre": "Política local 1926",
+    "createdAt": "1926-06-09T11:00:00.000Z",
+    "_count": { "articulos": 7 }
+  },
+  {
+    "id": "83e9ege6-0817-6f46-0d65-d47309f94430",
+    "nombre": "Cultura y sociedad",
+    "createdAt": "1926-06-09T12:00:00.000Z",
+    "_count": { "articulos": 3 }
+  }
+]
