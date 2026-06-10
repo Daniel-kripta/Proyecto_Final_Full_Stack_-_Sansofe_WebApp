@@ -10,8 +10,9 @@ export async function portadaRoutes(app: FastifyInstance) {
     return prisma.$queryRaw`
       SELECT id, headline, summary, publication, date, genre, topics, people, places
       FROM articulos
-      WHERE EXTRACT(MONTH FROM date) = ${d.getMonth() + 1}
-        AND EXTRACT(DAY FROM date) = ${d.getDate()}
+      WHERE EXTRACT(YEAR FROM date)  = ${d.getFullYear()}
+        AND EXTRACT(MONTH FROM date) = ${d.getMonth() + 1}
+        AND EXTRACT(DAY FROM date)   = ${d.getDate()}
       ORDER BY publication, date
     `
   })
