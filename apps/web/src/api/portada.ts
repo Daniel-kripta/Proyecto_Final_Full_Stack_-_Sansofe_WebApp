@@ -13,23 +13,20 @@ export const LABELS: Record<string, string> = {
   otros:         'Otros',
 }
 
-async function fetchPortadaJson(): Promise<Record<string, any[]>> {
-  const base = new Date()
-  base.setFullYear(base.getFullYear() - 100)
+const cache = new Map<string, Promise<Record<string, any[]>>>()
 
-  for (let i = 0; i < 3; i++) {
-    const d = new Date(base)
-    d.setDate(d.getDate() - i)
-    const fecha = d.toISOString().split('T')[0]
-    const res = await fetch(`/static/portada/${fecha}.json`)
-    if (res.ok) return res.json()
+export function getPortadaParaFecha(fecha: string): Promise<Record<string, any[]>> {
+  if (!cache.has(fecha)) {
+    cache.set(fecha, fetch(`/static/portada/${fecha}.json`)
+      .then(res => res.ok ? res.json() : {})
+      .catch(() => ({})))
   }
-  return {}
+  return cache.get(fecha)!
 }
 
-let cache: Promise<Record<string, any[]>> | null = null
-
-export function getPortadaAgrupada(): Promise<Record<string, any[]>> {
-  if (!cache) cache = fetchPortadaJson()
-  return cache
+export function fechaHace100(offsetDias = 0): string {
+  const d = new Date()
+  d.setFullYear(d.getFullYear() - 100)
+  d.setDate(d.getDate() - offsetDias)
+  return d.toISOString().split('T')[0]
 }

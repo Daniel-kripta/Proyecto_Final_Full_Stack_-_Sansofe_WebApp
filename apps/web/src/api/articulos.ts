@@ -15,6 +15,21 @@ export async function getArticulo(id: string) {
   return res.json()
 }
 
+export async function getArticulosPorSeccion(seccion: string, tipo: string, pagina: number): Promise<any[]> {
+  const qs = new URLSearchParams({ [tipo]: seccion, pagina: String(pagina) })
+  const res = await fetch(`${API}/articulos?${qs}`)
+  if (!res.ok) return []
+  return res.json()
+}
+
+export async function getUltimasNoticias(topic: string, excluirId: string): Promise<any[]> {
+  const qs = new URLSearchParams({ topic, limite: '4' })
+  const res = await fetch(`${API}/articulos?${qs}`)
+  if (!res.ok) return []
+  const articulos = await res.json()
+  return articulos.filter((a: any) => a.id !== excluirId).slice(0, 3)
+}
+
 export async function getPortada() {
   const hace100 = new Date()
   hace100.setFullYear(hace100.getFullYear() - 100)

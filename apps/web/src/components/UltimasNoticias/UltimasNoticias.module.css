@@ -1,0 +1,25 @@
+.aside {
+  margin-top: 3rem;
+  border-top: 2px solid currentColor;
+  padding-top: 1rem;
+}
+
+.titulo {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.lista {
+  columns: 300px auto;
+  gap: 0;
+}
+
+.verMas {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}

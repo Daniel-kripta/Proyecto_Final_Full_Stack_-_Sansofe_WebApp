@@ -1,5 +1,29 @@
 body { background: white; }
 
+.cabeceraDia {
+  margin-bottom: 1.5rem;
+}
+
+.selectorFecha {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.diaBtn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.diaBtnActivo {
+  background: currentColor;
+  color: white;
+}
+
 .contentBloques {
   display: flex;
   flex-direction: column; 

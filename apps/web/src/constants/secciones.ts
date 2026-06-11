@@ -1,0 +1,16 @@
+export const SECCIONES = [
+  { label: 'Anuncios',      valor: 'anuncios',      tipo: 'topic' },
+  { label: 'Sucesos',       valor: 'sucesos',        tipo: 'topic' },
+  { label: 'Sociedad',      valor: 'sociedad',       tipo: 'topic' },
+  { label: 'Política',      valor: 'política',       tipo: 'topic' },
+  { label: 'Internacional', valor: 'internacional',  tipo: 'topic' },
+  { label: 'Economía',      valor: 'economía',       tipo: 'topic' },
+  { label: 'Cultura',       valor: 'cultura',        tipo: 'topic' },
+  { label: 'Deportes',      valor: 'deportes',       tipo: 'topic' },
+  { label: 'Religión',      valor: 'religión',       tipo: 'topic' },
+  { label: 'Agricultura',   valor: 'agricultura',    tipo: 'topic' },
+  { label: 'Militar',       valor: 'militar',        tipo: 'topic' },
+  { label: 'Otros',         valor: 'otros',          tipo: 'topic' },
+  { label: 'Literatura',    valor: 'literatura',     tipo: 'genre' },
+  { label: 'Opinión',       valor: 'opinión',        tipo: 'genre' },
+] as const

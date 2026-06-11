@@ -12,10 +12,11 @@ export async function articulosRoutes(app: FastifyInstance) {
   })
 
   app.get('/articulos', async (req, reply) => {
-  const { q, publication, genre, desde, hasta, pagina = '1' } = req.query as Record<string, string>
+  const { q, publication, genre, topic, desde, hasta, pagina = '1', limite: limiteParam = '20' } = req.query as Record<string, string>
   const page = parseInt(pagina)
   if (isNaN(page) || page < 1) return reply.status(400).send({ error: 'Parámetro pagina inválido' })
-  const offset = (page - 1) * 20
+  const limite = Math.min(parseInt(limiteParam) || 20, 50)
+  const offset = (page - 1) * limite
 
   const articulos = q?.trim()
     ? await prisma.$queryRaw`
@@ -25,20 +26,22 @@ export async function articulosRoutes(app: FastifyInstance) {
         WHERE fts_vector @@ websearch_to_tsquery('spanish', ${q})
           AND (${publication ?? null}::text IS NULL OR publication = ${publication})
           AND (${genre ?? null}::text IS NULL OR genre = ${genre})
+          AND (${topic ?? null}::text IS NULL OR ${topic} = ANY(topics))
           AND (${desde ?? null}::date IS NULL OR date >= ${desde}::date)
           AND (${hasta ?? null}::date IS NULL OR date <= ${hasta}::date)
         ORDER BY rank DESC, date DESC
-        LIMIT 20 OFFSET ${offset}
+        LIMIT ${limite} OFFSET ${offset}
       `
     : await prisma.$queryRaw`
         SELECT id, headline, summary, publication, date, genre, topics, people, places
         FROM articulos
         WHERE (${publication ?? null}::text IS NULL OR publication = ${publication})
           AND (${genre ?? null}::text IS NULL OR genre = ${genre})
+          AND (${topic ?? null}::text IS NULL OR ${topic} = ANY(topics))
           AND (${desde ?? null}::date IS NULL OR date >= ${desde}::date)
           AND (${hasta ?? null}::date IS NULL OR date <= ${hasta}::date)
         ORDER BY date DESC
-        LIMIT 20 OFFSET ${offset}
+        LIMIT ${limite} OFFSET ${offset}
       `
 
   return articulos

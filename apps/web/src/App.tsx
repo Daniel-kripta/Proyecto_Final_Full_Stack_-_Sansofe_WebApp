@@ -13,6 +13,7 @@ import Colecciones from './pages/Colecciones/Colecciones'
 import BusquedaAsistida from './pages/BusquedaAsistida/BusquedaAsistida'
 import Ajustes from './pages/Ajustes/Ajustes'
 import Perfil from './pages/Perfil/Perfil'
+import Seccion from './pages/Seccion/Seccion'
 import PaginaNoEncontrada from './pages/PaginaNoEncontrada/PaginaNoEncontrada'
 import { AuthProvider } from './context/AuthContext'
 import { RutaProtegida } from './components/RutaProtegida/RutaProtegida'
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/"                   element={<Portada />} />
             <Route path="/buscar"             element={<Busqueda />} />
             <Route path="/articulo/:id"       element={<Articulo />} />
+            <Route path="/seccion/:seccion"    element={<Seccion />} />
             <Route path="/resultados"         element={<Resultados />} />
             <Route path="/login"              element={<Login />} />
             <Route path="/registro"           element={<Registro />} />

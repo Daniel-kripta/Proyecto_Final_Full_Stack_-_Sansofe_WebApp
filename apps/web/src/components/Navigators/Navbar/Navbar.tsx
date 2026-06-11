@@ -1,23 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { SECCIONES } from '../../../constants/secciones'
 import styles from './Navbar.module.css'
-
-const SECCIONES = [
-  { label: 'Anuncios',       valor: 'anuncios',       tipo: 'topic' },
-  { label: 'Sucesos',        valor: 'sucesos',        tipo: 'topic' },
-  { label: 'Sociedad',       valor: 'sociedad',       tipo: 'topic' },
-  { label: 'Política',       valor: 'política',       tipo: 'topic' },
-  { label: 'Internacional',  valor: 'internacional',  tipo: 'topic' },
-  { label: 'Economía',       valor: 'economía',       tipo: 'topic' },
-  { label: 'Cultura',        valor: 'cultura',        tipo: 'topic' },
-  { label: 'Deportes',       valor: 'deportes',       tipo: 'topic' },
-  { label: 'Religión',       valor: 'religión',       tipo: 'topic' },
-  { label: 'Agricultura',    valor: 'agricultura',    tipo: 'topic' },
-  { label: 'Militar',        valor: 'militar',        tipo: 'topic' },
-  { label: 'Otros',          valor: 'otros',          tipo: 'topic' },
-  { label: 'Literatura',     valor: 'literatura',     tipo: 'genre' },
-  { label: 'Opinión',        valor: 'opinión',        tipo: 'genre' },
-]
 
 export default function Navbar() {
   const [seccionesOpen, setSeccionesOpen] = useState(false)
@@ -50,13 +34,13 @@ export default function Navbar() {
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
-        <Link to="/buscar" className={styles.enlace}>Archivo</Link>
         <button
           className={`${styles.enlace} ${styles.toggle} ${seccionesOpen ? styles.activo : ''}`}
           onClick={() => setSeccionesOpen(v => !v)}
         >
           Secciones ▾
         </button>
+        <Link to="/buscar" className={styles.enlace}>Archivo</Link>
         <Link to="/busqueda-asistida" className={styles.enlace}>Búsqueda Asistida</Link>
       </nav>
 
@@ -69,8 +53,9 @@ export default function Navbar() {
             {SECCIONES.map(s => (
               <Link
                 key={s.valor}
-                to={`/resultados?tipo=${s.tipo}&valor=${s.valor}`}
+                to={`/seccion/${s.valor}`}
                 className={styles.subenlace}
+                onClick={() => setSeccionesOpen(false)}
               >
                 {s.label}
               </Link>

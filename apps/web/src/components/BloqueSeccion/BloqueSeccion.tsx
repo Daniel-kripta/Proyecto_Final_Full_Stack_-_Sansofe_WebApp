@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { ArticuloCard } from '../ArticuloCard/ArticuloCard'
-import { getPortadaAgrupada, LABELS } from '../../api/portada'
+import { getPortadaParaFecha, LABELS } from '../../api/portada'
 import styles from '../../pages/Portada/Portada.module.css'
 
-export default function BloqueSeccion({ seccion }: { seccion: string }) {
+export default function BloqueSeccion({ seccion, fecha }: { seccion: string, fecha: string }) {
   const [articulos, setArticulos] = useState<any[]>([])
 
   useEffect(() => {
-    getPortadaAgrupada().then(data => setArticulos(data[seccion] ?? []))
-  }, [seccion])
+    getPortadaParaFecha(fecha).then(data => setArticulos(data[seccion] ?? []))
+  }, [seccion, fecha])
 
   if (articulos.length === 0) return null
 
