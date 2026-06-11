@@ -1,0 +1,21 @@
+.estadoServicio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.circulo {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ok {
+  background-color: #22c55e;
+}
+
+.error {
+  background-color: #ef4444;
+}

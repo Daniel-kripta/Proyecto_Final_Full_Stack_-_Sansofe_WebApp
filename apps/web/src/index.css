@@ -5,6 +5,7 @@
   --color-primario: rgb(20, 35, 20);
   --color-blanco: white;
   --color-separador-claro: #eee;
+  --color-bg-chat: #f5f8f5;
   --borde-claro: 1px solid var(--color-separador-claro);
 }
 

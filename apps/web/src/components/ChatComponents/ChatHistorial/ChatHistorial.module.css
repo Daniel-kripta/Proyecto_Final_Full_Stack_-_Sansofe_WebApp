@@ -1,0 +1,21 @@
+.wrapper {
+  background-color: var(--color-blanco);
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.hint {
+  font-size: 0.75em;
+  opacity: 0.5;
+  font-style: italic;
+}

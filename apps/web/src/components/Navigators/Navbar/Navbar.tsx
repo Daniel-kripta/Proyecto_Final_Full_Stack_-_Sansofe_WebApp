@@ -57,7 +57,7 @@ export default function Navbar() {
         >
           Secciones ▾
         </button>
-        <Link to="/investigar" className={styles.enlace}>[RAG]</Link>
+        <Link to="/busqueda-asistida" className={styles.enlace}>Búsqueda Asistida</Link>
       </nav>
 
       {seccionesOpen && (

@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { registro } from '../../api/auth'
+import { useAuth } from '../../context/AuthContext'
 
 export default function Registro() {
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
+  const [honeypot, setHoneypot] = useState('')
   const navigate = useNavigate()
+  const { registro } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (honeypot) return
     setError('')
     try {
       await registro(email, password)
@@ -30,6 +33,18 @@ export default function Registro() {
         <div>
           <label>Contraseña (mínimo 8 caracteres)</label>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} required />
+        </div>
+        <div style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+          <label htmlFor="website">Website</label>
+          <input
+            id="website"
+            type="text"
+            value={honeypot}
+            onChange={e => setHoneypot(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
         </div>
         {error && <p>{error}</p>}
         <button type="submit">Registrarse</button>

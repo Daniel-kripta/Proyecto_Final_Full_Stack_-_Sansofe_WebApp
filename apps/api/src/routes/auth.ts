@@ -1,8 +1,11 @@
 import bcrypt from 'bcrypt'
 import { Prisma } from '@prisma/client'
 import { prisma } from '../lib/prisma.js'
+import { requireAuth } from '../middleware/auth.js'
 
 const secure = process.env.NODE_ENV === 'production'
+
+const cookieOpts = { httpOnly: true, sameSite: 'strict' as const, secure, path: '/' }
 
 const bodySchema = {
   body: {
@@ -10,7 +13,8 @@ const bodySchema = {
     required: ['email', 'password'],
     properties: {
       email:    { type: 'string', format: 'email' },
-      password: { type: 'string', minLength: 8 }
+      password: { type: 'string', minLength: 8 },
+      website:  { type: 'string' },
     }
   }
 }
@@ -22,7 +26,8 @@ const authRateLimit = {
 export async function authRoutes(app: any) {
 
   app.post('/auth/registro', { schema: bodySchema, ...authRateLimit }, async (req: any, reply: any) => {
-    const { email, password } = req.body
+    const { email, password, website } = req.body
+    if (website) return reply.status(400).send({ error: 'Registro no válido' })
     const hash = await bcrypt.hash(password, 12)
 
     let usuario
@@ -35,13 +40,8 @@ export async function authRoutes(app: any) {
       throw e
     }
 
-    const token   = app.jwt.sign({ userId: usuario.id }, { expiresIn: '15m' })
-    const refresh = app.jwt.sign({ userId: usuario.id }, { expiresIn: '30d' })
-
-    reply
-      .setCookie('token',   token,   { httpOnly: true, sameSite: 'strict', secure, path: '/' })
-      .setCookie('refresh', refresh, { httpOnly: true, sameSite: 'strict', secure, path: '/' })
-      .send({ ok: true })
+    const token = app.jwt.sign({ userId: usuario.id }, { expiresIn: '30d' })
+    reply.setCookie('token', token, cookieOpts).send({ ok: true, usuario: { email: usuario.email } })
   })
 
   app.post('/auth/login', { schema: bodySchema, ...authRateLimit }, async (req: any, reply: any) => {
@@ -52,31 +52,18 @@ export async function authRoutes(app: any) {
       return reply.status(401).send({ error: 'Credenciales incorrectas' })
     }
 
-    const token   = app.jwt.sign({ userId: usuario.id }, { expiresIn: '15m' })
-    const refresh = app.jwt.sign({ userId: usuario.id }, { expiresIn: '30d' })
-
-    reply
-      .setCookie('token',   token,   { httpOnly: true, sameSite: 'strict', secure, path: '/' })
-      .setCookie('refresh', refresh, { httpOnly: true, sameSite: 'strict', secure, path: '/' })
-      .send({ ok: true, usuario: { email: usuario.email } })
-  })
-
-  app.post('/auth/refresh', authRateLimit, async (req: any, reply: any) => {
-    const refreshToken = req.cookies?.refresh
-    if (!refreshToken) return reply.status(401).send({ error: 'No autenticado' })
-
-    try {
-      const payload = app.jwt.verify(refreshToken) as { userId: string }
-      const token   = app.jwt.sign({ userId: payload.userId }, { expiresIn: '15m' })
-      reply
-        .setCookie('token', token, { httpOnly: true, sameSite: 'strict', secure, path: '/' })
-        .send({ ok: true })
-    } catch {
-      reply.status(401).send({ error: 'Sesión expirada' })
-    }
+    const token = app.jwt.sign({ userId: usuario.id }, { expiresIn: '30d' })
+    reply.setCookie('token', token, cookieOpts).send({ ok: true, usuario: { email: usuario.email } })
   })
 
   app.post('/auth/logout', async (_req: any, reply: any) => {
-    reply.clearCookie('token').clearCookie('refresh').send({ ok: true })
+    reply.clearCookie('token').send({ ok: true })
+  })
+
+  app.get('/auth/me', { preHandler: requireAuth }, async (req: any) => {
+    return prisma.usuario.findUnique({
+      where: { id: req.user.userId },
+      select: { email: true },
+    })
   })
 }

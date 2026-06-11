@@ -1,0 +1,14 @@
+/* Estilos compartidos por todos los ChatComponents */
+
+.componente {
+  background-color: var(--color-blanco);
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.componenteSinFondo {
+  background-color: transparent;
+}

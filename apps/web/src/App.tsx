@@ -10,26 +10,34 @@ import Resultados from './pages/Resultados/Resultados'
 import Login from './pages/Auth/Login'
 import Registro from './pages/Auth/Registro'
 import Colecciones from './pages/Colecciones/Colecciones'
+import BusquedaAsistida from './pages/BusquedaAsistida/BusquedaAsistida'
 import PaginaNoEncontrada from './pages/PaginaNoEncontrada/PaginaNoEncontrada'
+import { AuthProvider } from './context/AuthContext'
+import { RutaProtegida } from './components/RutaProtegida/RutaProtegida'
 
 export default function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/"               element={<Portada />} />
-          <Route path="/buscar"         element={<Busqueda />} />
-          <Route path="/articulo/:id"   element={<Articulo />} />
-          <Route path="/resultados"     element={<Resultados />} />
-          <Route path="/login"          element={<Login />} />
-          <Route path="/registro"       element={<Registro />} />
-          <Route path="/colecciones"    element={<Colecciones />} />
-          <Route path="*"               element={<PaginaNoEncontrada />} />
-        </Routes>
-      </main>
-      <Footer />
+      <AuthProvider>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/"                   element={<Portada />} />
+            <Route path="/buscar"             element={<Busqueda />} />
+            <Route path="/articulo/:id"       element={<Articulo />} />
+            <Route path="/resultados"         element={<Resultados />} />
+            <Route path="/login"              element={<Login />} />
+            <Route path="/registro"           element={<Registro />} />
+            <Route element={<RutaProtegida />}>
+              <Route path="/colecciones"        element={<Colecciones />} />
+              <Route path="/busqueda-asistida"  element={<BusquedaAsistida />} />
+            </Route>
+            <Route path="*"                   element={<PaginaNoEncontrada />} />
+          </Routes>
+        </main>
+        <Footer />
+      </AuthProvider>
     </BrowserRouter>
   )
 }
