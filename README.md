@@ -4,6 +4,8 @@ Web App para la consulta e investigación de prensa histórica canaria, con bús
 
 Proyecto final del bootcamp Full Stack (junio 2026), construido con **Node.js + Fastify + Prisma**, **React 18 + Vite**, **Python + FastAPI**, **PostgreSQL + pgvector**, **Docker Compose**, **N8N** y un agente **LangGraph** con búsqueda semántica sobre el corpus histórico vía **Vertex AI (Gemini + Embeddings)**.
 
+[Web online](https://sansofe.kripta.dev/)
+
 ---
 
 ## Motivación
@@ -183,21 +185,21 @@ graph TD
     A1 --> A2("A2 · GET artículo ✅"):::done
     A2 --> A3("A3 · GET portada ✅"):::done
     A3 --> A4("A4 · Búsqueda FTS ✅"):::done
-    A4 --> A5("A5 · Auth JWT"):::backend
-    A5 --> A6("A6 · Colecciones"):::backend
-    A6 --> A7("A7 · Export CSV"):::backend
-    A7 --> A8("A8 · Proxy chat"):::backend
+    A4 --> A5("A5 · Auth JWT ✅"):::done
+    A5 --> A6("A6 · Colecciones ✅"):::done
+    A6 --> A7("A7 · Export CSV ✅"):::done
+    A7 --> A8("A8 · Proxy chat ✅"):::done
 
     B1 --> B2("B2 · Embeddings ✅"):::done
-    B2 --> B3("B3 · Normalización datos"):::data
+    B2 --> B3("B3 · Normalización datos ✅"):::done
 
-    C1 --> C2("C2 · Layout"):::frontend
-    C2 --> C3("C3 · Portada"):::frontend
-    C3 --> C4("C4 · Búsqueda"):::frontend
-    C4 --> C5("C5 · Artículo"):::frontend
-    C5 --> C6("C6 · Auth"):::frontend
+    C1 --> C2("C2 · Layout ✅"):::done
+    C2 --> C3("C3 · Portada ✅"):::done
+    C3 --> C4("C4 · Búsqueda ✅"):::done
+    C4 --> C5("C5 · Artículo ✅"):::done
+    C5 --> C6("C6 · Auth ✅"):::done
     C6 --> C7("C7 · Colecciones"):::frontend
-    C7 --> C8("C8 · Páginas legales"):::frontend
+    C7 --> C8("C8 · Páginas estáticas"):::frontend
 
     B2 --> D1("D1 · FastAPI ✅"):::done
     D1 --> D2("D2 · Vectorstore ✅"):::done
@@ -206,14 +208,14 @@ graph TD
     D4 --> D5("D5 · Síntesis ✅"):::done
     D5 --> D6("D6 · Chat endpoint ✅"):::done
 
-    A8 --> F1("F1 · Dockerfiles"):::deploy
+    A8 --> F1("F1 · Dockerfiles ✅"):::done
     C8 --> F1
     D6 --> F1
 
-    F1 --> F2("F2 · Docker Compose"):::deploy
-    F2 --> F3("F3 · N8N"):::deploy
-    F3 --> F4("F4 · Nginx+SSL"):::deploy
-    F4 --> F5("F5 · Deploy 🚀"):::deploy
+    F1 --> F2("F2 · Docker Compose ✅"):::done
+    F2 --> F3("F3 · N8N ✅"):::done
+    F3 --> F4("F4 · Nginx+SSL ✅"):::done
+    F4 --> F5("F5 · Deploy ✅ 🚀"):::done
 
     classDef done fill:#4ade80,stroke:#16a34a,color:#000
     classDef setup fill:#94a3b8,stroke:#475569,color:#000
@@ -236,6 +238,10 @@ graph TD
 
 ## Documentación adicional
 
+- [Backend API](apps/api/README.md) — endpoints, variables de entorno y arranque local
+- [Frontend](apps/web/README.md) — páginas, estructura y arranque local
+- [Microservicio IA](apps/ai/README.md) — agente RAG, endpoints y arquitectura
+- [Pipeline](pipeline/README.md) — scripts de enriquecimiento, importación y embeddings
 - [Colección Postman](docs/postman.json)
 - [Informe de uso de IA](docs/uso-ia.md)
 - [Workflows N8N](n8n-workflows/)
@@ -248,7 +254,7 @@ graph TD
 
 **Plataforma** (código, diseño y base de datos): [CC BY-NC-SA 4.0 EU](https://creativecommons.org/licenses/by-nc-sa/4.0/) — libre para uso no comercial con atribución; los derivados heredan esta licencia.
 
-**Fuentes documentales**: [Jable](https://jable.ulpgc.es/) (mdC - ULPGC) y [Marasía](https://marasia.ull.es/) (ULL).
+**Fuentes documentales**: [Jable](https://jable.ulpgc.es/) (mdC - ULPGC) y [Maresía](https://www.ull.es/servicios/biblioteca/servicios/maresia/) (ULL).
 
 ---
 
