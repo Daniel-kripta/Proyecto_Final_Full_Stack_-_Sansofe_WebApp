@@ -38,6 +38,17 @@ export async function perfilRoutes(app: any) {
     await prisma.usuario.update({ where: { id: userId }, data: { passwordHash: hash } })
     return { ok: true }
   })
-}
 
-export { decrypt }
+  app.get('/perfil/test-key', { preHandler: requireAuth }, async (req: any) => {
+    const { userId } = req.user
+    const u = await prisma.usuario.findUnique({ where: { id: userId }, select: { geminiApiKey: true } })
+    if (!u?.geminiApiKey) return { ok: false }
+    const key = decrypt(u.geminiApiKey)
+    const res = await fetch(`${process.env.AI_SERVICE_URL}/test-key`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gemini_api_key: key }),
+    })
+    return res.json()
+  })
+}

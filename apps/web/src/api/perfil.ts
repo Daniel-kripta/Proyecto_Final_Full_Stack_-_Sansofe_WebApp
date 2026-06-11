@@ -9,6 +9,8 @@ async function apiFetch(path: string, options?: RequestInit) {
 
 export const getPerfil = () => apiFetch('/perfil')
 
+export const testApiKey = (): Promise<{ ok: boolean }> => apiFetch('/perfil/test-key')
+
 export const guardarApiKey = (geminiApiKey: string | null) =>
   apiFetch('/perfil', {
     method: 'PUT',

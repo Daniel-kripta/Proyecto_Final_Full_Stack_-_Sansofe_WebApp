@@ -5,7 +5,7 @@ load_dotenv()
 from fastapi import FastAPI, HTTPException
 
 from agent import crear_agente
-from models import ChatRequest, ChatResponse
+from models import ChatRequest, ChatResponse, TestKeyRequest
 from security import validate_query
 
 app = FastAPI()
@@ -15,6 +15,23 @@ agente = crear_agente()
 @app.get("/health")
 def health():
     return {"ok": True}
+
+
+@app.post("/test-key")
+async def test_key(body: TestKeyRequest):
+    try:
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        from langchain_core.messages import HumanMessage
+        test_llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            google_api_key=body.gemini_api_key,
+            max_output_tokens=1,
+            temperature=0,
+        )
+        test_llm.invoke([HumanMessage(content="1")])
+        return {"ok": True}
+    except Exception:
+        return {"ok": False}
 
 
 @app.post("/chat", response_model=ChatResponse)

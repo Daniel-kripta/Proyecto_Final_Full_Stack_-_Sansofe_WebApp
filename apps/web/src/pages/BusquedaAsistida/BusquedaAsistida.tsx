@@ -8,8 +8,9 @@ import { ChatEstado } from '../../components/ChatComponents/ChatEstado/ChatEstad
 import { Chat } from '../../components/ChatComponents/Chat/Chat'
 import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
 import type { Mensaje, Coleccion } from '../../types/chat'
-import { enviarMensaje, checkSalud } from '../../api/chat'
+import { enviarMensaje } from '../../api/chat'
 import { getColecciones } from '../../api/colecciones'
+import { testApiKey } from '../../api/perfil'
 import { useAuth } from '../../context/AuthContext'
 
 export default function BusquedaAsistida() {
@@ -24,7 +25,7 @@ export default function BusquedaAsistida() {
   const { logout } = useAuth()
 
   useEffect(() => {
-    checkSalud().then(setActivo)
+    testApiKey().then(res => setActivo(res.ok)).catch(() => setActivo(false))
     getColecciones()
       .then(setColecciones)
       .catch(() => {})
@@ -54,7 +55,9 @@ export default function BusquedaAsistida() {
         logout()
         return
       }
-      const content = 'Ha ocurrido un error al contactar con el servicio. Por favor, inténtalo de nuevo.'
+      const content = err?.message === 'API_KEY_REQUIRED'
+        ? 'Necesitas configurar una clave de API de Gemini en Ajustes para usar el asistente.'
+        : 'Ha ocurrido un error al contactar con el servicio. Por favor, inténtalo de nuevo.'
       setMensajes(prev => [
         ...prev,
         {

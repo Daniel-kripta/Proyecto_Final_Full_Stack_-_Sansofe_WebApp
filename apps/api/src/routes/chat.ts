@@ -11,7 +11,11 @@ export async function chatRoutes(app: any) {
       select: { geminiApiKey: true },
     })
 
-    const geminiApiKey = usuario?.geminiApiKey ? decrypt(usuario.geminiApiKey) : undefined
+    if (!usuario?.geminiApiKey) {
+      return reply.status(402).send({ error: 'API_KEY_REQUIRED' })
+    }
+
+    const geminiApiKey = decrypt(usuario.geminiApiKey)
 
     const response = await fetch(`${process.env.AI_SERVICE_URL}/chat`, {
       method: 'POST',

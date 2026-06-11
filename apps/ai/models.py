@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field
 
 
+class TestKeyRequest(BaseModel):
+    gemini_api_key: str
+
+
 class ChatRequest(BaseModel):
     query: str
     session_id: str

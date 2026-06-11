@@ -8,6 +8,7 @@ export async function enviarMensaje(query: string, k: number, umbral: string | n
     body: JSON.stringify({ query, k, ...(umbral ? { umbral } : {}) }),
   })
   if (res.status === 401) throw new Error('UNAUTHORIZED')
+  if (res.status === 402) throw new Error('API_KEY_REQUIRED')
   if (!res.ok) throw new Error('Error en el servicio IA')
   return res.json()
 }
