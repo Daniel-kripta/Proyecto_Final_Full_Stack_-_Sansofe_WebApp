@@ -23,21 +23,24 @@ Cada noche a las 00:05 consulta la API para obtener los artículos del día equi
 
 **2. HTTP Request**
 - Método: GET
-- URL: `http://127.0.0.1:3002/portada?fecha={{ $now.minus({years: 100}).toFormat('yyyy-MM-dd') }}`
+- URL: `http://127.0.0.1:3002/portada?fecha={{ $now.plus({days: 2}).minus({years: 100}).toFormat('yyyy-MM-dd') }}`
 - Llama a la API Fastify directamente (sin pasar por Nginx)
+- Solicita los artículos de dentro de 2 días, hace 100 años
 
-**3. Code (JavaScript)**
+**3. Code — Genera el JSON de portada para dentro de 2 días**
 
-Agrupa los artículos por sección y escribe el fichero:
+Agrupa los artículos por sección y escribe el fichero con 2 días de antelación:
 
 ```javascript
 const fs = require('fs');
 
 const date = new Date();
+date.setDate(date.getDate() + 2);
 date.setFullYear(date.getFullYear() - 100);
 const filename = date.toISOString().split('T')[0];
 
-const articulos = $input.all()[0].json;
+const articulos = $input.all().map(item => item.json);
+if (!articulos || articulos.length === 0) return [];
 
 const SECCIONES = [
   'anuncios', 'sucesos', 'sociedad', 'política', 'internacional',
@@ -55,6 +58,24 @@ for (const art of articulos) {
 const dir = '/home/kripta/apps/sansofe/static/portada';
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(`${dir}/${filename}.json`, JSON.stringify(grouped));
+
+return $input.all();
+```
+
+**4. Code — Elimina el JSON de 8 días atrás**
+
+Limpia ficheros antiguos para no acumular indefinidamente:
+
+```javascript
+const fs = require('fs');
+
+const date = new Date();
+date.setDate(date.getDate() - 8);
+date.setFullYear(date.getFullYear() - 100);
+const filename = date.toISOString().split('T')[0];
+
+const path = `/home/kripta/apps/sansofe/static/portada/${filename}.json`;
+if (fs.existsSync(path)) fs.unlinkSync(path);
 
 return $input.all();
 ```
