@@ -160,6 +160,24 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8001
 ```
 
+### Servicios Docker
+
+El `docker-compose.yml` define tres servicios:
+
+| Servicio | Imagen / Build | Puerto (host) | Descripción |
+|---|---|---|---|
+| `db` | `pgvector/pgvector:pg18` | `127.0.0.1:5433` | PostgreSQL 18 con extensión pgvector |
+| `api` | `apps/api/Dockerfile` | `127.0.0.1:3002` | Backend Fastify. Arranca solo cuando `db` está healthy |
+| `ai` | `apps/ai/Dockerfile` | interno (`ai:8001`) | Microservicio IA. Solo accesible desde la red interna Docker |
+
+Todos los puertos están vinculados a `127.0.0.1` — no expuestos a Internet directamente. Nginx actúa como reverse proxy externo.
+
+Las credenciales de Google Cloud se montan como volumen de solo lectura en el contenedor `ai`:
+
+```env
+GCLOUD_CREDENTIALS=/ruta/local/al/json/de/cuenta-de-servicio.json
+```
+
 ---
 
 ## Despliegue
@@ -178,42 +196,44 @@ graph TD
     P01 --> P02("02 · Docker DB ✅"):::done
     P02 --> P03("03 · Schema ✅"):::done
 
-    P03 --> A1("A1 · Fastify+Prisma ✅"):::done
-    P03 --> B1("B1 · Import JSON ✅"):::done
-    P03 --> C1("C1 · React+Router ✅"):::done
+    P03 --> A1("A1 · Fastify+Prisma ✅"):::backend
+    P03 --> B1("B1 · Import JSON ✅"):::data
+    P03 --> C1("C1 · React+Router ✅"):::frontend
 
-    A1 --> A2("A2 · GET artículo ✅"):::done
-    A2 --> A3("A3 · GET portada ✅"):::done
-    A3 --> A4("A4 · Búsqueda FTS ✅"):::done
-    A4 --> A5("A5 · Auth JWT ✅"):::done
-    A5 --> A6("A6 · Colecciones ✅"):::done
-    A6 --> A7("A7 · Export CSV ✅"):::done
-    A7 --> A8("A8 · Proxy chat ✅"):::done
+    A1 --> A2("A2 · GET artículo ✅"):::backend
+    A2 --> A3("A3 · GET portada ✅"):::backend
+    A3 --> A4("A4 · Búsqueda FTS ✅"):::backend
+    A4 --> A5("A5 · Auth JWT ✅"):::backend
+    A5 --> A6("A6 · Colecciones ✅"):::backend
+    A6 --> A7("A7 · Export CSV ✅"):::backend
+    A7 --> A8("A8 · Proxy chat ✅"):::backend
 
-    B1 --> B2("B2 · Embeddings ✅"):::done
-    B2 --> B3("B3 · Normalización datos ✅"):::done
+    B1 --> B2("B2 · Embeddings ✅"):::data
+    B2 --> B3("B3 · Normalización datos ✅"):::data
 
-    C1 --> C2("C2 · Layout ✅"):::done
-    C2 --> C3("C3 · Portada ✅"):::done
-    C3 --> C4("C4 · Búsqueda ✅"):::done
-    C4 --> C5("C5 · Artículo ✅"):::done
-    C5 --> C6("C6 · Auth ✅"):::done
+    C1 --> C2("C2 · Layout ✅"):::frontend
+    C2 --> C3("C3 · Portada ✅"):::frontend
+    C3 --> C4("C4 · Búsqueda ✅"):::frontend
+    C4 --> C5("C5 · Artículo ✅"):::frontend
+    C5 --> C6("C6 · Auth ✅"):::frontend
     C6 --> C7("C7 · Colecciones"):::frontend
     C7 --> C8("C8 · Páginas estáticas"):::frontend
+    C8 --> C9("C9 · Búsqueda Asistida"):::frontend
+    C9 --> BUILD("Build de producción ✅"):::frontend
 
-    B2 --> D1("D1 · FastAPI ✅"):::done
-    D1 --> D2("D2 · Vectorstore ✅"):::done
-    D2 --> D3("D3 · Router ✅"):::done
-    D3 --> D4("D4 · Recuperar ✅"):::done
-    D4 --> D5("D5 · Síntesis ✅"):::done
-    D5 --> D6("D6 · Chat endpoint ✅"):::done
+    B2 --> D1("D1 · FastAPI ✅"):::ai
+    D1 --> D2("D2 · Vectorstore ✅"):::ai
+    D2 --> D3("D3 · Router ✅"):::ai
+    D3 --> D4("D4 · Recuperar ✅"):::ai
+    D4 --> D5("D5 · Síntesis ✅"):::ai
+    D5 --> D6("D6 · Chat endpoint ✅"):::ai
 
-    A8 --> F1("F1 · Dockerfiles ✅"):::done
-    C8 --> F1
+    A8 --> F1("F1 · Dockerfiles ✅"):::deploy
+    BUILD --> F1
     D6 --> F1
 
-    F1 --> F2("F2 · Docker Compose ✅"):::done
-    F2 --> F3("F3 · N8N ✅"):::done
+    F1 --> F2("F2 · Docker Compose ✅"):::deploy
+    F2 --> F3("F3 · N8N ✅"):::deploy
     F3 --> F4("F4 · Nginx+SSL ✅"):::done
     F4 --> F5("F5 · Deploy ✅ 🚀"):::done
 
