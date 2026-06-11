@@ -1,7 +1,14 @@
 .cardPortada{
     background-color: white;
+    break-inside: avoid;
     padding: 15px;
     margin: 10px;
+    margin-bottom: 2rem;
+    border-top: 2px solid var(--color-primario);
+}
+
+.cardPortada:first-of-type {
+  margin-top: 0;
 }
 
 .cardPortada h3 {
