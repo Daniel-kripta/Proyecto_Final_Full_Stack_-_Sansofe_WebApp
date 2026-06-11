@@ -61,7 +61,7 @@ function BloqueAsistente({ msg, colecciones, onVer }: { msg: MensajeAsistente; c
           {msg.sources && msg.sources.length > 0 && (
             <details>
               <summary className={styles.fuentesTitulo}>
-                Fuentes consultadas ({msg.sources.length})
+                Contexto de búsqueda ({msg.sources.length})
               </summary>
               <div className={styles.fuentesLista}>
                 {msg.sources.map(art => (
@@ -77,17 +77,22 @@ function BloqueAsistente({ msg, colecciones, onVer }: { msg: MensajeAsistente; c
   )
 }
 
+type ModoRecuperacion = 'cantidad' | 'similitud'
+type Umbral = 'exacto' | 'cercano' | 'similar'
+
 interface ChatProps {
   mensajes: Mensaje[]
   colecciones: Coleccion[]
   enviando?: boolean
-  onEnviar: (query: string, k: number) => Promise<void>
+  onEnviar: (query: string, k: number, umbral: string | null) => Promise<void>
   onVerArticulo: (id: string) => void
   onFocusInput?: () => void
 }
 
 export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerArticulo, onFocusInput }: ChatProps) {
+  const [modo, setModo] = useState<ModoRecuperacion>('cantidad')
   const [k, setK] = useState(10)
+  const [umbral, setUmbral] = useState<Umbral>('cercano')
   const [inputValor, setInputValor] = useState('')
   const mensajesEndRef = useRef<HTMLDivElement>(null)
 
@@ -99,7 +104,7 @@ export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerA
     const query = inputValor.trim()
     if (!query || enviando) return
     setInputValor('')
-    await onEnviar(query, k)
+    await onEnviar(query, k, modo === 'similitud' ? umbral : null)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -140,17 +145,48 @@ export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerA
           disabled={enviando}
         />
         <div className={styles.controles}>
-          <label className={styles.kSelector}>
-            <span>Artículos a consultar (solo síntesis)</span>
-            <input
-              type="number"
-              min={1}
-              max={50}
-              value={k}
-              onChange={e => setK(Number(e.target.value))}
-              className={styles.kInput}
-            />
-          </label>
+          <div className={styles.modoSelector}>
+            <button
+              className={`${styles.modoBtn} ${modo === 'cantidad' ? styles.modoBtnActivo : ''}`}
+              onClick={() => setModo('cantidad')}
+              type="button"
+            >
+              Cantidad
+            </button>
+            <button
+              className={`${styles.modoBtn} ${modo === 'similitud' ? styles.modoBtnActivo : ''}`}
+              onClick={() => setModo('similitud')}
+              type="button"
+            >
+              Similitud
+            </button>
+          </div>
+          {modo === 'cantidad' ? (
+            <label className={styles.kSelector}>
+              <span>Artículos a consultar</span>
+              <input
+                type="number"
+                min={1}
+                max={50}
+                value={k}
+                onChange={e => setK(Number(e.target.value))}
+                className={styles.kInput}
+              />
+            </label>
+          ) : (
+            <label className={styles.kSelector}>
+              <span>Nivel de similitud</span>
+              <select
+                value={umbral}
+                onChange={e => setUmbral(e.target.value as Umbral)}
+                className={styles.kInput}
+              >
+                <option value="exacto">Exacto</option>
+                <option value="cercano">Cercano</option>
+                <option value="similar">Similar</option>
+              </select>
+            </label>
+          )}
           <button className={styles.botonEnviar} onClick={handleEnviar} disabled={enviando}>
             {enviando ? 'Enviando...' : 'Enviar'}
           </button>

@@ -24,16 +24,28 @@ async def chat(body: ChatRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    resultado = agente.invoke(
-        {
-            "query": query,
-            "k": body.k,
-            "messages": [],
-            "tipo_consulta": "",
-            "consulta_extraida": {},
-            "articulos_recuperados": [],
-            "respuesta": {},
-        },
-        config={"configurable": {"thread_id": body.session_id}},
-    )
-    return resultado["respuesta"]
+    try:
+        resultado = agente.invoke(
+            {
+                "query": query,
+                "k": body.k,
+                "umbral": body.umbral,
+                "gemini_api_key": body.gemini_api_key,
+                "messages": [],
+                "tipo_consulta": "",
+                "consulta_extraida": {},
+                "articulos_recuperados": [],
+                "respuesta": {},
+            },
+            config={"configurable": {"thread_id": body.session_id}},
+        )
+        return resultado["respuesta"]
+    except Exception as e:
+        msg = str(e)
+        if "RESOURCE_EXHAUSTED" in msg or "429" in msg:
+            return {
+                "type": "irrelevante",
+                "content": "Se ha agotado la cuota de la API de Gemini. Puedes introducir otra clave en Ajustes o esperar a que se recarguen los usos gratuitos.",
+                "sources": [],
+            }
+        raise

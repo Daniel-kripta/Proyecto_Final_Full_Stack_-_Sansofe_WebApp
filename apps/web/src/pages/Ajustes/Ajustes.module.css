@@ -1,0 +1,36 @@
+.pagina {
+  padding: 24px;
+  max-width: 600px;
+}
+
+.seccion {
+  margin-top: 24px;
+}
+
+.descripcion {
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+.estado {
+  font-size: 0.9em;
+  margin-bottom: 12px;
+}
+
+.form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px 10px;
+}
+
+.mensaje {
+  margin-top: 10px;
+  font-size: 0.9em;
+}

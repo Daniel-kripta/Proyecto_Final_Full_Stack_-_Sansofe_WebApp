@@ -10,6 +10,7 @@ import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
 import type { Mensaje, Coleccion } from '../../types/chat'
 import { enviarMensaje, checkSalud } from '../../api/chat'
 import { getColecciones } from '../../api/colecciones'
+import { useAuth } from '../../context/AuthContext'
 
 export default function BusquedaAsistida() {
   const layoutRef = useRef<HTMLDivElement>(null)
@@ -20,6 +21,7 @@ export default function BusquedaAsistida() {
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
+  const { logout } = useAuth()
 
   useEffect(() => {
     checkSalud().then(setActivo)
@@ -28,7 +30,7 @@ export default function BusquedaAsistida() {
       .catch(() => {})
   }, [])
 
-  const handleEnviar = async (query: string, k: number) => {
+  const handleEnviar = async (query: string, k: number, umbral: string | null) => {
     const mensajeUsuario: Mensaje = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -38,7 +40,7 @@ export default function BusquedaAsistida() {
     setEnviando(true)
 
     try {
-      const respuesta = await enviarMensaje(query, k)
+      const respuesta = await enviarMensaje(query, k, umbral)
       const mensajeAsistente: Mensaje = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -47,14 +49,19 @@ export default function BusquedaAsistida() {
         sources: respuesta.sources,
       }
       setMensajes(prev => [...prev, mensajeAsistente])
-    } catch {
+    } catch (err: any) {
+      if (err?.message === 'UNAUTHORIZED') {
+        logout()
+        return
+      }
+      const content = 'Ha ocurrido un error al contactar con el servicio. Por favor, inténtalo de nuevo.'
       setMensajes(prev => [
         ...prev,
         {
           id: crypto.randomUUID(),
           role: 'assistant',
           type: 'irrelevante',
-          content: 'Ha ocurrido un error al contactar con el servicio. Por favor, inténtalo de nuevo.',
+          content,
         },
       ])
     } finally {
@@ -94,6 +101,7 @@ export default function BusquedaAsistida() {
             onVerArticulo={setArticuloAbierto}
             onFocusInput={scrollToLayout}
           />
+          <Guia id="ModoRecuperacion" />
           {articuloAbierto && (
             <ModalArticulo
               articuloId={articuloAbierto}

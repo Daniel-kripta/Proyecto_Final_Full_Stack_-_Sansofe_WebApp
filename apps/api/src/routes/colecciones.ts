@@ -30,6 +30,33 @@ export async function coleccionesRoutes(app: any) {
     })
   })
 
+  app.get('/colecciones/:id', { preHandler: requireAuth }, async (req: any, reply: any) => {
+    const { id } = req.params
+    const { userId } = req.user
+    const col = await prisma.coleccion.findUnique({
+      where: { id },
+      include: {
+        articulos: {
+          include: {
+            articulo: { select: { id: true, headline: true, date: true, publication: true, summary: true, genre: true } }
+          },
+          orderBy: { addedAt: 'desc' }
+        }
+      }
+    })
+    if (!col || col.usuarioId !== userId) return reply.status(403).send({ error: 'No autorizado' })
+    return col
+  })
+
+  app.delete('/colecciones/:id', { preHandler: requireAuth }, async (req: any, reply: any) => {
+    const { id } = req.params
+    const { userId } = req.user
+    const col = await prisma.coleccion.findUnique({ where: { id } })
+    if (!col || col.usuarioId !== userId) return reply.status(403).send({ error: 'No autorizado' })
+    await prisma.coleccion.delete({ where: { id } })
+    return { ok: true }
+  })
+
   app.delete('/colecciones/:id/articulos/:aid', { preHandler: requireAuth }, async (req: any, reply: any) => {
     const { id, aid } = req.params
     const { userId } = req.user

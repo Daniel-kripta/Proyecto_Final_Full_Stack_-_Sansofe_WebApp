@@ -1,8 +1,17 @@
 import { requireAuth } from '../middleware/auth.js'
+import { prisma } from '../lib/prisma.js'
+import { decrypt } from '../lib/crypto.js'
 
 export async function chatRoutes(app: any) {
   app.post('/chat', { preHandler: requireAuth }, async (req: any, reply: any) => {
     const { userId } = req.user
+
+    const usuario = await prisma.usuario.findUnique({
+      where: { id: userId },
+      select: { geminiApiKey: true },
+    })
+
+    const geminiApiKey = usuario?.geminiApiKey ? decrypt(usuario.geminiApiKey) : undefined
 
     const response = await fetch(`${process.env.AI_SERVICE_URL}/chat`, {
       method: 'POST',
@@ -10,6 +19,7 @@ export async function chatRoutes(app: any) {
       body: JSON.stringify({
         ...req.body,
         session_id: userId,
+        ...(geminiApiKey ? { gemini_api_key: geminiApiKey } : {}),
       }),
     })
 
@@ -17,7 +27,6 @@ export async function chatRoutes(app: any) {
       return reply.status(502).send({ error: 'Error en el servicio IA' })
     }
 
-    const data = await response.json()
-    return data
+    return response.json()
   })
 }

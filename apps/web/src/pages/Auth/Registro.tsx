@@ -16,7 +16,7 @@ export default function Registro() {
     setError('')
     try {
       await registro(email, password)
-      navigate('/')
+      navigate('/login')
     } catch (err: any) {
       setError(err.message)
     }

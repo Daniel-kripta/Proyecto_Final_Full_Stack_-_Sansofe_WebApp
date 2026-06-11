@@ -5,6 +5,8 @@ class ChatRequest(BaseModel):
     query: str
     session_id: str
     k: int = Field(default=10, ge=1, le=50)
+    umbral: str | None = None
+    gemini_api_key: str | None = None
 
 
 class ArticuloRef(BaseModel):

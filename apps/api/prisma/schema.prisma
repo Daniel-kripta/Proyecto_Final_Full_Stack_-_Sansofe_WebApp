@@ -36,11 +36,12 @@ model Articulo {
 }
 
 model Usuario {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email        String      @unique
-  passwordHash String      @map("password_hash")
-  createdAt    DateTime?   @default(now()) @map("created_at") @db.Timestamptz(6)
-  colecciones  Coleccion[]
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String      @unique
+  passwordHash  String      @map("password_hash")
+  geminiApiKey  String?     @map("gemini_api_key")
+  createdAt     DateTime?   @default(now()) @map("created_at") @db.Timestamptz(6)
+  colecciones   Coleccion[]
 
   @@map("usuarios")
 }

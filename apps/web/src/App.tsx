@@ -11,6 +11,8 @@ import Login from './pages/Auth/Login'
 import Registro from './pages/Auth/Registro'
 import Colecciones from './pages/Colecciones/Colecciones'
 import BusquedaAsistida from './pages/BusquedaAsistida/BusquedaAsistida'
+import Ajustes from './pages/Ajustes/Ajustes'
+import Perfil from './pages/Perfil/Perfil'
 import PaginaNoEncontrada from './pages/PaginaNoEncontrada/PaginaNoEncontrada'
 import { AuthProvider } from './context/AuthContext'
 import { RutaProtegida } from './components/RutaProtegida/RutaProtegida'
@@ -32,6 +34,8 @@ export default function App() {
             <Route element={<RutaProtegida />}>
               <Route path="/colecciones"        element={<Colecciones />} />
               <Route path="/busqueda-asistida"  element={<BusquedaAsistida />} />
+              <Route path="/ajustes"            element={<Ajustes />} />
+              <Route path="/perfil"             element={<Perfil />} />
             </Route>
             <Route path="*"                   element={<PaginaNoEncontrada />} />
           </Routes>

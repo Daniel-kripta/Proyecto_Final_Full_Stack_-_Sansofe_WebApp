@@ -1,0 +1,46 @@
+.pagina {
+  padding: 24px;
+  max-width: 500px;
+}
+
+.seccion {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-gris);
+}
+
+.seccion:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9em;
+}
+
+.campo input {
+  padding: 6px 10px;
+}
+
+.mensaje {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.botonCerrar {
+  background: none;
+  border: 1px solid var(--color-gris);
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}

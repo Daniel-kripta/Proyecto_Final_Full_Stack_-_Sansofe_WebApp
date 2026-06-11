@@ -18,11 +18,15 @@ def _embed_query(text: str) -> list[float]:
     return result.embeddings[0].values
 
 
+UMBRALES = {"exacto": 0.20, "cercano": 0.35, "similar": 0.50}
+
+
 def similarity_search(
     query: str,
     k: int = 10,
     year: int | None = None,
     publicacion: str | None = None,
+    umbral: str | None = None,
 ) -> list[dict]:
     vec = _embed_query(query)
     vec_str = "[" + ",".join(str(v) for v in vec) + "]"
@@ -38,20 +42,35 @@ def similarity_search(
         where_params.append(f"%{publicacion}%")
 
     where = "WHERE " + " AND ".join(where_clauses)
-    params = where_params + [vec_str, k]
-
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()
-    cur.execute(
-        f"""
-        SELECT id, headline, date, publication, body
-        FROM articulos
-        {where}
-        ORDER BY embedding <=> %s::vector
-        LIMIT %s
-        """,
-        params,
-    )
+
+    if umbral:
+        threshold = UMBRALES.get(umbral, 0.35)
+        params = where_params + [vec_str, threshold, vec_str]
+        cur.execute(
+            f"""
+            SELECT id, headline, date, publication, body
+            FROM articulos
+            {where}
+            AND embedding <=> %s::vector <= %s
+            ORDER BY embedding <=> %s::vector
+            """,
+            params,
+        )
+    else:
+        params = where_params + [vec_str, k]
+        cur.execute(
+            f"""
+            SELECT id, headline, date, publication, body
+            FROM articulos
+            {where}
+            ORDER BY embedding <=> %s::vector
+            LIMIT %s
+            """,
+            params,
+        )
+
     rows = cur.fetchall()
     cur.close()
     conn.close()

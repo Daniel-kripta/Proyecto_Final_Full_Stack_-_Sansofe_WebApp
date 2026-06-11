@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 export default function Login() {
@@ -7,14 +7,16 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
+  const destino = (location.state as any)?.from ?? '/'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     try {
       await login(email, password)
-      navigate('/')
+      navigate(destino, { replace: true })
     } catch (err: any) {
       setError(err.message)
     }
