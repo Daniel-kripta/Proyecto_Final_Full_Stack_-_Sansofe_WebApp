@@ -20,6 +20,10 @@ export default defineConfig({
           })
         },
       },
+      '/static': {
+        target: 'https://sansofe.kripta.dev',
+        changeOrigin: true,
+      },
     },
   },
 })
