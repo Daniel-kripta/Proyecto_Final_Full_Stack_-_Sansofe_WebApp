@@ -1,19 +1,23 @@
 body { background: white; }
 
-.contentBloques{
-
+.contentBloques {
+  display: flex;
+  flex-direction: column; 
+  gap: 0;
 }
 
 .seccion {
-  columns: 300px auto;
-  gap: 0;
-  margin-bottom: 2.5rem;
+
+}
+
+.articulosBloques{
+  columns: 250px auto;
+  margin-bottom: 0.1rem;
   padding: 15px;
 }
 
 .cabecera {
-  column-span: all;
-  font-size: 0.75rem;
+  font-size: 1.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -22,5 +26,4 @@ body { background: white; }
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 1rem;
-  font-size: 2rem;
 }

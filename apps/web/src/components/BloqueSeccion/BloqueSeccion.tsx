@@ -15,7 +15,7 @@ export default function BloqueSeccion({ seccion }: { seccion: string }) {
   return (
     <section className={styles.seccion}>
       <h2 className={styles.cabecera}>{LABELS[seccion] ?? seccion}</h2>
-      {articulos.map(a => <ArticuloCard key={a.id} {...a} />)}
+      <div className={styles.articulosBloques}>{articulos.map(a => <ArticuloCard key={a.id} {...a} />)}</div>
     </section>
   )
 }

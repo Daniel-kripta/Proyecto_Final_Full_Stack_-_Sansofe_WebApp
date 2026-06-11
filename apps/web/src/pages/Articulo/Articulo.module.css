@@ -1,1 +1,14 @@
 body { background: white; }
+
+.articulo{
+    margin: 15px;
+    padding: 20px;
+    font-size: 1.2rem;
+    background-color: white;
+    line-height: 2rem;
+}
+
+.articulo div{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

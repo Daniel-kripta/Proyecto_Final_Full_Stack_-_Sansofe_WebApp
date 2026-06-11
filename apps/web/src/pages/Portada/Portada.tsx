@@ -11,7 +11,6 @@ export default function Portada() {
         {fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
       </h1>
       <div className={styles.contentBloques}>
-        <BloqueSeccion seccion="anuncios" />
         <BloqueSeccion seccion="sucesos" />
         <BloqueSeccion seccion="sociedad" />
         <BloqueSeccion seccion="política" />
@@ -19,6 +18,7 @@ export default function Portada() {
         <BloqueSeccion seccion="economía" />
         <BloqueSeccion seccion="cultura" />
         <BloqueSeccion seccion="deportes" />
+        <BloqueSeccion seccion="anuncios" />
         <BloqueSeccion seccion="religión" />
         <BloqueSeccion seccion="agricultura" />
         <BloqueSeccion seccion="militar" />
