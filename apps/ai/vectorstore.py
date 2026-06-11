@@ -18,21 +18,39 @@ def _embed_query(text: str) -> list[float]:
     return result.embeddings[0].values
 
 
-def similarity_search(query: str, k: int = 10) -> list[dict]:
+def similarity_search(
+    query: str,
+    k: int = 10,
+    year: int | None = None,
+    publicacion: str | None = None,
+) -> list[dict]:
     vec = _embed_query(query)
     vec_str = "[" + ",".join(str(v) for v in vec) + "]"
+
+    where_clauses = ["embedding IS NOT NULL"]
+    where_params: list = []
+
+    if year is not None:
+        where_clauses.append("EXTRACT(YEAR FROM date) = %s")
+        where_params.append(year)
+    if publicacion is not None:
+        where_clauses.append("publication ILIKE %s")
+        where_params.append(f"%{publicacion}%")
+
+    where = "WHERE " + " AND ".join(where_clauses)
+    params = where_params + [vec_str, k]
 
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()
     cur.execute(
-        """
+        f"""
         SELECT id, headline, date, publication, body
         FROM articulos
-        WHERE embedding IS NOT NULL
+        {where}
         ORDER BY embedding <=> %s::vector
         LIMIT %s
         """,
-        (vec_str, k),
+        params,
     )
     rows = cur.fetchall()
     cur.close()

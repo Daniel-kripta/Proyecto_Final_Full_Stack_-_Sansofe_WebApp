@@ -30,6 +30,7 @@ async def chat(body: ChatRequest):
             "k": body.k,
             "messages": [],
             "tipo_consulta": "",
+            "consulta_extraida": {},
             "articulos_recuperados": [],
             "respuesta": {},
         },

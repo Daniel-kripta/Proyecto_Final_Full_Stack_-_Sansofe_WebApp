@@ -6,6 +6,7 @@ import { ChatHistorial } from '../../components/ChatComponents/ChatHistorial/Cha
 import { ChatColecciones } from '../../components/ChatComponents/ChatColecciones/ChatColecciones'
 import { ChatEstado } from '../../components/ChatComponents/ChatEstado/ChatEstado'
 import { Chat } from '../../components/ChatComponents/Chat/Chat'
+import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
 import type { Mensaje, Coleccion } from '../../types/chat'
 import { enviarMensaje, checkSalud } from '../../api/chat'
 import { getColecciones } from '../../api/colecciones'
@@ -18,6 +19,7 @@ export default function BusquedaAsistida() {
   const [enviando, setEnviando] = useState(false)
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
   const [activo, setActivo] = useState<boolean | null>(null)
+  const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
 
   useEffect(() => {
     checkSalud().then(setActivo)
@@ -89,8 +91,15 @@ export default function BusquedaAsistida() {
             colecciones={colecciones}
             enviando={enviando}
             onEnviar={handleEnviar}
+            onVerArticulo={setArticuloAbierto}
             onFocusInput={scrollToLayout}
           />
+          {articuloAbierto && (
+            <ModalArticulo
+              articuloId={articuloAbierto}
+              onClose={() => setArticuloAbierto(null)}
+            />
+          )}
         </div>
       </section>
 

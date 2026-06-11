@@ -3,7 +3,7 @@ import styles from './Chat.module.css'
 import type { Mensaje, MensajeAsistente, ArticuloRef, Coleccion } from '../../../types/chat'
 import { guardarEnColeccion } from '../../../api/colecciones'
 
-function ArticuloCardChat({ articulo, colecciones }: { articulo: ArticuloRef; colecciones: Coleccion[] }) {
+function ArticuloCardChat({ articulo, colecciones, onVer }: { articulo: ArticuloRef; colecciones: Coleccion[]; onVer: (id: string) => void }) {
   const [seleccionado, setSeleccionado] = useState('')
 
   const handleGuardar = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,9 +24,9 @@ function ArticuloCardChat({ articulo, colecciones }: { articulo: ArticuloRef; co
         <span className={styles.articuloMeta}>{articulo.date} · {articulo.publication}</span>
       </div>
       <div className={styles.articuloAcciones}>
-        <a href={articulo.url} target="_blank" rel="noopener noreferrer" className={styles.botonVer}>
+        <button className={styles.botonVer} onClick={() => onVer(articulo.id)}>
           Ver
-        </a>
+        </button>
         <select className={styles.selectColeccion} value={seleccionado} onChange={handleGuardar}>
           <option value="" disabled>Guardar en...</option>
           {colecciones.map(col => (
@@ -38,7 +38,7 @@ function ArticuloCardChat({ articulo, colecciones }: { articulo: ArticuloRef; co
   )
 }
 
-function BloqueAsistente({ msg, colecciones }: { msg: MensajeAsistente; colecciones: Coleccion[] }) {
+function BloqueAsistente({ msg, colecciones, onVer }: { msg: MensajeAsistente; colecciones: Coleccion[]; onVer: (id: string) => void }) {
   return (
     <div className={styles.burbujAsistente}>
       {msg.type === 'lista' && (
@@ -46,7 +46,7 @@ function BloqueAsistente({ msg, colecciones }: { msg: MensajeAsistente; coleccio
           <p>{msg.content}</p>
           <div className={styles.listaArticulos}>
             {msg.sources?.map(art => (
-              <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} />
+              <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} onVer={onVer} />
             ))}
           </div>
         </>
@@ -65,7 +65,7 @@ function BloqueAsistente({ msg, colecciones }: { msg: MensajeAsistente; coleccio
               </summary>
               <div className={styles.fuentesLista}>
                 {msg.sources.map(art => (
-                  <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} />
+                  <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} onVer={onVer} />
                 ))}
               </div>
             </details>
@@ -82,10 +82,11 @@ interface ChatProps {
   colecciones: Coleccion[]
   enviando?: boolean
   onEnviar: (query: string, k: number) => Promise<void>
+  onVerArticulo: (id: string) => void
   onFocusInput?: () => void
 }
 
-export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onFocusInput }: ChatProps) {
+export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerArticulo, onFocusInput }: ChatProps) {
   const [k, setK] = useState(10)
   const [inputValor, setInputValor] = useState('')
   const mensajesEndRef = useRef<HTMLDivElement>(null)
@@ -117,7 +118,7 @@ export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onFocu
               <p>{msg.content}</p>
             </div>
           ) : (
-            <BloqueAsistente key={msg.id} msg={msg as MensajeAsistente} colecciones={colecciones} />
+            <BloqueAsistente key={msg.id} msg={msg as MensajeAsistente} colecciones={colecciones} onVer={onVerArticulo} />
           )
         )}
         {enviando && (
