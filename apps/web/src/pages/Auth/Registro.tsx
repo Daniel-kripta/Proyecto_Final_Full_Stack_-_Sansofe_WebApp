@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import styles from './Auth.module.css'
 
 export default function Registro() {
   const [email, setEmail]       = useState('')
@@ -23,9 +24,9 @@ export default function Registro() {
   }
 
   return (
-    <>
-      <h1>Registro</h1>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.pagina}>
+      <form className={styles.formulario} onSubmit={handleSubmit}>
+        <h1>Registro</h1>
         <div>
           <label>Email</label>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -34,22 +35,13 @@ export default function Registro() {
           <label>Contraseña (mínimo 8 caracteres)</label>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} required />
         </div>
-        <div style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
-          <label htmlFor="website">Website</label>
-          <input
-            id="website"
-            type="text"
-            value={honeypot}
-            onChange={e => setHoneypot(e.target.value)}
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-          />
+        <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+          <input id="website" type="text" value={honeypot} onChange={e => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" />
         </div>
-        {error && <p>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
         <button type="submit">Registrarse</button>
+        <Link to="/login">¿Ya tienes cuenta? Inicia sesión</Link>
       </form>
-      <p><Link to="/login">¿Ya tienes cuenta? Inicia sesión</Link></p>
-    </>
+    </div>
   )
 }

@@ -1,3 +1,5 @@
+import { fechaHace100 } from './portada'
+
 const API = import.meta.env.VITE_API_URL ?? 'http://localhost:3002'
 
 export async function buscarArticulos(params: Record<string, string>) {
@@ -16,14 +18,14 @@ export async function getArticulo(id: string) {
 }
 
 export async function getArticulosPorSeccion(seccion: string, tipo: string, pagina: number): Promise<any[]> {
-  const qs = new URLSearchParams({ [tipo]: seccion, pagina: String(pagina) })
+  const qs = new URLSearchParams({ [tipo]: seccion, pagina: String(pagina), hasta: fechaHace100(0) })
   const res = await fetch(`${API}/articulos?${qs}`)
   if (!res.ok) return []
   return res.json()
 }
 
 export async function getUltimasNoticias(topic: string, excluirId: string): Promise<any[]> {
-  const qs = new URLSearchParams({ topic, limite: '4' })
+  const qs = new URLSearchParams({ topic, limite: '4', hasta: fechaHace100(0) })
   const res = await fetch(`${API}/articulos?${qs}`)
   if (!res.ok) return []
   const articulos = await res.json()

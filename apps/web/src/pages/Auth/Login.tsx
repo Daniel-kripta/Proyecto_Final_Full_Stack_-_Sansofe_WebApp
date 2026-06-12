@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import styles from './Auth.module.css'
 
 export default function Login() {
   const [email, setEmail]       = useState('')
@@ -23,9 +24,9 @@ export default function Login() {
   }
 
   return (
-    <>
-      <h1>Iniciar sesión</h1>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.pagina}>
+      <form className={styles.formulario} onSubmit={handleSubmit}>
+        <h1>Iniciar sesión</h1>
         <div>
           <label>Email</label>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -34,10 +35,10 @@ export default function Login() {
           <label>Contraseña</label>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
-        {error && <p>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
         <button type="submit">Entrar</button>
+        <Link to="/registro">¿No tienes cuenta? Regístrate</Link>
       </form>
-      <p><Link to="/registro">¿No tienes cuenta? Regístrate</Link></p>
-    </>
+    </div>
   )
 }

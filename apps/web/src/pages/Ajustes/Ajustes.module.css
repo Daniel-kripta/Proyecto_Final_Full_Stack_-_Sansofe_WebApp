@@ -1,36 +1,87 @@
+body { background: white; }
+
 .pagina {
-  padding: 24px;
+  padding: 2rem 1rem;
   max-width: 600px;
 }
 
+.pagina h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
 .seccion {
-  margin-top: 24px;
+  border-top: 2px solid var(--color-primario);
+  padding: 1.5rem;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.seccion h2 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
 }
 
 .descripcion {
-  opacity: 0.8;
-  margin-bottom: 12px;
+  font-size: 0.88rem;
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+.descripcion a {
+  text-decoration: underline;
 }
 
 .estado {
-  font-size: 0.9em;
-  margin-bottom: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .form {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  align-items: center;
 }
 
 .input {
   flex: 1;
   min-width: 200px;
-  padding: 6px 10px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-primario);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form button {
+  padding: 0.5rem 1rem;
+  background: var(--color-primario);
+  color: white;
+  border: 1px solid var(--color-primario);
+  font-family: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.form button[type="button"] {
+  background: none;
+  color: var(--color-primario);
+}
+
+.form button:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .mensaje {
-  margin-top: 10px;
-  font-size: 0.9em;
+  font-size: 0.85rem;
+  font-weight: 600;
 }

@@ -1,9 +1,11 @@
+body { background: white; }
+
 .layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 220px 1fr;
   gap: 24px;
   align-items: start;
-  padding: 24px;
+  padding: 2rem 1rem;
 }
 
 @media (max-width: 700px) {
@@ -13,13 +15,16 @@
 }
 
 .aside {
-  border: 1px solid var(--color-gris);
-  border-radius: 8px;
-  padding: 16px;
+  border-top: 2px solid var(--color-primario);
+  background: white;
+  padding: 1rem;
 }
 
 .titulo {
-  font-size: 1rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
@@ -29,13 +34,12 @@
   margin: 0 0 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .item {
   display: flex;
   align-items: center;
-  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -53,7 +57,8 @@
   padding: 6px 8px;
   cursor: pointer;
   text-align: left;
-  font-size: 0.9em;
+  font-family: inherit;
+  font-size: 0.88rem;
 }
 
 .itemNombre {
@@ -63,8 +68,8 @@
 }
 
 .itemConteo {
-  font-size: 0.8em;
-  opacity: 0.6;
+  font-size: 0.78rem;
+  opacity: 0.5;
   flex-shrink: 0;
   margin-left: 6px;
 }
@@ -74,8 +79,9 @@
   border: none;
   cursor: pointer;
   padding: 4px 8px;
-  opacity: 0.4;
-  font-size: 0.8em;
+  opacity: 0.3;
+  font-size: 0.8rem;
+  font-family: inherit;
 }
 
 .itemEliminar:hover {
@@ -85,13 +91,35 @@
 .formNueva {
   display: flex;
   gap: 6px;
+  border-top: 1px solid var(--color-separador-claro);
+  padding-top: 10px;
 }
 
 .inputNueva {
   flex: 1;
   min-width: 0;
   padding: 4px 8px;
-  font-size: 0.85em;
+  font-size: 0.85rem;
+  font-family: inherit;
+  border: 1px solid var(--color-primario);
+}
+
+.formNueva button {
+  padding: 4px 10px;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.formNueva button:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .contenido {
@@ -101,6 +129,7 @@
 .placeholder {
   opacity: 0.5;
   font-style: italic;
+  font-size: 0.9rem;
 }
 
 .coleccionCabecera {
@@ -108,15 +137,32 @@
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primario);
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.coleccionCabecera h2 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .coleccionAcciones {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.85em;
+  font-size: 0.82rem;
+}
+
+.coleccionAcciones button {
+  padding: 3px 10px;
+  background: none;
+  border: 1px solid var(--color-primario);
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
 }
 
 .articulos {
@@ -130,55 +176,57 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-gris);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-separador-claro);
 }
 
 .articuloInfo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   flex: 1;
 }
 
 .articuloTitular {
   font-weight: 600;
+  font-size: 0.92rem;
 }
 
 .articuloMeta {
-  font-size: 0.82em;
-  opacity: 0.65;
+  font-size: 0.78rem;
+  opacity: 0.6;
 }
 
 .articuloResumen {
-  font-size: 0.88em;
-  opacity: 0.8;
+  font-size: 0.85rem;
+  opacity: 0.75;
   margin: 0;
+  line-height: 1.4;
 }
 
 .articuloAcciones {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
   align-items: center;
 }
 
 .botonVer {
-  font-size: 0.85em;
+  font-size: 0.8rem;
   text-decoration: none;
-  color: inherit;
-  border: 1px solid var(--color-gris);
+  border: 1px solid var(--color-primario);
   padding: 3px 10px;
-  border-radius: 4px;
+  font-family: inherit;
 }
 
 .botonEliminar {
   background: none;
   border: none;
-  font-size: 0.85em;
+  font-size: 0.8rem;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.4;
   padding: 3px 6px;
+  font-family: inherit;
 }
 
 .botonEliminar:hover {
