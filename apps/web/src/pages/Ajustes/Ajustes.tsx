@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './Ajustes.module.css'
 import { getPerfil, guardarApiKey } from '../../api/perfil'
+import { Guia } from '../../components/Guia/Guia'
 
 export default function Ajustes() {
   const [tieneApiKey, setTieneApiKey] = useState<boolean | null>(null)
@@ -48,6 +49,7 @@ export default function Ajustes() {
 
       <section className={styles.seccion}>
         <h2>API de Gemini</h2>
+        <Guia id="GeminiApiKey" />
         <p className={styles.descripcion}>
           El asistente de búsqueda utiliza la API de Gemini de Google. Puedes introducir tu propia clave
           para usar tu cuota personal. Obtén una en{' '}

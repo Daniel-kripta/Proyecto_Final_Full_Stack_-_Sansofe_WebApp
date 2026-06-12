@@ -6,6 +6,8 @@ body { background: white; }
   gap: 24px;
   align-items: start;
   padding: 2rem 1rem;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 @media (max-width: 700px) {

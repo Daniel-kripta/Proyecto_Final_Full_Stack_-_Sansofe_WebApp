@@ -2,6 +2,13 @@ import type { FastifyInstance } from 'fastify'
 import { prisma } from '../lib/prisma.js'
 
 export async function articulosRoutes(app: FastifyInstance) {
+  app.get('/publicaciones', async () => {
+    const rows = await prisma.$queryRaw<{ publication: string }[]>`
+      SELECT DISTINCT publication FROM articulos ORDER BY publication
+    `
+    return rows.map(r => r.publication)
+  })
+
   app.get('/articulos/:id', async (req, reply) => {
     const { id } = req.params as { id: string }
 

@@ -53,7 +53,7 @@ export default function Seccion() {
     <div className={styles.pagina}>
       <h1 className={styles.titulo}>{label}</h1>
       <div className={styles.lista}>
-        {articulos.map(a => <ArticuloCard key={a.id} {...a} />)}
+        {articulos.map(a => <ArticuloCard key={a.id} {...a} mostrarFecha />)}
       </div>
       {cargando && <p className={styles.estado}>Cargando...</p>}
       {!hayMas && articulos.length > 0 && <p className={styles.estado}>No hay más artículos</p>}

@@ -1,1 +1,108 @@
 body { background: white; }
+
+.pagina {
+  padding: 2rem 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.formulario {
+  border-top: 2px solid var(--color-primario);
+  background: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.formulario h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.campo label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.campo input,
+.campo select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-primario);
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: white;
+}
+
+.fila {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 500px) {
+  .fila {
+    flex-direction: column;
+  }
+}
+
+.formulario button[type="submit"] {
+  padding: 0.75rem;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.formulario button[type="submit"]:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.error {
+  color: #c00;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.sinResultados {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.lista {
+  columns: 300px auto;
+  gap: 0;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.paginacion button {
+  background: none;
+  border: 1px solid var(--color-primario);
+  padding: 0.3rem 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+}

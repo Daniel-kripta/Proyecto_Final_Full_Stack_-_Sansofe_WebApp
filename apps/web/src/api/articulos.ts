@@ -2,6 +2,12 @@ import { fechaHace100 } from './portada'
 
 const API = import.meta.env.VITE_API_URL ?? 'http://localhost:3002'
 
+export async function getPublicaciones(): Promise<string[]> {
+  const res = await fetch(`${API}/publicaciones`)
+  if (!res.ok) return []
+  return res.json()
+}
+
 export async function buscarArticulos(params: Record<string, string>) {
   const qs = new URLSearchParams(
     Object.fromEntries(Object.entries(params).filter(([, v]) => v))

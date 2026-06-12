@@ -5,8 +5,24 @@ import styles from './Navbar.module.css'
 
 export default function Navbar() {
   const [seccionesOpen, setSeccionesOpen] = useState(false)
+  const [busquedaOpen, setBusquedaOpen] = useState(false)
   const barraRef = useRef<HTMLDivElement>(null)
   const [scroll, setScroll] = useState({ izq: false, der: false })
+
+  const toggleSecciones = () => {
+    setSeccionesOpen(v => !v)
+    setBusquedaOpen(false)
+  }
+
+  const toggleBusqueda = () => {
+    setBusquedaOpen(v => !v)
+    setSeccionesOpen(false)
+  }
+
+  const cerrarTodo = () => {
+    setSeccionesOpen(false)
+    setBusquedaOpen(false)
+  }
 
   const checkScroll = () => {
     const el = barraRef.current
@@ -34,14 +50,19 @@ export default function Navbar() {
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
+        <Link to="/" className={styles.enlace}>Hace 100 años</Link>
         <button
           className={`${styles.enlace} ${styles.toggle} ${seccionesOpen ? styles.activo : ''}`}
-          onClick={() => setSeccionesOpen(v => !v)}
+          onClick={toggleSecciones}
         >
           Secciones ▾
         </button>
-        <Link to="/buscar" className={styles.enlace}>Archivo</Link>
-        <Link to="/busqueda-asistida" className={styles.enlace}>Búsqueda Asistida</Link>
+        <button
+          className={`${styles.enlace} ${styles.toggle} ${busquedaOpen ? styles.activo : ''}`}
+          onClick={toggleBusqueda}
+        >
+          Búsqueda ▾
+        </button>
       </nav>
 
       {seccionesOpen && (
@@ -55,7 +76,7 @@ export default function Navbar() {
                 key={s.valor}
                 to={`/seccion/${s.valor}`}
                 className={styles.subenlace}
-                onClick={() => setSeccionesOpen(false)}
+                onClick={cerrarTodo}
               >
                 {s.label}
               </Link>
@@ -64,6 +85,15 @@ export default function Navbar() {
           {scroll.der && (
             <button className={`${styles.scrollBtn} ${styles.scrollBtnDer}`} onClick={() => desplazar('der')}>›</button>
           )}
+        </div>
+      )}
+
+      {busquedaOpen && (
+        <div className={styles.subbarraWrapper}>
+          <div className={`${styles.subbarra} ${styles.subbarraCentrada}`}>
+            <Link to="/buscar" className={styles.subenlace} onClick={cerrarTodo}>Búsqueda Simple</Link>
+            <Link to="/busqueda-asistida" className={styles.subenlace} onClick={cerrarTodo}>Búsqueda Asistida</Link>
+          </div>
         </div>
       )}
     </div>

@@ -28,6 +28,15 @@ const GUIAS: Record<string, EntradaGuia> = {
       </p>
     ),
   },
+  GeminiApiKey: {
+    titulo: 'API de Gemini',
+    contenido: (
+      <div>
+        <p>El asistente de búsqueda utiliza Gemini, el modelo de inteligencia artificial de Google. Para usarlo necesitas una clave de API personal, que puedes obtener gratuitamente en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">Google AI Studio</a>.</p>
+        <p>La clave se guarda cifrada en tu cuenta y solo se usa para las consultas que tú realizas. No se comparte ni se almacena en texto plano.</p>
+      </div>
+    ),
+  },
   ModoRecuperacion: {
     titulo: 'Artículos a consultar',
     contenido: (

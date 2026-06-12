@@ -65,6 +65,11 @@
   display: none;
 }
 
+.subbarraCentrada {
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+}
+
 .subenlace {
   text-decoration: none;
   color: inherit;
