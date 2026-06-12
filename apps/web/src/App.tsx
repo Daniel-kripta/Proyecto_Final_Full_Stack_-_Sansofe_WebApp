@@ -6,7 +6,6 @@ import Footer from './components/Footer/Footer'
 import Portada from './pages/Portada/Portada'
 import Busqueda from './pages/Busqueda/Busqueda'
 import {Articulo} from './pages/Articulo/Articulo'
-import Resultados from './pages/Resultados/Resultados'
 import Login from './pages/Auth/Login'
 import Registro from './pages/Auth/Registro'
 import Colecciones from './pages/Colecciones/Colecciones'
@@ -30,7 +29,6 @@ export default function App() {
             <Route path="/buscar"             element={<Busqueda />} />
             <Route path="/articulo/:id"       element={<Articulo />} />
             <Route path="/seccion/:seccion"    element={<Seccion />} />
-            <Route path="/resultados"         element={<Resultados />} />
             <Route path="/login"              element={<Login />} />
             <Route path="/registro"           element={<Registro />} />
             <Route element={<RutaProtegida />}>

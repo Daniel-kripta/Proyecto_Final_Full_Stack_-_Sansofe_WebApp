@@ -38,6 +38,12 @@ export default function BusquedaAsistida() {
     getColecciones().then(setColecciones).catch(() => {})
   }, [])
 
+  const handleGuardadoEnColeccion = (colId: string) => {
+    setColecciones(prev => prev.map(c =>
+      c.id === colId ? { ...c, _count: { articulos: c._count.articulos + 1 } } : c
+    ))
+  }
+
   const handleCrearColeccion = async (nombre: string) => {
     const nueva = await crearColeccion(nombre)
     setColecciones(prev => [...prev, { ...nueva, _count: { articulos: 0 } }])
@@ -114,6 +120,7 @@ export default function BusquedaAsistida() {
             enviando={enviando}
             onEnviar={handleEnviar}
             onVerArticulo={setArticuloAbierto}
+            onGuardado={handleGuardadoEnColeccion}
             onFocusInput={scrollToLayout}
           />
           <Guia id="ModoRecuperacion" />

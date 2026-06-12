@@ -216,9 +216,9 @@ graph TD
     C3 --> C4("C4 · Búsqueda ✅"):::frontend
     C4 --> C5("C5 · Artículo ✅"):::frontend
     C5 --> C6("C6 · Auth ✅"):::frontend
-    C6 --> C7("C7 · Colecciones"):::frontend
+    C6 --> C7("C7 · Colecciones ✅"):::frontend
     C7 --> C8("C8 · Páginas estáticas"):::frontend
-    C8 --> C9("C9 · Búsqueda Asistida"):::frontend
+    C8 --> C9("C9 · Búsqueda Asistida ✅"):::frontend
     C9 --> BUILD("Build de producción ✅"):::frontend
 
     B2 --> D1("D1 · FastAPI ✅"):::ai
