@@ -31,6 +31,7 @@ services:
       AI_SERVICE_URL: http://ai:8001
       CORS_ORIGIN: ${CORS_ORIGIN}
       NODE_ENV: production
+      AES_ENCRYPTION_KEY: ${AES_ENCRYPTION_KEY}
     depends_on:
       db:
         condition: service_healthy
