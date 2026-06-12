@@ -18,7 +18,8 @@ def _embed_query(text: str) -> list[float]:
     return result.embeddings[0].values
 
 
-UMBRALES = {"exacto": 0.20, "cercano": 0.35, "similar": 0.50}
+UMBRALES = {"exacto": 0.40, "cercano": 0.55, "similar": 0.70}
+UMBRAL_BASE = 0.60
 
 
 def similarity_search(
@@ -59,12 +60,13 @@ def similarity_search(
             params,
         )
     else:
-        params = where_params + [vec_str, k]
+        params = where_params + [vec_str, UMBRAL_BASE, vec_str, k]
         cur.execute(
             f"""
             SELECT id, headline, date, publication, body
             FROM articulos
             {where}
+            AND embedding <=> %s::vector <= %s
             ORDER BY embedding <=> %s::vector
             LIMIT %s
             """,
