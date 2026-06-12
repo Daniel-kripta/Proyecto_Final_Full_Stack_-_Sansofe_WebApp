@@ -9,7 +9,7 @@ import { Chat } from '../../components/ChatComponents/Chat/Chat'
 import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
 import type { Mensaje, Coleccion } from '../../types/chat'
 import { enviarMensaje } from '../../api/chat'
-import { getColecciones } from '../../api/colecciones'
+import { getColecciones, crearColeccion } from '../../api/colecciones'
 import { testApiKey } from '../../api/perfil'
 import { useAuth } from '../../context/AuthContext'
 
@@ -17,7 +17,12 @@ export default function BusquedaAsistida() {
   const layoutRef = useRef<HTMLDivElement>(null)
   const scrollToLayout = () => layoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
-  const [mensajes, setMensajes] = useState<Mensaje[]>([])
+  const [mensajes, setMensajes] = useState<Mensaje[]>(() => {
+    try {
+      const saved = localStorage.getItem('chat_mensajes')
+      return saved ? JSON.parse(saved) : []
+    } catch { return [] }
+  })
   const [enviando, setEnviando] = useState(false)
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
   const [activo, setActivo] = useState<boolean | null>(null)
@@ -25,11 +30,18 @@ export default function BusquedaAsistida() {
   const { logout } = useAuth()
 
   useEffect(() => {
+    localStorage.setItem('chat_mensajes', JSON.stringify(mensajes))
+  }, [mensajes])
+
+  useEffect(() => {
     testApiKey().then(res => setActivo(res.ok)).catch(() => setActivo(false))
-    getColecciones()
-      .then(setColecciones)
-      .catch(() => {})
+    getColecciones().then(setColecciones).catch(() => {})
   }, [])
+
+  const handleCrearColeccion = async (nombre: string) => {
+    const nueva = await crearColeccion(nombre)
+    setColecciones(prev => [...prev, { ...nueva, _count: { articulos: 0 } }])
+  }
 
   const handleEnviar = async (query: string, k: number, umbral: string | null) => {
     const mensajeUsuario: Mensaje = {
@@ -84,7 +96,7 @@ export default function BusquedaAsistida() {
           <ChatHistorial />
         </div>
         <div className={styles.bloque}>
-          <ChatColecciones colecciones={colecciones} />
+          <ChatColecciones colecciones={colecciones} onCrear={handleCrearColeccion} />
           <Guia id="Colecciones" />
         </div>
       </aside>
