@@ -86,10 +86,14 @@
   flex-shrink: 0;
 }
 
+.selectColeccion {
+  max-width: 130px;
+}
+
 .guardadoConfirmacion {
-  font-size: 0.82em;
-  opacity: 0.7;
-  font-style: italic;
+  font-size: 0.9em;
+  color: var(--color-primario);
+  font-weight: 600;
 }
 
 /* ── Fuentes (síntesis) ───────────────────────────────── */

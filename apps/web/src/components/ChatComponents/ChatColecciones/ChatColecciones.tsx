@@ -4,10 +4,12 @@ import type { Coleccion } from '../../../types/chat'
 
 interface Props {
   colecciones: Coleccion[]
+  coleccionReferencia: string | null
   onCrear: (nombre: string) => Promise<void>
+  onSintesis: (colId: string | null) => void
 }
 
-export function ChatColecciones({ colecciones, onCrear }: Props) {
+export function ChatColecciones({ colecciones, coleccionReferencia, onCrear, onSintesis }: Props) {
   const [nombre, setNombre] = useState('')
   const [creando, setCreando] = useState(false)
 
@@ -27,15 +29,23 @@ export function ChatColecciones({ colecciones, onCrear }: Props) {
     <div className={styles.wrapper}>
       <span className={styles.titulo}>Colecciones</span>
       <ul className={styles.lista}>
-        {colecciones.map(col => (
-          <li key={col.id} className={styles.item}>
-            <div className={styles.info}>
-              <span className={styles.nombre}>{col.nombre}</span>
-              <span className={styles.count}>{col._count.articulos} artículos</span>
-            </div>
-            <button className={styles.botonSintesis}>Síntesis</button>
-          </li>
-        ))}
+        {colecciones.map(col => {
+          const activa = coleccionReferencia === col.id
+          return (
+            <li key={col.id} className={`${styles.item} ${activa ? styles.itemActivo : ''}`}>
+              <div className={styles.info}>
+                <span className={styles.nombre}>{col.nombre}</span>
+                <span className={styles.count}>{col._count.articulos} artículos</span>
+              </div>
+              <button
+                className={styles.botonSintesis}
+                onClick={() => onSintesis(activa ? null : col.id)}
+              >
+                {activa ? 'Cancelar' : 'Síntesis'}
+              </button>
+            </li>
+          )
+        })}
       </ul>
       <form className={styles.formNueva} onSubmit={handleCrear}>
         <input

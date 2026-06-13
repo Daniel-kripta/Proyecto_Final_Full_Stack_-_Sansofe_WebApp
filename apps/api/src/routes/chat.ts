@@ -17,6 +17,13 @@ export async function chatRoutes(app: any) {
 
     const geminiApiKey = decrypt(usuario.geminiApiKey)
 
+    if (req.body.coleccion_id) {
+      const coleccion = await prisma.coleccion.findUnique({ where: { id: req.body.coleccion_id } })
+      if (!coleccion || coleccion.usuarioId !== userId) {
+        return reply.status(403).send({ error: 'FORBIDDEN' })
+      }
+    }
+
     const response = await fetch(`${process.env.AI_SERVICE_URL}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

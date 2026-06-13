@@ -5,16 +5,15 @@ import { guardarEnColeccion } from '../../../api/colecciones'
 
 function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado }: { articulo: ArticuloRef; colecciones: Coleccion[]; onVer: (id: string) => void; onGuardado: (colId: string) => void }) {
   const [seleccionado, setSeleccionado] = useState('')
-  const [guardadoEn, setGuardadoEn] = useState<string | null>(null)
+  const [guardado, setGuardado] = useState(false)
 
   const handleGuardar = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const colId = e.target.value
     if (!colId) return
-    const nombreCol = colecciones.find(c => c.id === colId)?.nombre ?? 'la colección'
     try {
       await guardarEnColeccion(colId, articulo.id)
       onGuardado(colId)
-      setGuardadoEn(nombreCol)
+      setGuardado(true)
     } catch {
       setSeleccionado('')
     }
@@ -27,19 +26,16 @@ function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado }: { articu
         <span className={styles.articuloMeta}>{articulo.date} · {articulo.publication}</span>
       </div>
       <div className={styles.articuloAcciones}>
+        {guardado && <span className={styles.guardadoConfirmacion}>✓</span>}
+        <select className={styles.selectColeccion} value={seleccionado} onChange={handleGuardar}>
+          <option value="" disabled>Guardar en...</option>
+          {colecciones.map(col => (
+            <option key={col.id} value={col.id}>{col.nombre}</option>
+          ))}
+        </select>
         <button className={styles.botonVer} onClick={() => onVer(articulo.id)}>
           Ver
         </button>
-        {guardadoEn ? (
-          <span className={styles.guardadoConfirmacion}>Guardado en {guardadoEn}</span>
-        ) : (
-          <select className={styles.selectColeccion} value={seleccionado} onChange={handleGuardar}>
-            <option value="" disabled>Guardar en...</option>
-            {colecciones.map(col => (
-              <option key={col.id} value={col.id}>{col.nombre}</option>
-            ))}
-          </select>
-        )}
       </div>
     </div>
   )

@@ -11,6 +11,7 @@ class ChatRequest(BaseModel):
     k: int = Field(default=10, ge=1, le=50)
     umbral: str | None = None
     gemini_api_key: str | None = None
+    coleccion_id: str | None = None
 
 
 class ArticuloRef(BaseModel):

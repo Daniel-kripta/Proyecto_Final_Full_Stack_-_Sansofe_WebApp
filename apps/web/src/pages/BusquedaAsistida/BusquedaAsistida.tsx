@@ -25,6 +25,7 @@ export default function BusquedaAsistida() {
   })
   const [enviando, setEnviando] = useState(false)
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
+  const [coleccionReferencia, setColeccionReferencia] = useState<string | null>(null)
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
   const { logout } = useAuth()
@@ -59,7 +60,8 @@ export default function BusquedaAsistida() {
     setEnviando(true)
 
     try {
-      const respuesta = await enviarMensaje(query, k, umbral)
+      const respuesta = await enviarMensaje(query, k, umbral, coleccionReferencia)
+      setColeccionReferencia(null)
       const mensajeAsistente: Mensaje = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -102,7 +104,12 @@ export default function BusquedaAsistida() {
           <ChatHistorial />
         </div>
         <div className={styles.bloque}>
-          <ChatColecciones colecciones={colecciones} onCrear={handleCrearColeccion} />
+          <ChatColecciones
+            colecciones={colecciones}
+            coleccionReferencia={coleccionReferencia}
+            onCrear={handleCrearColeccion}
+            onSintesis={setColeccionReferencia}
+          />
           <Guia id="Colecciones" />
         </div>
       </aside>
