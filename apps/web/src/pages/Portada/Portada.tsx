@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import BloqueSeccion from '../../components/BloqueSeccion/BloqueSeccion'
-import { fechaHace100, getPortadaParaFecha } from '../../api/portada'
+import { fechaHace100, getPortadaParaFecha, LABELS } from '../../api/portada'
 import styles from './Portada.module.css'
 
 const SECCIONES_PORTADA = [
@@ -37,7 +37,7 @@ export default function Portada() {
 
   return (
     <>
-      <div className={styles.cabeceraDia}>
+      <div id="portada-inicio" className={styles.cabeceraDia}>
         <button
           className={styles.flechaNav}
           onClick={() => setDiaIdx(i => i + 1)}
@@ -57,8 +57,19 @@ export default function Portada() {
         </button>
       </div>
 
+      <nav className={styles.navSecciones}>
+        {SECCIONES_PORTADA.map(s => (
+          <a key={s} href={`#seccion-${s}`} className={styles.navSeccion}>
+            {LABELS[s] ?? s}
+          </a>
+        ))}
+      </nav>
+
       <div className={styles.contentBloques}>
-        {SECCIONES_PORTADA.map(s => <BloqueSeccion key={s} seccion={s} fecha={dia.fecha} />)}
+        {SECCIONES_PORTADA.map(s => (
+          <BloqueSeccion key={s} seccion={s} fecha={dia.fecha} id={`seccion-${s}`} />
+        ))}
+        <a href="#portada-inicio" className={styles.volverInicio}>Volver al inicio</a>
       </div>
     </>
   )

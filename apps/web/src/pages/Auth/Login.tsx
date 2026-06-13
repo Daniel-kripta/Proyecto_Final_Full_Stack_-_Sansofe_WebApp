@@ -28,7 +28,7 @@ export default function Login() {
       <form className={styles.formulario} onSubmit={handleSubmit}>
         <h1>Iniciar sesión</h1>
         <div>
-          <label>Email o nombre de usuario</label>
+          <label>Email o alias</label>
           <input type="text" value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
         <div>

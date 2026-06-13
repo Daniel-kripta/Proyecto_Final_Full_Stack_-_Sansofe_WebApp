@@ -4,9 +4,10 @@ import styles from './ChatEstado.module.css'
 
 interface Props {
   activo: boolean | null
+  acciones?: React.ReactNode
 }
 
-export function ChatEstado({ activo }: Props) {
+export function ChatEstado({ activo, acciones }: Props) {
   return (
     <div className={chatStyles.componente}>
       <div className={styles.estadoServicio}>
@@ -15,7 +16,10 @@ export function ChatEstado({ activo }: Props) {
           {activo === null ? 'Comprobando...' : activo ? 'Servicio activo' : 'Servicio no disponible'}
         </span>
       </div>
-      <Link to="/ajustes">Ajustes</Link>
+      <div className={styles.derecha}>
+        {acciones}
+        <Link to="/ajustes">Ajustes</Link>
+      </div>
     </div>
   )
 }

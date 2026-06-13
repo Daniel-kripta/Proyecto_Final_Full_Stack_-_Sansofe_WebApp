@@ -75,7 +75,7 @@ export default function Perfil() {
         <h2>Datos personales</h2>
         <form className={styles.form} onSubmit={handleGuardarDatos}>
           <label className={styles.campo}>
-            <span>Nombre de usuario</span>
+            <span>Alias</span>
             <input type="text" value={username} onChange={e => setUsername(e.target.value)} minLength={3} maxLength={30} required />
           </label>
           <label className={styles.campo}>

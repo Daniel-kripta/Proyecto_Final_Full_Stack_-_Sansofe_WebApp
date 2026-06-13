@@ -29,7 +29,7 @@ export default function Registro() {
       <form className={styles.formulario} onSubmit={handleSubmit}>
         <h1>Registro</h1>
         <div>
-          <label>Nombre de usuario</label>
+          <label>Alias</label>
           <input type="text" value={username} onChange={e => setUsername(e.target.value)} minLength={3} maxLength={30} pattern="^[a-zA-Z0-9_]+" required />
         </div>
         <div>

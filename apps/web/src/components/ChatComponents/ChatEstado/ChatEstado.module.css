@@ -1,3 +1,9 @@
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .estadoServicio {
   display: flex;
   align-items: center;

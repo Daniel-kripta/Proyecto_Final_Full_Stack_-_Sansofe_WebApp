@@ -199,19 +199,21 @@ export default function BusquedaAsistida() {
 
       <section className={styles.chatColumna}>
         <div className={`${styles.bloque} ${styles.bloqueChat}`}>
-          <ChatEstado activo={activo} />
+          <ChatEstado
+            activo={activo}
+            acciones={mensajes.length > 0 ? (
+              <>
+                {!guardada && (
+                  <button onClick={() => { setTituloInput(''); setModalGuardar(true) }}>Guardar</button>
+                )}
+                <button onClick={() => guardada ? handleCerrar() : setModalCerrar(true)}>Cerrar</button>
+              </>
+            ) : undefined}
+          />
           {activo === false
             ? <Guia id="SetupServicio" cerrable={false} />
             : <Guia id="UsoChat" />
           }
-          {mensajes.length > 0 && (
-            <div className={styles.accionesChat}>
-              {!guardada && (
-                <button onClick={() => { setTituloInput(''); setModalGuardar(true) }}>Guardar</button>
-              )}
-              <button onClick={() => setModalCerrar(true)}>Cerrar</button>
-            </div>
-          )}
           <Chat
             mensajes={mensajes}
             colecciones={colecciones}
