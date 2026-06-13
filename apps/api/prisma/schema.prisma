@@ -36,14 +36,26 @@ model Articulo {
 }
 
 model Usuario {
-  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email         String      @unique
-  passwordHash  String      @map("password_hash")
-  geminiApiKey  String?     @map("gemini_api_key")
-  createdAt     DateTime?   @default(now()) @map("created_at") @db.Timestamptz(6)
-  colecciones   Coleccion[]
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email           String          @unique
+  passwordHash    String          @map("password_hash")
+  geminiApiKey    String?         @map("gemini_api_key")
+  createdAt       DateTime?       @default(now()) @map("created_at") @db.Timestamptz(6)
+  colecciones     Coleccion[]
+  investigaciones Investigacion[]
 
   @@map("usuarios")
+}
+
+model Investigacion {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuarioId String    @map("usuario_id") @db.Uuid
+  titulo    String
+  mensajes  Json
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("investigaciones")
 }
 
 model Coleccion {

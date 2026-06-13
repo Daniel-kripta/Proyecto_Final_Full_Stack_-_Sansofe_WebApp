@@ -10,6 +10,7 @@ import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
 import type { Mensaje, Coleccion, ArticuloRef } from '../../types/chat'
 import { enviarMensaje } from '../../api/chat'
 import { getColecciones, getColeccion, crearColeccion } from '../../api/colecciones'
+import { crearInvestigacion } from '../../api/investigaciones'
 import { testApiKey } from '../../api/perfil'
 import { useAuth } from '../../context/AuthContext'
 
@@ -30,6 +31,11 @@ export default function BusquedaAsistida() {
   const [articulosReferencia, setArticulosReferencia] = useState<string[] | null>(null)
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
+  const [guardada, setGuardada] = useState(false)
+  const [historialKey, setHistorialKey] = useState(0)
+  const [modalGuardar, setModalGuardar] = useState(false)
+  const [modalCerrar, setModalCerrar] = useState(false)
+  const [tituloInput, setTituloInput] = useState('')
   const { logout } = useAuth()
 
   useEffect(() => {
@@ -76,6 +82,42 @@ export default function BusquedaAsistida() {
     setArticulosReferencia(ids)
   }
 
+  const handleCargarInvestigacion = (mensajes: Mensaje[]) => {
+    setMensajes(mensajes)
+    localStorage.setItem('chat_mensajes', JSON.stringify(mensajes))
+    setGuardada(true)
+    setColeccionReferencia(null)
+    setPreviewColeccion(null)
+    setArticulosReferencia(null)
+  }
+
+  const handleNueva = (opcion: 'guardar' | 'eliminar') => {
+    if (opcion === 'guardar') {
+      setHistorialKey(k => k + 1)
+    }
+    setMensajes([])
+    localStorage.removeItem('chat_mensajes')
+    setGuardada(false)
+  }
+
+  const handleGuardar = async () => {
+    if (!tituloInput.trim()) return
+    try {
+      await crearInvestigacion(tituloInput.trim(), mensajes)
+      setGuardada(true)
+      setHistorialKey(k => k + 1)
+      setModalGuardar(false)
+      setTituloInput('')
+    } catch {}
+  }
+
+  const handleCerrar = () => {
+    setMensajes([])
+    localStorage.removeItem('chat_mensajes')
+    setGuardada(false)
+    setModalCerrar(false)
+  }
+
   const handleCrearColeccion = async (nombre: string) => {
     const nueva = await crearColeccion(nombre)
     setColecciones(prev => [...prev, { ...nueva, _count: { articulos: 0 } }])
@@ -88,6 +130,7 @@ export default function BusquedaAsistida() {
       content: query,
     }
     setMensajes(prev => [...prev, mensajeUsuario])
+    setGuardada(false)
     setEnviando(true)
 
     try {
@@ -126,6 +169,7 @@ export default function BusquedaAsistida() {
   }
 
   return (
+    <>
     <div className={styles.chatLayout} ref={layoutRef}>
 
       <div className={styles.chatUserInfoWrapper}>
@@ -134,7 +178,13 @@ export default function BusquedaAsistida() {
 
       <aside className={styles.panel}>
         <div className={styles.bloque}>
-          <ChatHistorial />
+          <ChatHistorial
+            mensajesActuales={mensajes}
+            guardada={guardada}
+            refreshKey={historialKey}
+            onCargar={handleCargarInvestigacion}
+            onNueva={handleNueva}
+          />
         </div>
         <div className={styles.bloque}>
           <ChatColecciones
@@ -154,6 +204,14 @@ export default function BusquedaAsistida() {
             ? <Guia id="SetupServicio" cerrable={false} />
             : <Guia id="UsoChat" />
           }
+          {mensajes.length > 0 && (
+            <div className={styles.accionesChat}>
+              {!guardada && (
+                <button onClick={() => { setTituloInput(''); setModalGuardar(true) }}>Guardar</button>
+              )}
+              <button onClick={() => setModalCerrar(true)}>Cerrar</button>
+            </div>
+          )}
           <Chat
             mensajes={mensajes}
             colecciones={colecciones}
@@ -176,5 +234,39 @@ export default function BusquedaAsistida() {
       </section>
 
     </div>
+
+      {modalGuardar && (
+
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <p>Nombre de la investigación</p>
+            <input
+              className={styles.modalInput}
+              type="text"
+              value={tituloInput}
+              onChange={e => setTituloInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleGuardar()}
+              autoFocus
+            />
+            <div className={styles.modalAcciones}>
+              <button onClick={handleGuardar} disabled={!tituloInput.trim()}>Guardar</button>
+              <button onClick={() => setModalGuardar(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {modalCerrar && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <p>Se perderá el historial actual. ¿Continuar?</p>
+            <div className={styles.modalAcciones}>
+              <button onClick={handleCerrar}>Aceptar</button>
+              <button onClick={() => setModalCerrar(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

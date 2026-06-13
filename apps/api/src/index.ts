@@ -10,6 +10,7 @@ import { authRoutes } from './routes/auth.js'
 import { coleccionesRoutes } from './routes/colecciones.js'
 import { chatRoutes } from './routes/chat.js'
 import { perfilRoutes } from './routes/perfil.js'
+import { investigacionesRoutes } from './routes/investigaciones.js'
 
 const app = Fastify({ logger: true, trustProxy: true })
 
@@ -34,6 +35,7 @@ app.register(authRoutes)
 app.register(coleccionesRoutes)
 app.register(chatRoutes)
 app.register(perfilRoutes)
+app.register(investigacionesRoutes)
 
 app.get('/health', async () => {
   await prisma.$queryRaw`SELECT 1`
