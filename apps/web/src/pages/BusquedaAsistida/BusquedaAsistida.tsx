@@ -7,9 +7,9 @@ import { ChatColecciones } from '../../components/ChatComponents/ChatColecciones
 import { ChatEstado } from '../../components/ChatComponents/ChatEstado/ChatEstado'
 import { Chat } from '../../components/ChatComponents/Chat/Chat'
 import { ModalArticulo } from '../../components/ModalArticulo/ModalArticulo'
-import type { Mensaje, Coleccion } from '../../types/chat'
+import type { Mensaje, Coleccion, ArticuloRef } from '../../types/chat'
 import { enviarMensaje } from '../../api/chat'
-import { getColecciones, crearColeccion } from '../../api/colecciones'
+import { getColecciones, getColeccion, crearColeccion } from '../../api/colecciones'
 import { testApiKey } from '../../api/perfil'
 import { useAuth } from '../../context/AuthContext'
 
@@ -26,6 +26,7 @@ export default function BusquedaAsistida() {
   const [enviando, setEnviando] = useState(false)
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
   const [coleccionReferencia, setColeccionReferencia] = useState<string | null>(null)
+  const [previewColeccion, setPreviewColeccion] = useState<{ nombre: string; articulos: ArticuloRef[] } | null>(null)
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
   const { logout } = useAuth()
@@ -45,6 +46,28 @@ export default function BusquedaAsistida() {
     ))
   }
 
+  const handleSintesis = async (colId: string | null) => {
+    if (!colId) {
+      setColeccionReferencia(null)
+      setPreviewColeccion(null)
+      return
+    }
+    setColeccionReferencia(colId)
+    try {
+      const col = await getColeccion(colId)
+      const articulos: ArticuloRef[] = col.articulos.map((ca: any) => ({
+        id: ca.articulo.id,
+        headline: ca.articulo.headline,
+        date: ca.articulo.date.split('T')[0],
+        publication: ca.articulo.publication,
+        url: `/articulo/${ca.articulo.id}`,
+      }))
+      setPreviewColeccion({ nombre: col.nombre, articulos })
+    } catch {
+      setPreviewColeccion(null)
+    }
+  }
+
   const handleCrearColeccion = async (nombre: string) => {
     const nueva = await crearColeccion(nombre)
     setColecciones(prev => [...prev, { ...nueva, _count: { articulos: 0 } }])
@@ -62,6 +85,7 @@ export default function BusquedaAsistida() {
     try {
       const respuesta = await enviarMensaje(query, k, umbral, coleccionReferencia)
       setColeccionReferencia(null)
+      setPreviewColeccion(null)
       const mensajeAsistente: Mensaje = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -108,7 +132,7 @@ export default function BusquedaAsistida() {
             colecciones={colecciones}
             coleccionReferencia={coleccionReferencia}
             onCrear={handleCrearColeccion}
-            onSintesis={setColeccionReferencia}
+            onSintesis={handleSintesis}
           />
           <Guia id="Colecciones" />
         </div>
@@ -124,6 +148,7 @@ export default function BusquedaAsistida() {
           <Chat
             mensajes={mensajes}
             colecciones={colecciones}
+            previewColeccion={previewColeccion}
             enviando={enviando}
             onEnviar={handleEnviar}
             onVerArticulo={setArticuloAbierto}

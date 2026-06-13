@@ -86,6 +86,7 @@ type Umbral = 'exacto' | 'cercano' | 'similar'
 interface ChatProps {
   mensajes: Mensaje[]
   colecciones: Coleccion[]
+  previewColeccion?: { nombre: string; articulos: ArticuloRef[] } | null
   enviando?: boolean
   onEnviar: (query: string, k: number, umbral: string | null) => Promise<void>
   onVerArticulo: (id: string) => void
@@ -93,7 +94,7 @@ interface ChatProps {
   onFocusInput?: () => void
 }
 
-export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerArticulo, onGuardado, onFocusInput }: ChatProps) {
+export function Chat({ mensajes, colecciones, previewColeccion, enviando = false, onEnviar, onVerArticulo, onGuardado, onFocusInput }: ChatProps) {
   const [modo, setModo] = useState<ModoRecuperacion>('cantidad')
   const [k, setK] = useState(10)
   const [umbral, setUmbral] = useState<Umbral>('cercano')
@@ -129,6 +130,16 @@ export function Chat({ mensajes, colecciones, enviando = false, onEnviar, onVerA
           ) : (
             <BloqueAsistente key={msg.id} msg={msg as MensajeAsistente} colecciones={colecciones} onVer={onVerArticulo} onGuardado={onGuardado} />
           )
+        )}
+        {previewColeccion && (
+          <div className={styles.burbujAsistente}>
+            <p><strong>Colección {previewColeccion.nombre} seleccionada, haz tu consulta:</strong></p>
+            <div className={styles.listaArticulos}>
+              {previewColeccion.articulos.map(art => (
+                <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} onVer={onVerArticulo} onGuardado={onGuardado} />
+              ))}
+            </div>
+          </div>
         )}
         {enviando && (
           <div className={styles.burbujAsistente}>
