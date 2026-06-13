@@ -5,13 +5,14 @@ const API = import.meta.env.VITE_API_URL ?? 'http://localhost:3002'
 
 interface Usuario {
   email: string
+  username: string
 }
 
 interface AuthContextType {
   user: Usuario | null
   loading: boolean
   login: (email: string, password: string) => Promise<void>
-  registro: (email: string, password: string) => Promise<void>
+  registro: (email: string, password: string, username: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -33,8 +34,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(data.usuario)
   }
 
-  const registro = async (email: string, password: string) => {
-    const data = await apiRegistro(email, password)
+  const registro = async (email: string, password: string, username: string) => {
+    const data = await apiRegistro(email, password, username)
     setUser(data.usuario)
   }
 

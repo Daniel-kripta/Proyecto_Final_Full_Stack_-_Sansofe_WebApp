@@ -28,8 +28,8 @@ export default function Login() {
       <form className={styles.formulario} onSubmit={handleSubmit}>
         <h1>Iniciar sesión</h1>
         <div>
-          <label>Email</label>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          <label>Email o nombre de usuario</label>
+          <input type="text" value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
         <div>
           <label>Contraseña</label>

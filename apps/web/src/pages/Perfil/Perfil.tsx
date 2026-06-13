@@ -1,19 +1,44 @@
 import { useEffect, useState } from 'react'
 import styles from './Perfil.module.css'
-import { getPerfil, cambiarPassword } from '../../api/perfil'
+import { getPerfil, cambiarPassword, actualizarDatos } from '../../api/perfil'
 import { useAuth } from '../../context/AuthContext'
 
 export default function Perfil() {
   const { logout } = useAuth()
-  const [perfil, setPerfil] = useState<{ email: string; createdAt: string } | null>(null)
+  const [perfil, setPerfil] = useState<{ email: string; createdAt: string; username: string; nombre: string | null; apellidos: string | null } | null>(null)
+  const [username, setUsername] = useState('')
+  const [nombre, setNombre] = useState('')
+  const [apellidos, setApellidos] = useState('')
+  const [guardandoDatos, setGuardandoDatos] = useState(false)
+  const [mensajeDatos, setMensajeDatos] = useState<string | null>(null)
   const [passwordActual, setPasswordActual] = useState('')
   const [passwordNuevo, setPasswordNuevo] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [mensaje, setMensaje] = useState<string | null>(null)
 
   useEffect(() => {
-    getPerfil().then(setPerfil).catch(() => {})
+    getPerfil().then(p => {
+      setPerfil(p)
+      setUsername(p.username ?? '')
+      setNombre(p.nombre ?? '')
+      setApellidos(p.apellidos ?? '')
+    }).catch(() => {})
   }, [])
+
+  const handleGuardarDatos = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!username.trim()) return
+    setGuardandoDatos(true)
+    setMensajeDatos(null)
+    try {
+      await actualizarDatos({ username: username.trim(), nombre: nombre.trim() || undefined, apellidos: apellidos.trim() || undefined })
+      setMensajeDatos('Datos actualizados.')
+    } catch (err: any) {
+      setMensajeDatos(err.message === 'Error' ? 'El nombre de usuario ya está en uso.' : 'Error al guardar.')
+    } finally {
+      setGuardandoDatos(false)
+    }
+  }
 
   const handleCambiarPassword = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -45,6 +70,28 @@ export default function Perfil() {
           <p><strong>Miembro desde:</strong> {new Date(perfil.createdAt).toLocaleDateString('es-ES')}</p>
         </section>
       )}
+
+      <section className={styles.seccion}>
+        <h2>Datos personales</h2>
+        <form className={styles.form} onSubmit={handleGuardarDatos}>
+          <label className={styles.campo}>
+            <span>Nombre de usuario</span>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} minLength={3} maxLength={30} required />
+          </label>
+          <label className={styles.campo}>
+            <span>Nombre</span>
+            <input type="text" value={nombre} onChange={e => setNombre(e.target.value)} maxLength={60} />
+          </label>
+          <label className={styles.campo}>
+            <span>Apellidos</span>
+            <input type="text" value={apellidos} onChange={e => setApellidos(e.target.value)} maxLength={60} />
+          </label>
+          <button type="submit" disabled={guardandoDatos || !username.trim()}>
+            {guardandoDatos ? 'Guardando...' : 'Guardar datos'}
+          </button>
+        </form>
+        {mensajeDatos && <p className={styles.mensaje}>{mensajeDatos}</p>}
+      </section>
 
       <section className={styles.seccion}>
         <h2>Cambiar contraseña</h2>

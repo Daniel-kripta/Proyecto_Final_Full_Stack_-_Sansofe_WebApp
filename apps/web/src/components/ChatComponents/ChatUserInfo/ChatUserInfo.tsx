@@ -8,7 +8,7 @@ export function ChatUserInfo() {
 
   return (
     <div className={chatStyles.componente}>
-      <span className={styles.usuarioNombre}>{user?.email}</span>
+      <span className={styles.usuarioNombre}>{user?.username ?? user?.email}</span>
       <Link to="/perfil" className={styles.botonPerfil}>Perfil</Link>
     </div>
   )

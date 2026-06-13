@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import styles from './Auth.module.css'
 
 export default function Registro() {
+  const [username, setUsername]  = useState('')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
@@ -16,7 +17,7 @@ export default function Registro() {
     if (honeypot) return
     setError('')
     try {
-      await registro(email, password)
+      await registro(email, password, username)
       navigate('/login')
     } catch (err: any) {
       setError(err.message)
@@ -27,6 +28,10 @@ export default function Registro() {
     <div className={styles.pagina}>
       <form className={styles.formulario} onSubmit={handleSubmit}>
         <h1>Registro</h1>
+        <div>
+          <label>Nombre de usuario</label>
+          <input type="text" value={username} onChange={e => setUsername(e.target.value)} minLength={3} maxLength={30} pattern="^[a-zA-Z0-9_]+" required />
+        </div>
         <div>
           <label>Email</label>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />

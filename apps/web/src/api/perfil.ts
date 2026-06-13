@@ -18,6 +18,13 @@ export const guardarApiKey = (geminiApiKey: string | null) =>
     body: JSON.stringify({ geminiApiKey }),
   })
 
+export const actualizarDatos = (datos: { username: string; nombre?: string; apellidos?: string }) =>
+  apiFetch('/perfil/datos', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos),
+  })
+
 export const cambiarPassword = (passwordActual: string, passwordNuevo: string) =>
   apiFetch('/perfil/password', {
     method: 'PUT',

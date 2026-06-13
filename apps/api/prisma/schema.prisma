@@ -40,6 +40,9 @@ model Usuario {
   email           String          @unique
   passwordHash    String          @map("password_hash")
   geminiApiKey    String?         @map("gemini_api_key")
+  username        String          @unique
+  nombre          String?
+  apellidos       String?
   createdAt       DateTime?       @default(now()) @map("created_at") @db.Timestamptz(6)
   colecciones     Coleccion[]
   investigaciones Investigacion[]

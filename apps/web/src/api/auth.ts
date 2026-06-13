@@ -15,5 +15,5 @@ async function post(path: string, body: object) {
 }
 
 export const login    = (email: string, password: string) => post('/auth/login',    { email, password })
-export const registro = (email: string, password: string) => post('/auth/registro', { email, password })
+export const registro = (email: string, password: string, username: string) => post('/auth/registro', { email, password, username })
 export const logout   = () => fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' })
