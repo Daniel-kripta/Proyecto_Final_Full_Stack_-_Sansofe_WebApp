@@ -1,6 +1,6 @@
 const API = import.meta.env.VITE_API_URL ?? 'http://localhost:3002'
 
-export async function enviarMensaje(query: string, k: number, umbral: string | null = null, coleccionId: string | null = null) {
+export async function enviarMensaje(query: string, k: number, umbral: string | null = null, coleccionId: string | null = null, articuloIds: string[] | null = null) {
   const res = await fetch(`${API}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10,6 +10,7 @@ export async function enviarMensaje(query: string, k: number, umbral: string | n
       k,
       ...(umbral ? { umbral } : {}),
       ...(coleccionId ? { coleccion_id: coleccionId } : {}),
+      ...(articuloIds ? { articulo_ids: articuloIds } : {}),
     }),
   })
   if (res.status === 401) throw new Error('UNAUTHORIZED')

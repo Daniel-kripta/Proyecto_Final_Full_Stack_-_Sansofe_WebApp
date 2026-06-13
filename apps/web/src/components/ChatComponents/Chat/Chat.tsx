@@ -3,7 +3,14 @@ import styles from './Chat.module.css'
 import type { Mensaje, MensajeAsistente, ArticuloRef, Coleccion } from '../../../types/chat'
 import { guardarEnColeccion } from '../../../api/colecciones'
 
-function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado }: { articulo: ArticuloRef; colecciones: Coleccion[]; onVer: (id: string) => void; onGuardado: (colId: string) => void }) {
+function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado, checked, onCheckedChange }: {
+  articulo: ArticuloRef
+  colecciones: Coleccion[]
+  onVer: (id: string) => void
+  onGuardado: (colId: string) => void
+  checked?: boolean
+  onCheckedChange?: (id: string, checked: boolean) => void
+}) {
   const [seleccionado, setSeleccionado] = useState('')
   const [guardado, setGuardado] = useState(false)
 
@@ -21,6 +28,14 @@ function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado }: { articu
 
   return (
     <div className={styles.articuloCard}>
+      {onCheckedChange !== undefined && (
+        <input
+          type="checkbox"
+          className={styles.articuloCheck}
+          checked={checked ?? true}
+          onChange={e => onCheckedChange(articulo.id, e.target.checked)}
+        />
+      )}
       <div className={styles.articuloInfo}>
         <span className={styles.articuloTitular}>{articulo.headline}</span>
         <span className={styles.articuloMeta}>{articulo.date} · {articulo.publication}</span>
@@ -41,7 +56,25 @@ function ArticuloCardChat({ articulo, colecciones, onVer, onGuardado }: { articu
   )
 }
 
-function BloqueAsistente({ msg, colecciones, onVer, onGuardado }: { msg: MensajeAsistente; colecciones: Coleccion[]; onVer: (id: string) => void; onGuardado: (colId: string) => void }) {
+function BloqueAsistente({ msg, colecciones, onVer, onGuardado, onSintetizarSeleccion }: {
+  msg: MensajeAsistente
+  colecciones: Coleccion[]
+  onVer: (id: string) => void
+  onGuardado: (colId: string) => void
+  onSintetizarSeleccion: (ids: string[]) => void
+}) {
+  const [seleccionados, setSeleccionados] = useState<Set<string>>(
+    () => new Set(msg.sources?.map(a => a.id) ?? [])
+  )
+
+  const toggleSeleccion = (id: string, checked: boolean) => {
+    setSeleccionados(prev => {
+      const next = new Set(prev)
+      checked ? next.add(id) : next.delete(id)
+      return next
+    })
+  }
+
   return (
     <div className={styles.burbujAsistente}>
       {msg.type === 'lista' && (
@@ -49,9 +82,25 @@ function BloqueAsistente({ msg, colecciones, onVer, onGuardado }: { msg: Mensaje
           <p>{msg.content}</p>
           <div className={styles.listaArticulos}>
             {msg.sources?.map(art => (
-              <ArticuloCardChat key={art.id} articulo={art} colecciones={colecciones} onVer={onVer} onGuardado={onGuardado} />
+              <ArticuloCardChat
+                key={art.id}
+                articulo={art}
+                colecciones={colecciones}
+                onVer={onVer}
+                onGuardado={onGuardado}
+                checked={seleccionados.has(art.id)}
+                onCheckedChange={toggleSeleccion}
+              />
             ))}
           </div>
+          <button
+            className={styles.botonSintetizar}
+            type="button"
+            disabled={seleccionados.size === 0}
+            onClick={() => onSintetizarSeleccion(Array.from(seleccionados))}
+          >
+            Sintetizar selección ({seleccionados.size})
+          </button>
         </>
       )}
       {msg.type === 'sintesis' && (
@@ -92,9 +141,10 @@ interface ChatProps {
   onVerArticulo: (id: string) => void
   onGuardado: (colId: string) => void
   onFocusInput?: () => void
+  onSintetizarSeleccion: (ids: string[]) => void
 }
 
-export function Chat({ mensajes, colecciones, previewColeccion, enviando = false, onEnviar, onVerArticulo, onGuardado, onFocusInput }: ChatProps) {
+export function Chat({ mensajes, colecciones, previewColeccion, enviando = false, onEnviar, onVerArticulo, onGuardado, onFocusInput, onSintetizarSeleccion }: ChatProps) {
   const [modo, setModo] = useState<ModoRecuperacion>('cantidad')
   const [k, setK] = useState(10)
   const [umbral, setUmbral] = useState<Umbral>('cercano')
@@ -128,7 +178,7 @@ export function Chat({ mensajes, colecciones, previewColeccion, enviando = false
               <p>{msg.content}</p>
             </div>
           ) : (
-            <BloqueAsistente key={msg.id} msg={msg as MensajeAsistente} colecciones={colecciones} onVer={onVerArticulo} onGuardado={onGuardado} />
+            <BloqueAsistente key={msg.id} msg={msg as MensajeAsistente} colecciones={colecciones} onVer={onVerArticulo} onGuardado={onGuardado} onSintetizarSeleccion={onSintetizarSeleccion} />
           )
         )}
         {previewColeccion && (

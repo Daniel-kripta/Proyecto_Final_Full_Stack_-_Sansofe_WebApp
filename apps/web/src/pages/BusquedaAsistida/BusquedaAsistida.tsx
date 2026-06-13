@@ -27,6 +27,7 @@ export default function BusquedaAsistida() {
   const [colecciones, setColecciones] = useState<Coleccion[]>([])
   const [coleccionReferencia, setColeccionReferencia] = useState<string | null>(null)
   const [previewColeccion, setPreviewColeccion] = useState<{ nombre: string; articulos: ArticuloRef[] } | null>(null)
+  const [articulosReferencia, setArticulosReferencia] = useState<string[] | null>(null)
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
   const { logout } = useAuth()
@@ -52,6 +53,7 @@ export default function BusquedaAsistida() {
       setPreviewColeccion(null)
       return
     }
+    setArticulosReferencia(null)
     setColeccionReferencia(colId)
     try {
       const col = await getColeccion(colId)
@@ -66,6 +68,12 @@ export default function BusquedaAsistida() {
     } catch {
       setPreviewColeccion(null)
     }
+  }
+
+  const handleSintetizarSeleccion = (ids: string[]) => {
+    setColeccionReferencia(null)
+    setPreviewColeccion(null)
+    setArticulosReferencia(ids)
   }
 
   const handleCrearColeccion = async (nombre: string) => {
@@ -83,9 +91,10 @@ export default function BusquedaAsistida() {
     setEnviando(true)
 
     try {
-      const respuesta = await enviarMensaje(query, k, umbral, coleccionReferencia)
+      const respuesta = await enviarMensaje(query, k, umbral, coleccionReferencia, articulosReferencia)
       setColeccionReferencia(null)
       setPreviewColeccion(null)
+      setArticulosReferencia(null)
       const mensajeAsistente: Mensaje = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -154,6 +163,7 @@ export default function BusquedaAsistida() {
             onVerArticulo={setArticuloAbierto}
             onGuardado={handleGuardadoEnColeccion}
             onFocusInput={scrollToLayout}
+            onSintetizarSeleccion={handleSintetizarSeleccion}
           />
           <Guia id="ModoRecuperacion" />
           {articuloAbierto && (

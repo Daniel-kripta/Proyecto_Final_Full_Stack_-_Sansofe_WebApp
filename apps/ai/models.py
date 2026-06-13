@@ -12,6 +12,7 @@ class ChatRequest(BaseModel):
     umbral: str | None = None
     gemini_api_key: str | None = None
     coleccion_id: str | None = None
+    articulo_ids: list[str] | None = None
 
 
 class ArticuloRef(BaseModel):
