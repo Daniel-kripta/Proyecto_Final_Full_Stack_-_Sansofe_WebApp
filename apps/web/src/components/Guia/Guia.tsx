@@ -42,7 +42,7 @@ const GUIAS: Record<string, EntradaGuia> = {
     contenido: (
       <div>
         <p><strong>Cantidad</strong>: recupera exactamente los N artículos más cercanos a tu consulta. Predecible y rápido. Usa valores bajos (5-10) para síntesis precisas y valores altos para exploración.</p>
-        <p><strong>Similitud</strong>: recupera todos los artículos que superen el umbral de cercanía semántica, sin límite de cantidad. <em>Exacto</em> devuelve solo coincidencias muy directas; <em>Similar</em> amplía la red. Ten en cuenta que consultas genéricas en modo Similar pueden devolver cientos de artículos, lo que incrementa el coste en tokens de tu API.</p>
+        <p><strong>Similitud</strong>: recupera los artículos que superen el umbral de cercanía semántica elegido, hasta un máximo de 10. <em>Exacto</em> devuelve solo coincidencias muy directas; <em>Similar</em> amplía la red. El límite de 10 artículos garantiza que el modelo de lenguaje pueda procesar el contexto completo sin degradar la calidad de la respuesta.</p>
       </div>
     ),
   },

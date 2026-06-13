@@ -56,6 +56,7 @@ def similarity_search(
             {where}
             AND embedding <=> %s::vector <= %s
             ORDER BY embedding <=> %s::vector
+            LIMIT 10
             """,
             params,
         )
