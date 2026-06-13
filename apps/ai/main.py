@@ -46,7 +46,7 @@ def _sintetizar_coleccion(body: ChatRequest, query: str) -> dict:
         SELECT a.id, a.headline, a.date::text, a.publication, a.body
         FROM articulos a
         JOIN coleccion_articulos ca ON ca.articulo_id = a.id
-        WHERE ca.coleccion_id = %s
+        WHERE ca.coleccion_id = %s::uuid
         """,
         [body.coleccion_id],
     )
