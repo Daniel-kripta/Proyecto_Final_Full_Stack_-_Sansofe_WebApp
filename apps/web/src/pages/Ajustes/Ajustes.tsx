@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './Ajustes.module.css'
 import { getPerfil, guardarApiKey } from '../../api/perfil'
-import { Guia } from '../../components/Guia/Guia'
+import { Guia } from '../../components/UX/Guia/Guia'
 
 export default function Ajustes() {
   const [tieneApiKey, setTieneApiKey] = useState<boolean | null>(null)

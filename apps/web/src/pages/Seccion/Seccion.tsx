@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { SECCIONES } from '../../constants/secciones'
 import { getArticulosPorSeccion } from '../../api/articulos'
-import { ArticuloCard } from '../../components/ArticuloCard/ArticuloCard'
+import { ArticuloCard } from '../../components/Content/ArticuloCard/ArticuloCard'
 import styles from './Seccion.module.css'
 
 export default function Seccion() {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getArticulo } from '../../api/articulos'
-import { UltimasNoticias } from '../../components/UltimasNoticias/UltimasNoticias'
+import { UltimasNoticias } from '../../components/Content/UltimasNoticias/UltimasNoticias'
 import styles from './Articulo.module.css'
 
 export function Articulo() {

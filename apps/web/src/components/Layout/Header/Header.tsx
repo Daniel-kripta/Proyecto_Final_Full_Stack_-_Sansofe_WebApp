@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
-import { LogoHeader } from "../Assets/Logos/Logos";
-import Navbar from "../Navigators/Navbar/Navbar";
-import NavUser from "../Navigators/NavUser/NavUser";
+import { LogoHeader } from "../../Assets/Logos/Logos";
+import Navbar from "../../Navigators/Navbar/Navbar";
+import NavUser from "../../Navigators/NavUser/NavUser";
 import styles from "./Header.module.css"
-import { UserMenuIcon } from "../Assets/Iconos/Iconos";
-import iconoStyles from "../Assets/Iconos/Iconos.module.css";
+import { UserMenuIcon } from "../../Assets/Iconos/Iconos";
+import iconoStyles from "../../Assets/Iconos/Iconos.module.css";
 
 export default function Header(){
     const [menuOpen, setMenuOpen] = useState(false)

@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
+import Header from './components/Layout/Header/Header'
+import Footer from './components/Layout/Footer/Footer'
 import Portada from './pages/Portada/Portada'
 import Busqueda from './pages/Busqueda/Busqueda'
 import {Articulo} from './pages/Articulo/Articulo'
@@ -23,7 +23,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Header />
-        <main>
+        <main id="main">
           <Routes>
             <Route path="/"                   element={<Portada />} />
             <Route path="/buscar"             element={<Busqueda />} />

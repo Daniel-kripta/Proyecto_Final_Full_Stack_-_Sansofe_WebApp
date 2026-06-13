@@ -1,7 +1,7 @@
-import Licencias from "../Assets/Licencias/Licencias"
-import { LogoMono } from "../Assets/Logos/Logos"
-import { LogoKripta } from "../Assets/Logos/LogosKriptaDev"
-import NavFooter from "../Navigators/NavFooter/NavFooter"
+import Licencias from "../../Assets/Licencias/Licencias"
+import { LogoMono } from "../../Assets/Logos/Logos"
+import { LogoKripta } from "../../Assets/Logos/LogosKriptaDev"
+import NavFooter from "../../Navigators/NavFooter/NavFooter"
 import styles from "./Footer.module.css"
 
 export default function Footer(){

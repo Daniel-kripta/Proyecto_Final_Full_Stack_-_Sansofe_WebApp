@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { buscarArticulos, getPublicaciones } from '../../api/articulos'
 import { SECCIONES } from '../../constants/secciones'
-import { ArticuloCard } from '../../components/ArticuloCard/ArticuloCard'
+import { ArticuloCard } from '../../components/Content/ArticuloCard/ArticuloCard'
 import styles from './Busqueda.module.css'
 
 const TOPICS = SECCIONES.filter(s => s.tipo === 'topic')

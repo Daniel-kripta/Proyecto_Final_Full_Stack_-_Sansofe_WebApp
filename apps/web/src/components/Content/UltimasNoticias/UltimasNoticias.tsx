@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getUltimasNoticias } from '../../api/articulos'
+import { getUltimasNoticias } from '../../../api/articulos'
 import { ArticuloCard } from '../ArticuloCard/ArticuloCard'
-import { LABELS } from '../../api/portada'
+import { LABELS } from '../../../api/portada'
 import styles from './UltimasNoticias.module.css'
 
 interface Props {

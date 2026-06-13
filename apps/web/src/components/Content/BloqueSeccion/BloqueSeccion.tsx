@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ArticuloCard } from '../ArticuloCard/ArticuloCard'
-import { getPortadaParaFecha, LABELS } from '../../api/portada'
-import styles from '../../pages/Portada/Portada.module.css'
+import { getPortadaParaFecha, LABELS } from '../../../api/portada'
+import styles from '../../../pages/Portada/Portada.module.css'
 
-export default function BloqueSeccion({ seccion, fecha, id }: { seccion: string, fecha: string, id?: string }) {
+export default function BloqueSeccion({ seccion, fecha }: { seccion: string, fecha: string }) {
   const [articulos, setArticulos] = useState<any[]>([])
 
   useEffect(() => {
@@ -13,8 +13,8 @@ export default function BloqueSeccion({ seccion, fecha, id }: { seccion: string,
   if (articulos.length === 0) return null
 
   return (
-    <section id={id} className={styles.seccion}>
-      <h2 className={styles.cabecera}>{LABELS[seccion] ?? seccion}</h2>
+    <section className={styles.seccion}>
+      <h2 id={seccion} className={styles.cabecera}>{LABELS[seccion] ?? seccion}</h2>
       <div className={styles.articulosBloques}>{articulos.map(a => <ArticuloCard key={a.id} {...a} />)}</div>
     </section>
   )
