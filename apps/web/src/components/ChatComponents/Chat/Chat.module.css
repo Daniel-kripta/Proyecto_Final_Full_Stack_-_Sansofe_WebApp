@@ -76,6 +76,12 @@
   font-size: 0.85em;
 }
 
+.botonSintetizarActivo {
+  background-color: var(--color-primario);
+  color: white;
+  border-color: var(--color-primario);
+}
+
 .articuloInfo {
   display: flex;
   flex-direction: column;

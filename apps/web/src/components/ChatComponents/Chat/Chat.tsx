@@ -66,8 +66,10 @@ function BloqueAsistente({ msg, colecciones, onVer, onGuardado, onSintetizarSele
   const [seleccionados, setSeleccionados] = useState<Set<string>>(
     () => new Set(msg.sources?.map(a => a.id) ?? [])
   )
+  const [activado, setActivado] = useState(false)
 
   const toggleSeleccion = (id: string, checked: boolean) => {
+    setActivado(false)
     setSeleccionados(prev => {
       const next = new Set(prev)
       checked ? next.add(id) : next.delete(id)
@@ -94,12 +96,12 @@ function BloqueAsistente({ msg, colecciones, onVer, onGuardado, onSintetizarSele
             ))}
           </div>
           <button
-            className={styles.botonSintetizar}
+            className={`${styles.botonSintetizar} ${activado ? styles.botonSintetizarActivo : ''}`}
             type="button"
             disabled={seleccionados.size === 0}
-            onClick={() => onSintetizarSeleccion(Array.from(seleccionados))}
+            onClick={() => { setActivado(true); onSintetizarSeleccion(Array.from(seleccionados)) }}
           >
-            Sintetizar selección ({seleccionados.size})
+            {activado ? `Selección activa (${seleccionados.size}) — escribe tu consulta` : `Sintetizar selección (${seleccionados.size})`}
           </button>
         </>
       )}
