@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getPortadaParaFecha, LABELS } from '../../api/portada'
+import { getPortadaParaFecha, LABELS } from '../../../api/portada'
 
 const SECCIONES = [
   'sucesos', 'sociedad', 'política', 'internacional', 'economía',
@@ -15,7 +15,7 @@ export default function NavSecciones({ fecha }: Props) {
 
   useEffect(() => {
     setDisponibles([])
-    getPortadaParaFecha(fecha).then(data => {
+    getPortadaParaFecha(fecha).then((data: Record<string, any[]>) => {
       setDisponibles(SECCIONES.filter(s => (data[s]?.length ?? 0) > 0))
     })
   }, [fecha])

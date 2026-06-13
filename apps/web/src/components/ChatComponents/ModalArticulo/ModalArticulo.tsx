@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { getArticulo } from '../../api/articulos'
+import { getArticulo } from '../../../api/articulos'
 import styles from './ModalArticulo.module.css'
 
 interface Props {
