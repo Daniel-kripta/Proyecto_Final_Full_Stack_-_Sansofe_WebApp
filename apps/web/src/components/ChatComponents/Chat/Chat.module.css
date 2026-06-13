@@ -86,6 +86,12 @@
   flex-shrink: 0;
 }
 
+.guardadoConfirmacion {
+  font-size: 0.82em;
+  opacity: 0.7;
+  font-style: italic;
+}
+
 /* ── Fuentes (síntesis) ───────────────────────────────── */
 
 .fuentesTitulo {
