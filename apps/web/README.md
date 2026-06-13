@@ -17,9 +17,9 @@ Interfaz web del proyecto Sansofé. SPA con estética de hemeroteca histórica, 
 | `/login` | `Login` | No | Inicio de sesión |
 | `/registro` | `Registro` | No | Crear cuenta |
 | `/colecciones` | `Colecciones` | Sí | Gestión de colecciones: crear, ver artículos, exportar CSV |
-| `/busqueda-asistida` | `BusquedaAsistida` | Sí | Chat RAG con el corpus histórico. Panel lateral con historial y colecciones |
+| `/busqueda-asistida` | `BusquedaAsistida` | Sí | Chat RAG. Panel lateral con historial de investigaciones y colecciones. Permite sintetizar una selección manual de artículos |
 | `/ajustes` | `Ajustes` | Sí | Configurar clave de API de Gemini |
-| `/perfil` | `Perfil` | Sí | Datos de cuenta y cambio de contraseña |
+| `/perfil` | `Perfil` | Sí | Datos de cuenta: username/alias, nombre, apellidos. Cambio de contraseña |
 | `*` | `PaginaNoEncontrada` | No | 404 |
 
 ---
@@ -34,24 +34,34 @@ src/
 │   ├── auth.ts
 │   ├── colecciones.ts
 │   ├── chat.ts
+│   ├── investigaciones.ts
 │   └── perfil.ts
 ├── components/
-│   ├── ArticuloCard/     # Tarjeta de artículo. Prop mostrarFecha para /seccion
-│   ├── BloqueSeccion/    # Bloque de sección en Portada (columnas CSS)
-│   ├── UltimasNoticias/  # 3 artículos de la misma sección, bajo el artículo
-│   ├── Guia/             # Componente de ayuda contextual (cerrable, por id)
-│   ├── ModalArticulo/    # Modal de detalle desde el chat
+│   ├── Assets/           # SVGs, logos, sección de licencias
+│   ├── Layout/
+│   │   ├── Header/       # Cabecera con logo y navegación
+│   │   └── Footer/       # Pie con licencias y navegación secundaria
+│   ├── Content/
+│   │   ├── ArticuloCard/ # Tarjeta de artículo. Prop mostrarFecha para /seccion
+│   │   ├── BloqueSeccion/# Bloque de sección en Portada; id={seccion} en h2 para anclas
+│   │   └── UltimasNoticias/ # 3 artículos de la misma sección, bajo el artículo
+│   ├── Navigators/
+│   │   ├── Navbar/       # Menú principal: Hace 100 años · Secciones ▾ · Búsqueda ▾
+│   │   ├── NavUser/      # Menú de usuario autenticado
+│   │   ├── NavFooter/
+│   │   ├── NavSecciones/ # Links a secciones con artículos ese día (fetcha portada.json)
+│   │   └── SelectorDia/  # Navegación ← → entre días con portada disponible
+│   ├── UX/
+│   │   ├── BotonInicio/  # Botón flotante (position:fixed) que ancla a #main
+│   │   └── Guia/         # Ayuda contextual por id, cerrable, persiste en localStorage
 │   ├── RutaProtegida/    # Wrapper de rutas privadas con JWT
-│   └── Navigators/
-│       ├── Navbar/       # Menú principal: Hace 100 años · Secciones ▾ · Búsqueda ▾
-│       ├── NavUser/      # Menú de usuario autenticado
-│       └── NavFooter/
 │   └── ChatComponents/
 │       ├── Chat/         # Interfaz de chat con modos Cantidad / Similitud
-│       ├── ChatHistorial/
+│       ├── ChatHistorial/# Panel lateral con historial de investigaciones guardadas
 │       ├── ChatColecciones/ # Panel lateral con colecciones + formulario de creación
-│       ├── ChatEstado/   # Indicador de estado de la API key
-│       └── ChatUserInfo/
+│       ├── ChatEstado/   # Estado del servicio + botones Guardar/Cerrar investigación
+│       ├── ChatUserInfo/
+│       └── ModalArticulo/# Modal de detalle de artículo desde el chat
 ├── constants/
 │   └── secciones.ts      # SECCIONES compartido entre Navbar y Seccion
 ├── context/
@@ -59,7 +69,7 @@ src/
 ├── pages/                # Una carpeta por página
 ├── types/
 │   └── chat.ts
-└── App.tsx               # Router principal
+└── App.tsx               # Router principal; <main id="main">
 ```
 
 ---

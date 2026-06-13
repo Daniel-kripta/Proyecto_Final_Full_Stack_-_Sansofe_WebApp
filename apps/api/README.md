@@ -33,20 +33,29 @@ API REST del proyecto Sansofé. Gestiona artículos, autenticación JWT, colecci
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| POST | `/auth/registro` | Crear cuenta (email + contraseña mínimo 8 caracteres) |
-| POST | `/auth/login` | Iniciar sesión — devuelve access token + refresh token en cookie httpOnly |
-| POST | `/auth/logout` | Cerrar sesión — invalida la cookie de refresh |
-| POST | `/auth/refresh` | Renovar access token usando la cookie de refresh |
-| GET | `/auth/me` | Datos del usuario autenticado |
+| POST | `/auth/registro` | Crear cuenta (email + username + contraseña mínimo 8 caracteres) |
+| POST | `/auth/login` | Iniciar sesión con email o alias (username) — cookie httpOnly 30 días |
+| POST | `/auth/logout` | Cerrar sesión — borra la cookie |
+| GET | `/auth/me` | Datos del usuario autenticado (email, username) |
 
 ### Perfil (requiere auth)
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/perfil` | Datos del perfil: email, fecha de registro, `tieneApiKey` |
+| GET | `/perfil` | Datos del perfil: email, username, nombre, apellidos, fecha de registro, `tieneApiKey` |
+| PATCH | `/perfil/datos` | Actualizar username, nombre y apellidos |
 | PUT | `/perfil` | Guardar o eliminar clave de API de Gemini (cifrada AES-256) |
 | GET | `/perfil/test-key` | Verificar si la clave de Gemini guardada es válida |
 | PUT | `/perfil/password` | Cambiar contraseña |
+
+### Investigaciones (requiere auth)
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/investigaciones` | Listar investigaciones del usuario (id, título, fecha) |
+| GET | `/investigaciones/:id` | Detalle de una investigación con mensajes |
+| POST | `/investigaciones` | Guardar investigación (título + mensajes JSONB) |
+| DELETE | `/investigaciones/:id` | Eliminar una investigación |
 
 ### Colecciones (requiere auth)
 
@@ -94,3 +103,4 @@ pnpm dev
 - `apps/api/.env` es un symlink al `.env` raíz del monorepo
 - `$queryRaw` con template literal para todas las queries manuales
 - La clave de Gemini se cifra con AES-256-CBC antes de guardarla en BD
+- Auth: cookie `token` httpOnly, 30 días, sin refresh token. Login acepta email o username.
