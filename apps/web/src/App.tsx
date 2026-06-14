@@ -16,12 +16,14 @@ import Seccion from './pages/Seccion/Seccion'
 import PaginaNoEncontrada from './pages/PaginaNoEncontrada/PaginaNoEncontrada'
 import { AuthProvider } from './context/AuthContext'
 import { RutaProtegida } from './components/RutaProtegida/RutaProtegida'
+import { ScrollToTop } from './components/UX/ScrollToTop/ScrollToTop'
 
 export default function App() {
 
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ScrollToTop />
         <Header />
         <main id="main">
           <Routes>
