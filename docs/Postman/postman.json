@@ -1,0 +1,433 @@
+{
+  "info": {
+    "_postman_id": "sansofe-webapp-collection",
+    "name": "Sansofé API",
+    "description": "Colección de endpoints para el proyecto Sansofé (https://sansofe.kripta.dev).\n\nFlujo recomendado:\n1. Ejecutar «Login (cuenta demo)» — Postman guarda la cookie JWT automáticamente.\n2. Los endpoints protegidos funcionan desde ese momento sin configuración adicional.\n3. Para probar colecciones/investigaciones: ejecutar primero «Crear», copiar el UUID del campo id de la respuesta, y pegarlo en las variables de colección coleccion_id o investigacion_id (pestaña Variables de la colección).\n\nNota: el endpoint /chat requiere que el usuario tenga una clave API de Gemini guardada en perfil. La cuenta demo ya la tiene configurada.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://sansofe.kripta.dev/api",
+      "type": "string"
+    },
+    {
+      "key": "articulo_id",
+      "value": "89d82e62-e4ec-4c83-bad4-29cf958681ab",
+      "type": "string"
+    },
+    {
+      "key": "coleccion_id",
+      "value": "",
+      "description": "Rellenar con el UUID devuelto por «Crear colección»",
+      "type": "string"
+    },
+    {
+      "key": "investigacion_id",
+      "value": "",
+      "description": "Rellenar con el UUID devuelto por «Crear investigación»",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login (cuenta demo)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_postman@test.com\",\n  \"password\": \"test_postman\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Usuario autenticado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registro (nuevo usuario)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/auth/registro",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "registro"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"nuevo@ejemplo.com\",\n  \"password\": \"contraseña123\",\n  \"username\": \"mi_alias\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            },
+            "body": { "mode": "none" }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Artículos (público)",
+      "item": [
+        {
+          "name": "Publicaciones disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publicaciones",
+              "host": ["{{base_url}}"],
+              "path": ["publicaciones"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar artículos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/articulos?q=huelga&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["articulos"],
+              "query": [
+                { "key": "q", "value": "huelga", "description": "Texto libre (opcional)" },
+                { "key": "publicacion", "value": "", "description": "Filtrar por publicación (opcional)", "disabled": true },
+                { "key": "seccion", "value": "", "description": "Filtrar por sección (opcional)", "disabled": true },
+                { "key": "genero", "value": "", "description": "Filtrar por género periodístico (opcional)", "disabled": true },
+                { "key": "topic", "value": "", "description": "Filtrar por tema (opcional)", "disabled": true },
+                { "key": "fecha_desde", "value": "", "description": "YYYY-MM-DD (opcional)", "disabled": true },
+                { "key": "fecha_hasta", "value": "", "description": "YYYY-MM-DD (opcional)", "disabled": true },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20", "description": "Máximo 50" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detalle de artículo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/articulos/{{articulo_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["articulos", "{{articulo_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Chat — asistente IA (requiere auth)",
+      "item": [
+        {
+          "name": "Consulta al agente RAG",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/chat",
+              "host": ["{{base_url}}"],
+              "path": ["chat"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"¿Qué se decía en 1926 sobre la huelga de portuarios?\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Colecciones (requiere auth)",
+      "item": [
+        {
+          "name": "Listar colecciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/colecciones",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear colección",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/colecciones",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Mi colección de prueba\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver colección",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/colecciones/{{coleccion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones", "{{coleccion_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Añadir artículo a colección",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/colecciones/{{coleccion_id}}/articulos",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones", "{{coleccion_id}}", "articulos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"articulo_id\": \"{{articulo_id}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Exportar colección a CSV",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/colecciones/{{coleccion_id}}/export",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones", "{{coleccion_id}}", "export"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar artículo de colección",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/colecciones/{{coleccion_id}}/articulos/{{articulo_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones", "{{coleccion_id}}", "articulos", "{{articulo_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar colección",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/colecciones/{{coleccion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["colecciones", "{{coleccion_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Investigaciones (requiere auth)",
+      "item": [
+        {
+          "name": "Listar investigaciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/investigaciones",
+              "host": ["{{base_url}}"],
+              "path": ["investigaciones"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear investigación",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/investigaciones",
+              "host": ["{{base_url}}"],
+              "path": ["investigaciones"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Investigación de prueba\",\n  \"mensajes\": []\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver investigación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/investigaciones/{{investigacion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["investigaciones", "{{investigacion_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar investigación",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/investigaciones/{{investigacion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["investigaciones", "{{investigacion_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Perfil (requiere auth)",
+      "item": [
+        {
+          "name": "Ver perfil",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["perfil"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar datos personales",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/perfil/datos",
+              "host": ["{{base_url}}"],
+              "path": ["perfil", "datos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Nombre\",\n  \"apellidos\": \"Apellidos\",\n  \"username\": \"mi_alias\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Guardar clave API Gemini",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["perfil"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"geminiApiKey\": \"tu_clave_aqui\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar contraseña",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/perfil/password",
+              "host": ["{{base_url}}"],
+              "path": ["perfil", "password"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"passwordActual\": \"test_postman\",\n  \"passwordNuevo\": \"nueva_contraseña\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verificar clave API Gemini",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/perfil/test-key",
+              "host": ["{{base_url}}"],
+              "path": ["perfil", "test-key"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

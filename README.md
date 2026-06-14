@@ -294,7 +294,7 @@ Tests con pytest. Cubren la validación de consultas (`security.py`), los modelo
 - [Frontend](apps/web/README.md) — páginas, estructura y arranque local
 - [Microservicio IA](apps/ai/README.md) — agente RAG, endpoints y arquitectura
 - [Pipeline](pipeline/README.md) — scripts de enriquecimiento, importación y embeddings
-- [Colección Postman](docs/postman.json)
+- [Colección Postman](docs/Postman/README.md)
 - [Informe de uso de IA](docs/uso-ia.md)
 - [Workflows N8N](n8n-workflows/)
 
