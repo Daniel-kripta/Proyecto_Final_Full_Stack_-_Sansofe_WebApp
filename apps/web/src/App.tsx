@@ -14,6 +14,7 @@ import Ajustes from './pages/Ajustes/Ajustes'
 import Perfil from './pages/Perfil/Perfil'
 import Seccion from './pages/Seccion/Seccion'
 import PaginaNoEncontrada from './pages/PaginaNoEncontrada/PaginaNoEncontrada'
+import Info from './pages/Info/Info'
 import { AuthProvider } from './context/AuthContext'
 import { RutaProtegida } from './components/RutaProtegida/RutaProtegida'
 import { ScrollToTop } from './components/UX/ScrollToTop/ScrollToTop'
@@ -39,6 +40,7 @@ export default function App() {
               <Route path="/ajustes"            element={<Ajustes />} />
               <Route path="/perfil"             element={<Perfil />} />
             </Route>
+            <Route path="/info/:slug"          element={<Info />} />
             <Route path="*"                   element={<PaginaNoEncontrada />} />
           </Routes>
         </main>

@@ -1,0 +1,53 @@
+.contenido {
+  max-width: 720px;
+  margin: 2.5rem auto;
+  padding: 0 1rem 3rem;
+  line-height: 1.75;
+  font-size: 0.95rem;
+}
+
+.contenido h1 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-primario);
+}
+
+.contenido h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.contenido p {
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+
+.contenido a {
+  color: var(--color-primario);
+  text-decoration: underline;
+}
+
+.contenido ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+
+.contenido li {
+  margin-bottom: 0.35rem;
+}
+
+.error,
+.cargando {
+  text-align: center;
+  padding: 3rem 1rem;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
