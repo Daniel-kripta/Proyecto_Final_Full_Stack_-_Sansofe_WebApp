@@ -20,6 +20,7 @@
 .verMas {
   display: block;
   margin-top: 1.5rem;
+  margin-bottom: 20px;
   padding: 0.6rem 1.5rem;
   border: 2px solid var(--color-primario);
   color: var(--color-primario);
