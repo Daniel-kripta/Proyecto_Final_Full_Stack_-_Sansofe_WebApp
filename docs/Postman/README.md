@@ -10,6 +10,8 @@ Colección para probar los endpoints de la API de Sansofé contra el entorno de 
 
 La colección incluye una cuenta de demo ya configurada, consultas de ejemplo listas para ejecutar y un UUID de artículo real del corpus. No es necesario modificar nada para seguir el flujo básico.
 
+> **Nota sobre la clave API:** para probar el endpoint `/chat` deberás guardar tu propia clave de Gemini mediante el endpoint «Guardar clave API Gemini». La clave se almacena cifrada y nunca se expone en texto plano. **Una vez terminadas las pruebas, elimínala** ejecutando el mismo endpoint con el body `{ "geminiApiKey": null }` — la cuenta es compartida y la cuota gratuita de Gemini es limitada.
+
 ## Obtener una clave API de Gemini (gratuita)
 
 El asistente de investigación requiere una clave API de Google Gemini. El plan gratuito es suficiente para las pruebas.

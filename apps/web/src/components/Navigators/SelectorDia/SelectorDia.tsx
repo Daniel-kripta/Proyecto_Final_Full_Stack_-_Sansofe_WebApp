@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { fechaHace100, getPortadaParaFecha } from '../../../api/portada'
+import { ChevronLeftIcon, ChevronRightIcon } from '../../Assets/Iconos/Iconos'
 import styles from './SelectorDia.module.css'
 
 const candidatos = Array.from({ length: 7 }, (_, i) => {
@@ -46,7 +47,7 @@ export default function SelectorDia({ onFechaChange }: Props) {
         disabled={!hayAnterior}
         aria-label="Día anterior"
       >
-        🡄
+        <ChevronLeftIcon />
       </button>
       <h1>{dia.labelLargo}</h1>
       <button
@@ -55,7 +56,7 @@ export default function SelectorDia({ onFechaChange }: Props) {
         disabled={!haySiguiente}
         aria-label="Día siguiente"
       >
-        🡆
+        <ChevronRightIcon />
       </button>
     </div>
   )

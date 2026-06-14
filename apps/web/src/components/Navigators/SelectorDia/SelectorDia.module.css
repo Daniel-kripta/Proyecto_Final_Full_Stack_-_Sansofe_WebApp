@@ -11,11 +11,16 @@
 .flechaNav {
   background: none;
   border: 1px solid var(--color-primario);
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   color: var(--color-primario);
-  padding: 0.25rem;
+  padding: 0.4rem 0.75rem;
   line-height: 1;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flechaNav:disabled {

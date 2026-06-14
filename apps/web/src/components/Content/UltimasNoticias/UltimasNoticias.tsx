@@ -15,7 +15,7 @@ export function UltimasNoticias({ seccion, articuloId }: Props) {
 
   useEffect(() => {
     if (!seccion) return
-    getUltimasNoticias(seccion, articuloId).then(setArticulos)
+    getUltimasNoticias(seccion, articuloId).then(setArticulos).catch(() => {})
   }, [seccion, articuloId])
 
   if (articulos.length === 0) return null
