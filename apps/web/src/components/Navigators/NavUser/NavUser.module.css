@@ -70,7 +70,7 @@
 /* desktop: icono recortado (solo símbolo) + etiqueta HTML visible */
 @media (min-width: 1024px) {
     .icono {
-        height: 32px;
+        height: 35px;
     }
 
     .icono svg {
