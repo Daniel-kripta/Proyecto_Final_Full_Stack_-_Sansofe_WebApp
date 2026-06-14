@@ -30,12 +30,13 @@ export default function NavSecciones({ fecha }: Props) {
 
   return (
     <nav className={styles.nav}>
-      {disponibles.map((s, i) => (
+      {disponibles.map(s => (
         <Fragment key={s}>
-          {i > 0 && <span className={styles.sep} aria-hidden="true"> | </span>}
+          <span className={styles.sep} aria-hidden="true"> | </span>
           <a href={`#${s}`} onClick={e => handleClick(e, s)}>{LABELS[s] ?? s}</a>
         </Fragment>
       ))}
+      <span className={styles.sep} aria-hidden="true"> | </span>
     </nav>
   )
 }
