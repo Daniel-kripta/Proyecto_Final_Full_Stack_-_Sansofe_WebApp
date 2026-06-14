@@ -1,6 +1,15 @@
 .botonInicio {
   position: fixed;
   bottom: 1.5rem;
-  right: 1.5rem;
+  right: max(0px, calc((100vw - 1250px) / 2));
   z-index: 10;
+  color: var(--color-primario);
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+
+.botonInicio svg {
+  width: 50px;
+  height: 50px;
 }

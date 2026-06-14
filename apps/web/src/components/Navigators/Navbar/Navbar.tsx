@@ -6,6 +6,7 @@ import styles from './Navbar.module.css'
 export default function Navbar() {
   const [seccionesOpen, setSeccionesOpen] = useState(false)
   const [busquedaOpen, setBusquedaOpen] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
   const [scroll, setScroll] = useState({ izq: false, der: false })
 
@@ -34,6 +35,15 @@ export default function Navbar() {
   }
 
   useEffect(() => {
+    if (!seccionesOpen && !busquedaOpen) return
+    const handler = (e: MouseEvent) => {
+      if (!wrapperRef.current?.contains(e.target as Node)) cerrarTodo()
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [seccionesOpen, busquedaOpen])
+
+  useEffect(() => {
     if (!seccionesOpen) return
     checkScroll()
     const el = barraRef.current
@@ -48,7 +58,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       <nav className={styles.navBar}>
         <Link to="/" className={styles.enlace}>Hace 100 años</Link>
         <button

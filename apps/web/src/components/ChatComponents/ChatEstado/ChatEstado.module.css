@@ -4,6 +4,15 @@
   gap: 6px;
 }
 
+.derecha button {
+  padding: 2px 8px;
+  font-weight: bold;
+  color: var(--color-primario);
+  border: 1px solid var(--color-primario);
+  background: none;
+  cursor: pointer;
+}
+
 .derecha a {
   display: block;
   overflow: hidden;

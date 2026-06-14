@@ -195,7 +195,12 @@ export function Chat({ mensajes, colecciones, previewColeccion, enviando = false
         )}
         {enviando && (
           <div className={styles.burbujAsistente}>
-            <p className={styles.pensando}>...</p>
+            <span className={styles.pensando}>
+              <span className={styles.pensandoTexto}>Procesando</span>
+              <span className={styles.pensandoPuntos}>
+                <span /><span /><span />
+              </span>
+            </span>
           </div>
         )}
         <div ref={mensajesEndRef} />

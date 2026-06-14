@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { getPortadaParaFecha, LABELS } from '../../../api/portada'
+import styles from './NavSecciones.module.css'
 
 const SECCIONES = [
   'sucesos', 'sociedad', 'política', 'internacional', 'economía',
@@ -22,10 +23,18 @@ export default function NavSecciones({ fecha }: Props) {
 
   if (disponibles.length === 0) return null
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault()
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <nav>
-      {disponibles.map(s => (
-        <a key={s} href={`#${s}`}>{LABELS[s] ?? s}</a>
+    <nav className={styles.nav}>
+      {disponibles.map((s, i) => (
+        <Fragment key={s}>
+          {i > 0 && <span className={styles.sep} aria-hidden="true"> | </span>}
+          <a href={`#${s}`} onClick={e => handleClick(e, s)}>{LABELS[s] ?? s}</a>
+        </Fragment>
       ))}
     </nav>
   )
