@@ -30,13 +30,16 @@
 
 .nav {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
+    margin-right: 1rem;
     font-size: 1.1rem;
     align-items: center;
 }
 
 .nav a svg,
 .nav button svg {
-    height: 50px;
+    height: 45px;
+    padding: 3px;
+    margin-top: 15px;
     width: auto;
 }
