@@ -2,7 +2,7 @@
 
 Web App para la consulta e investigación de prensa histórica canaria, con búsqueda de texto completo y asistente de investigación basado en RAG (*Retrieval-Augmented Generation*). El proyecto es un MVP de demostración de servicio.
 
-Proyecto final del bootcamp Full Stack (junio 2026), construido con **Node.js + Fastify + Prisma**, **React 18 + Vite**, **Python + FastAPI**, **PostgreSQL + pgvector**, **Docker Compose**, **N8N** y un agente **LangGraph** con búsqueda semántica sobre el corpus histórico vía **Vertex AI (Gemini + Embeddings)**.
+Proyecto final del bootcamp **Desarrollo Web Full Stack + IA** de Ironhack, en el marco de un proyecto de la Fundación Universitaria de Las Palmas financiado por el Cabildo Insular de Gran Canaria (junio 2026). Construido con **Node.js + Fastify + Prisma**, **React 18 + Vite**, **Python + FastAPI**, **PostgreSQL + pgvector**, **Docker Compose**, **N8N** y un agente **LangGraph** con búsqueda semántica sobre el corpus histórico vía **Vertex AI (Gemini + Embeddings)**.
 
 [Web online](https://sansofe.kripta.dev/)
 
@@ -19,19 +19,23 @@ El MVP incluye publicaciones canarias de 1926 de dos periódicos, La Provincia y
 ## Funcionalidades
 
 ### Portal público
-- **Portada histórica**: artículos publicados exactamente hace 100 años, generados una vez al día con N8N como contenido estático.
-- **Búsqueda full-text**: titulares y cuerpos de artículos, con filtros por publicación, sección y género periodístico.
-- **Detalle de artículo**: cuerpo completo con metadatos y publicación de origen.
+- **Portada histórica**: artículos publicados exactamente hace 100 años, generados una vez al día con N8N como contenido estático. Selector de fecha para navegar entre los últimos días disponibles.
+- **Búsqueda full-text**: titulares y cuerpos de artículos, con filtros por publicación, sección, género periodístico y rango de fechas.
+- **Exploración por sección**: artículos de una categoría temática con scroll infinito.
+- **Detalle de artículo**: cuerpo completo con metadatos, publicación de origen y artículos relacionados de la misma sección.
+- **Páginas informativas**: sobre el proyecto, metodología, fuentes, aviso legal, privacidad, accesibilidad y contacto (`/info/:slug`).
 
 ### Asistente de investigación (requiere registro)
 Responde consultas en lenguaje natural sobre el corpus histórico:
 - **Búsqueda por relevancia**: devuelve una lista de artículos relevantes con enlace directo.
 - **Síntesis con fuentes**: genera un resumen a partir de los artículos más relevantes, citando cada fuente.
+- **Síntesis de selección**: permite marcar artículos concretos del chat y sintetizarlos directamente, sin pasar por el agente LangGraph.
 
 ### Área privada
-- Registro y autenticación con JWT.
-- Colecciones: guardar artículos en carpetas temáticas.
-- Exportación de colecciones a CSV.
+- Registro y autenticación con JWT. Login con email o nombre de persona usuaria.
+- Colecciones: guardar artículos en carpetas temáticas y exportar a CSV.
+- Investigaciones: guardar y recuperar conversaciones completas del asistente de IA.
+- Perfil: editar datos personales y gestionar la clave de API de Gemini.
 
 ---
 
@@ -98,7 +102,7 @@ consulta → Router ┬→ retrieve_only     → lista de artículos relevantes
 | Gaceta de Tenerife | 1926 | 310 | ~19.800 |
 | **Total** | | **605** | **~38.800** |
 
-Los artículos se extraen de PDF mediante Gemini 2.5 Flash y se almacenan con su embedding vectorial para búsqueda semántica. El pipeline completo está en `pipeline/`.
+Los artículos se extraen de PDF mediante Gemini 2.5 Flash y se almacenan con su embedding vectorial para búsqueda semántica. El coste total del procesamiento (extracción + enriquecimiento de metadatos + generación de embeddings) fue de ~130 €. El pipeline completo está en `pipeline/`.
 
 ---
 
@@ -115,8 +119,9 @@ sansofe-webapp/
 ├── pipeline/         # Scripts de extracción e importación del corpus
 ├── n8n-workflows/    # Workflows N8N exportados como JSON
 ├── docs/
-│   ├── postman.json  # Colección Postman
-│   └── uso-ia.md    # Informe de uso de IA
+│   ├── Postman/      # Colección Postman y guía de uso
+│   ├── info/         # Contenido de las páginas informativas (raw.githubusercontent.com)
+│   └── uso-ia.md     # Informe de uso de IA
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
@@ -184,6 +189,8 @@ GCLOUD_CREDENTIALS=/ruta/local/al/json/de/cuenta-de-servicio.json
 
 El proyecto se despliega en servidor propio (Hetzner CX23, `kripta.dev`) con Docker Compose y Nginx como reverse proxy. No hay dependencia de servicios externos de pago salvo Google Cloud (Vertex AI).
 
+Durante el desarrollo se usó **Tailscale** para acceder de forma segura al servidor desde distintas redes, sin exponer puertos adicionales.
+
 ---
 
 ## Metodología de trabajo
@@ -217,7 +224,7 @@ graph TD
     C4 --> C5("C5 · Artículo ✅"):::frontend
     C5 --> C6("C6 · Auth ✅"):::frontend
     C6 --> C7("C7 · Colecciones ✅"):::frontend
-    C7 --> C8("C8 · Páginas estáticas"):::frontend
+    C7 --> C8("C8 · Páginas estáticas ✅"):::frontend
     C8 --> C9("C9 · Búsqueda Asistida ✅"):::frontend
     C9 --> BUILD("Build de producción ✅"):::frontend
 
@@ -312,4 +319,14 @@ Tests con pytest. Cubren la validación de consultas (`security.py`), los modelo
 
 ## Autor
 
-Daniel Kripta — Proyecto final de bootcamp Full Stack, junio 2026.
+Daniel Kripta (Daniel García Zamora) — Proyecto final del bootcamp Desarrollo Web Full Stack + IA de Ironhack, en el marco de un proyecto de la Fundación Universitaria de Las Palmas financiado por el Cabildo Insular de Gran Canaria. Junio 2026.
+
+---
+
+## Agradecimientos
+
+A **Jarko Garrido**, tutor del bootcamp, por su predisposición a enseñar y su metodología respetuosa con los distintos niveles de conocimiento previo y las diversas capacidades de aprendizaje.
+
+A la **Fundación Universitaria de Las Palmas**, por esta oportunidad y en especial a quienes confiaron en mi perfil para entrar.
+
+Al **Cabildo Insular de Gran Canaria**, por hacer posible la financiación del proyecto del bootcamp, asumiendo una vez más el papel de las instituciones públicas como redistribuidoras de oportunidades. Espero poder devolver de alguna forma, algún día, esta inversión a la sociedad grancanaria.
