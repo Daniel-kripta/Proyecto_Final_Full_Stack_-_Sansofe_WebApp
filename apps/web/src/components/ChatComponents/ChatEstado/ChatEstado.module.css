@@ -7,11 +7,11 @@
 .derecha a {
   display: block;
   overflow: hidden;
-  height: 35px;
+  height: 25px;
 }
 
 .derecha a svg {
-  height: 50px;
+  height: 35px;
   width: auto;
   display: block;
 }

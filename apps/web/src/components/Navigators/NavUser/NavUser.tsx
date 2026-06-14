@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CloseIcon, PerfilBtnIcon, AjustesBtnIcon, SalirBtnIcon, RegistroBtnIcon, LoginBtnIcon } from '../../Assets/Iconos/Iconos'
+import { CloseIcon, PerfilBtnIcon, AjustesBtnIcon, SalirBtnIcon, RegistroBtnIcon, LoginBtnIcon, ColeccionBtnIcon } from '../../Assets/Iconos/Iconos'
 import iconoStyles from '../../Assets/Iconos/Iconos.module.css'
 import styles from './NavUser.module.css'
 import { useAuth } from '../../../context/AuthContext'
@@ -24,7 +24,10 @@ export default function NavUser({ onClose }: { onClose: () => void }) {
               <span className={styles.icono}><PerfilBtnIcon /></span>
               <span className={styles.etiqueta}>Perfil</span>
             </Link>
-            <Link to="/colecciones" onClick={onClose}>Colecciones</Link>
+            <Link to="/colecciones" onClick={onClose} aria-label="Colecciones">
+              <span className={styles.icono}><ColeccionBtnIcon /></span>
+              <span className={styles.etiqueta}>Colecciones</span>
+            </Link>
             <Link to="/ajustes"     onClick={onClose} aria-label="Ajustes">
               <span className={styles.icono}><AjustesBtnIcon /></span>
               <span className={styles.etiqueta}>Ajustes</span>
