@@ -7,11 +7,13 @@ import styles from './Articulo.module.css'
 export function Articulo() {
   const { id } = useParams()
   const [art, setArt] = useState<any>(null)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (id) getArticulo(id).then(setArt)
+    if (id) getArticulo(id).then(setArt).catch(() => setError(true))
   }, [id])
 
+  if (error) return <p>No se pudo cargar el artículo.</p>
   if (!art) return <p>Cargando...</p>
 
   return (

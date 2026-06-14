@@ -24,15 +24,27 @@ export async function chatRoutes(app: any) {
       }
     }
 
-    const response = await fetch(`${process.env.AI_SERVICE_URL}/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...req.body,
-        session_id: userId,
-        ...(geminiApiKey ? { gemini_api_key: geminiApiKey } : {}),
-      }),
-    })
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
+
+    let response: Response
+    try {
+      response = await fetch(`${process.env.AI_SERVICE_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...req.body,
+          session_id: userId,
+          ...(geminiApiKey ? { gemini_api_key: geminiApiKey } : {}),
+        }),
+        signal: controller.signal,
+      })
+    } catch (e: any) {
+      clearTimeout(timeout)
+      if (e.name === 'AbortError') return reply.status(504).send({ error: 'Tiempo de espera agotado' })
+      throw e
+    }
+    clearTimeout(timeout)
 
     if (!response.ok) {
       return reply.status(502).send({ error: 'Error en el servicio IA' })

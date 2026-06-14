@@ -59,11 +59,21 @@ export async function perfilRoutes(app: any) {
     const u = await prisma.usuario.findUnique({ where: { id: userId }, select: { geminiApiKey: true } })
     if (!u?.geminiApiKey) return { ok: false }
     const key = decrypt(u.geminiApiKey)
-    const res = await fetch(`${process.env.AI_SERVICE_URL}/test-key`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gemini_api_key: key }),
-    })
-    return res.json()
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
+    try {
+      const res = await fetch(`${process.env.AI_SERVICE_URL}/test-key`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gemini_api_key: key }),
+        signal: controller.signal,
+      })
+      clearTimeout(timeout)
+      return res.json()
+    } catch (e: any) {
+      clearTimeout(timeout)
+      if (e.name === 'AbortError') return { ok: false }
+      throw e
+    }
   })
 }

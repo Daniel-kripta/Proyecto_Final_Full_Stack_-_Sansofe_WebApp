@@ -7,7 +7,7 @@ export default function BloqueSeccion({ seccion, fecha }: { seccion: string, fec
   const [articulos, setArticulos] = useState<any[]>([])
 
   useEffect(() => {
-    getPortadaParaFecha(fecha).then(data => setArticulos(data[seccion] ?? []))
+    getPortadaParaFecha(fecha).then(data => setArticulos(data[seccion] ?? [])).catch(() => {})
   }, [seccion, fecha])
 
   if (articulos.length === 0) return null
