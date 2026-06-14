@@ -1,5 +1,8 @@
 {
   "name": "sansofe-webapp",
   "private": true,
-  "workspaces": ["apps/*"]
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "test": "pnpm --filter @sansofe/api test && pnpm --filter web test"
+  }
 }

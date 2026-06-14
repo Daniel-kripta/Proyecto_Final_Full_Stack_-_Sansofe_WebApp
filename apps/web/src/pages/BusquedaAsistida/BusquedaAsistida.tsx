@@ -30,7 +30,7 @@ export default function BusquedaAsistida() {
   const [articulosReferencia, setArticulosReferencia] = useState<string[] | null>(null)
   const [activo, setActivo] = useState<boolean | null>(null)
   const [articuloAbierto, setArticuloAbierto] = useState<string | null>(null)
-  const [guardada, setGuardada] = useState(false)
+  const [guardada, setGuardada] = useState(() => localStorage.getItem('chat_guardada') === 'true')
   const [historialKey, setHistorialKey] = useState(0)
   const [modalGuardar, setModalGuardar] = useState(false)
   const [modalCerrar, setModalCerrar] = useState(false)
@@ -40,6 +40,10 @@ export default function BusquedaAsistida() {
   useEffect(() => {
     localStorage.setItem('chat_mensajes', JSON.stringify(mensajes))
   }, [mensajes])
+
+  useEffect(() => {
+    localStorage.setItem('chat_guardada', String(guardada))
+  }, [guardada])
 
   useEffect(() => {
     testApiKey().then(res => setActivo(res.ok)).catch(() => setActivo(false))

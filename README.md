@@ -256,6 +256,38 @@ graph TD
 
 ---
 
+## Tests
+
+El proyecto incluye tests automatizados en los tres servicios.
+
+### Backend (Node.js + Fastify)
+
+```bash
+cd apps/api && pnpm test
+```
+
+35 tests con [Vitest](https://vitest.dev/). Cubren las rutas de autenticación, artículos, colecciones e investigaciones mediante mocks de Prisma — sin base de datos real.
+
+### Frontend (React + Vite)
+
+```bash
+cd apps/web && pnpm test           # tests
+cd apps/web && pnpm test:coverage  # con informe de cobertura
+```
+
+70 tests con Vitest + Testing Library. Cubren los módulos de API (fetch mockeado), los formularios de autenticación y los componentes principales del chat y la navegación.
+
+### Microservicio IA (Python + FastAPI)
+
+```bash
+# Requiere el contenedor en marcha
+docker compose exec ai pytest tests/ -v
+```
+
+Tests con pytest. Cubren la validación de consultas (`security.py`), los modelos Pydantic, el endpoint `/health` y el endpoint `/chat` con el agente LangGraph mockeado.
+
+---
+
 ## Documentación adicional
 
 - [Backend API](apps/api/README.md) — endpoints, variables de entorno y arranque local
