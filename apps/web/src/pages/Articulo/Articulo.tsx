@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getArticulo } from '../../api/articulos'
 import { UltimasNoticias } from '../../components/Content/UltimasNoticias/UltimasNoticias'
+import { ErrorPage } from '../../components/UX/ErrorPage/ErrorPage'
 import styles from './Articulo.module.css'
 
 export function Articulo() {
@@ -13,7 +14,7 @@ export function Articulo() {
     if (id) getArticulo(id).then(setArt).catch(() => setError(true))
   }, [id])
 
-  if (error) return <p>No se pudo cargar el artículo.</p>
+  if (error) return <ErrorPage type="load_error" />
   if (!art) return <p>Cargando...</p>
 
   return (

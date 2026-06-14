@@ -1,3 +1,5 @@
+import { ErrorPage } from '../../components/UX/ErrorPage/ErrorPage'
+
 export default function PaginaNoEncontrada() {
-  return <h1>Página no encontrada</h1>
+  return <ErrorPage type="not_found" />
 }

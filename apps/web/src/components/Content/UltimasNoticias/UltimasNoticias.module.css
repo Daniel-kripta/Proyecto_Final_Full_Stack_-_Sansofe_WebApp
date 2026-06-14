@@ -18,8 +18,17 @@
 }
 
 .verMas {
-  display: inline-block;
-  margin-top: 1rem;
-  font-size: 0.85rem;
-  text-decoration: underline;
+  display: block;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  border: 2px solid var(--color-primario);
+  color: var(--color-primario);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }

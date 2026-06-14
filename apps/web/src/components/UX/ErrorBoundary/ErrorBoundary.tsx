@@ -1,4 +1,5 @@
 import { Component, type ReactNode } from 'react'
+import { ErrorPage } from '../ErrorPage/ErrorPage'
 
 interface Props { children: ReactNode }
 interface State { hasError: boolean }
@@ -11,13 +12,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    if (this.state.hasError) {
-      return (
-        <p style={{ padding: '2rem', textAlign: 'center' }}>
-          Algo ha ido mal. <a href="/">Volver al inicio</a>
-        </p>
-      )
-    }
+    if (this.state.hasError) return <ErrorPage type="generic" />
     return this.props.children
   }
 }
