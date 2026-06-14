@@ -36,10 +36,48 @@
     align-items: center;
 }
 
-.nav a svg,
-.nav button svg {
+.nav a,
+.nav button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* móvil y tablet: icono completo (símbolo + texto SVG), etiqueta HTML oculta */
+.icono {
+    display: block;
+    overflow: hidden;
     height: 45px;
-    padding: 3px;
-    margin-top: 15px;
+}
+
+.icono svg {
+    height: 45px;
     width: auto;
+    display: block;
+}
+
+.etiqueta {
+    display: none;
+}
+
+/* desktop: icono recortado (solo símbolo) + etiqueta HTML visible */
+@media (min-width: 1024px) {
+    .icono {
+        height: 32px;
+    }
+
+    .icono svg {
+        height: 50px;
+    }
+
+    .etiqueta {
+        display: inline;
+    }
 }

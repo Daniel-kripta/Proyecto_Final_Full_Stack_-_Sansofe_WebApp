@@ -4,9 +4,16 @@
   gap: 6px;
 }
 
-.derecha a svg {
+.derecha a {
+  display: block;
+  overflow: hidden;
   height: 32px;
+}
+
+.derecha a svg {
+  height: 50px;
   width: auto;
+  display: block;
 }
 
 .estadoServicio {

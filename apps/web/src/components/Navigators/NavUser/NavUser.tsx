@@ -20,15 +20,30 @@ export default function NavUser({ onClose }: { onClose: () => void }) {
       <nav className={styles.nav}>
         {user ? (
           <>
-            <Link to="/perfil"      onClick={onClose} aria-label="Perfil"><PerfilBtnIcon /></Link>
+            <Link to="/perfil"      onClick={onClose} aria-label="Perfil">
+              <span className={styles.icono}><PerfilBtnIcon /></span>
+              <span className={styles.etiqueta}>Perfil</span>
+            </Link>
             <Link to="/colecciones" onClick={onClose}>Colecciones</Link>
-            <Link to="/ajustes"     onClick={onClose} aria-label="Ajustes"><AjustesBtnIcon /></Link>
-            <button onClick={handleLogout} aria-label="Cerrar sesión"><SalirBtnIcon /></button>
+            <Link to="/ajustes"     onClick={onClose} aria-label="Ajustes">
+              <span className={styles.icono}><AjustesBtnIcon /></span>
+              <span className={styles.etiqueta}>Ajustes</span>
+            </Link>
+            <button onClick={handleLogout} aria-label="Cerrar sesión">
+              <span className={styles.icono}><SalirBtnIcon /></span>
+              <span className={styles.etiqueta}>Salir</span>
+            </button>
           </>
         ) : (
           <>
-            <Link to="/registro" onClick={onClose} aria-label="Registrarse"><RegistroBtnIcon /></Link>
-            <Link to="/login"    onClick={onClose} aria-label="Iniciar sesión"><LoginBtnIcon /></Link>
+            <Link to="/registro" onClick={onClose} aria-label="Registrarse">
+              <span className={styles.icono}><RegistroBtnIcon /></span>
+              <span className={styles.etiqueta}>Registro</span>
+            </Link>
+            <Link to="/login"    onClick={onClose} aria-label="Iniciar sesión">
+              <span className={styles.icono}><LoginBtnIcon /></span>
+              <span className={styles.etiqueta}>Login</span>
+            </Link>
           </>
         )}
       </nav>
