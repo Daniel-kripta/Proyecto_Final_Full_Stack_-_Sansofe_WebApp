@@ -2,5 +2,7 @@
   font-weight: 600;
 }
 
-.botonPerfil {
+.botonPerfil svg {
+  height: 32px;
+  width: auto;
 }

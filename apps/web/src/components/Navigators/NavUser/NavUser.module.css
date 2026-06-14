@@ -32,4 +32,11 @@
     display: flex;
     gap: 2rem;
     font-size: 1.1rem;
+    align-items: center;
+}
+
+.nav a svg,
+.nav button svg {
+    height: 50px;
+    width: auto;
 }
