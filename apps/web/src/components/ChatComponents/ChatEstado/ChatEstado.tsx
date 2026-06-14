@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import chatStyles from '../chat.module.css'
 import styles from './ChatEstado.module.css'
+import { AjustesBtnIcon } from '../../Assets/Iconos/Iconos'
 
 interface Props {
   activo: boolean | null
@@ -18,7 +19,7 @@ export function ChatEstado({ activo, acciones }: Props) {
       </div>
       <div className={styles.derecha}>
         {acciones}
-        <Link to="/ajustes">Ajustes</Link>
+        <Link to="/ajustes" aria-label="Ajustes"><AjustesBtnIcon /></Link>
       </div>
     </div>
   )

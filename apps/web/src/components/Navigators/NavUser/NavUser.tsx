@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CloseIcon } from '../../Assets/Iconos/Iconos'
+import { CloseIcon, PerfilBtnIcon, AjustesBtnIcon, SalirBtnIcon, RegistroBtnIcon, LoginBtnIcon } from '../../Assets/Iconos/Iconos'
 import iconoStyles from '../../Assets/Iconos/Iconos.module.css'
 import styles from './NavUser.module.css'
 import { useAuth } from '../../../context/AuthContext'
@@ -20,15 +20,15 @@ export default function NavUser({ onClose }: { onClose: () => void }) {
       <nav className={styles.nav}>
         {user ? (
           <>
-            <Link to="/perfil"            onClick={onClose}>Perfil</Link>
-            <Link to="/colecciones"       onClick={onClose}>Colecciones</Link>
-            <Link to="/ajustes"           onClick={onClose}>Ajustes</Link>
-            <button onClick={handleLogout}>Cerrar sesión</button>
+            <Link to="/perfil"      onClick={onClose} aria-label="Perfil"><PerfilBtnIcon /></Link>
+            <Link to="/colecciones" onClick={onClose}>Colecciones</Link>
+            <Link to="/ajustes"     onClick={onClose} aria-label="Ajustes"><AjustesBtnIcon /></Link>
+            <button onClick={handleLogout} aria-label="Cerrar sesión"><SalirBtnIcon /></button>
           </>
         ) : (
           <>
-            <Link to="/registro" onClick={onClose}>Registrarse</Link>
-            <Link to="/login"    onClick={onClose}>Iniciar sesión</Link>
+            <Link to="/registro" onClick={onClose} aria-label="Registrarse"><RegistroBtnIcon /></Link>
+            <Link to="/login"    onClick={onClose} aria-label="Iniciar sesión"><LoginBtnIcon /></Link>
           </>
         )}
       </nav>
