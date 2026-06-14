@@ -16,7 +16,6 @@ import { useAuth } from '../../context/AuthContext'
 
 export default function BusquedaAsistida() {
   const layoutRef = useRef<HTMLDivElement>(null)
-  const scrollToLayout = () => layoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const [mensajes, setMensajes] = useState<Mensaje[]>(() => {
     try {
@@ -222,7 +221,7 @@ export default function BusquedaAsistida() {
             onEnviar={handleEnviar}
             onVerArticulo={setArticuloAbierto}
             onGuardado={handleGuardadoEnColeccion}
-            onFocusInput={scrollToLayout}
+
             onSintetizarSeleccion={handleSintetizarSeleccion}
           />
           <Guia id="ModoRecuperacion" />

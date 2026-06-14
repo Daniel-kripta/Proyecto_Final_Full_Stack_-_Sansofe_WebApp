@@ -233,35 +233,37 @@ export function Chat({ mensajes, colecciones, previewColeccion, enviando = false
               Similitud
             </button>
           </div>
-          {modo === 'cantidad' ? (
-            <label className={styles.kSelector}>
-              <span>Artículos a consultar</span>
-              <input
-                type="number"
-                min={1}
-                max={50}
-                value={k}
-                onChange={e => setK(Number(e.target.value))}
-                className={styles.kInput}
-              />
-            </label>
-          ) : (
-            <label className={styles.kSelector}>
-              <span>Nivel de similitud</span>
-              <select
-                value={umbral}
-                onChange={e => setUmbral(e.target.value as Umbral)}
-                className={styles.kInput}
-              >
-                <option value="exacto">Exacto</option>
-                <option value="cercano">Cercano</option>
-                <option value="similar">Similar</option>
-              </select>
-            </label>
-          )}
-          <button className={styles.botonEnviar} onClick={handleEnviar} disabled={enviando}>
-            {enviando ? 'Enviando...' : 'Enviar'}
-          </button>
+          <div className={styles.controlesRight}>
+            {modo === 'cantidad' ? (
+              <label className={styles.kSelector}>
+                <span>Artículos:</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={k}
+                  onChange={e => setK(Number(e.target.value))}
+                  className={styles.kInput}
+                />
+              </label>
+            ) : (
+              <label className={styles.kSelector}>
+                <span>Similitud:</span>
+                <select
+                  value={umbral}
+                  onChange={e => setUmbral(e.target.value as Umbral)}
+                  className={styles.kInput}
+                >
+                  <option value="exacto">Exacto</option>
+                  <option value="cercano">Cercano</option>
+                  <option value="similar">Similar</option>
+                </select>
+              </label>
+            )}
+            <button className={styles.botonEnviar} onClick={handleEnviar} disabled={enviando}>
+              {enviando ? 'Enviando...' : 'Enviar'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
